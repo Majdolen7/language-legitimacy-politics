@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+---
+
+<BaseLayout
+  title="سؤال البحث"
+  description="السؤال البحثي المركزي للمشروع: كيف تُعاد بناء الشرعية السياسية في خطاب هيئة تحرير الشام / أحمد الشرع بين 2011 و2025؟"
+  locale={locale}
+>
+
+<section class="section rq-hero">
+  <div class="container">
+    <span class="page-kicker">تصميم البحث</span>
+    <h1 class="page-title">سؤال البحث</h1>
+    <p class="page-subtitle">السؤال المركزي والإطار التحليلي</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container rq-body">
+
+    <div class="rq-main">
+      <div class="rq-block">
+        <h2 class="rq-block__title">السؤال البحثي الرئيسي</h2>
+        <blockquote class="rq-quote" dir="rtl">
+          كيف تُعاد بناء الشرعية السياسية في خطاب هيئة تحرير الشام / أحمد الشرع
+          بين عامي 2011 و2025؟ وما الدور الذي تؤديه مفاهيم مثل
+          الدولة والأمن والمواطنة والدولة المدنية والاعتراف الدولي في هذا الخطاب؟
+        </blockquote>
+      </div>
+
+      <div class="rq-block">
+        <h2 class="rq-block__title">الأسئلة الفرعية</h2>
+        <ol class="rq-list" dir="rtl">
+          <li>ما الوسائل اللغوية والخطابية التي يستخدمها أحمد الشرع لإضفاء الشرعية على الانتقال من فصيل مسلح إلى سلطة حاكمة؟</li>
+          <li>كيف تتغير استراتيجيات الإضفاء (حسب فان لوفن: التفويض، التقييم الأخلاقي، التعقيل، السرد) عبر المراحل الأربع التحليلية؟</li>
+          <li>أي المصطلحات الرئيسية — الإسلامية والحكومية والمُدوَّلة — تصبح مركزية في كل مرحلة، وكيف يتحول معناها؟</li>
+          <li>إلى أي حد تعكس التحولات في الخطاب ردود فعل على الأطراف الخارجية (المجتمع الدولي، السكان السوريون، العلماء الإسلاميون)؟</li>
+        </ol>
+      </div>
+
+      <div class="rq-block">
+        <h2 class="rq-block__title">الإطار النظري</h2>
+        <div class="rq-theory-grid">
+          <div class="rq-theory-card">
+            <h3>التفويض</h3>
+            <p>الشرعنة بالإحالة إلى السلطة — الدينية أو السياسية أو التقليدية.</p>
+          </div>
+          <div class="rq-theory-card">
+            <h3>التقييم الأخلاقي</h3>
+            <p>الشرعنة بالإحالة إلى منظومة قيم — دينية أو علمانية.</p>
+          </div>
+          <div class="rq-theory-card">
+            <h3>التعقيل</h3>
+            <p>الشرعنة بالنفعية أو المنطق المؤسسي — المبررات البراغماتية.</p>
+          </div>
+          <div class="rq-theory-card">
+            <h3>السرد / الأسطرة</h3>
+            <p>الشرعنة بالتضمين السردي في التاريخ الجمعي والهوية والرؤية المستقبلية.</p>
+          </div>
+        </div>
+        <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+        <p dir="ltr" lang="de" style="font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-muted); line-height: 1.75;">
+          Das Projekt verbindet kritische Diskursanalyse mit politischer Begriffsgeschichte.
+          Als zentraler analytischer Referenzrahmen dient Theo van Leeuwens Legitimationsmodell
+          (Discourse and Practice, 2008), ergänzt durch Webers Trias legitimer Herrschaft.
+        </p>
+      </div>
+
+    </div>
+
+    <aside class="rq-sidebar">
+      <div class="rq-sidebar-card">
+        <p class="rq-sidebar-card__label">المفاهيم الأساسية</p>
+        <ul class="rq-concept-list" dir="rtl">
+          <li>الدولة — Staat</li>
+          <li>الأمن — Sicherheit</li>
+          <li>المواطنة — Bürgerschaft</li>
+          <li>الدولة المدنية — Ziviler Staat</li>
+          <li>الاعتراف الدولي — Internationale Anerkennung</li>
+        </ul>
+      </div>
+      <div class="rq-sidebar-card">
+        <p class="rq-sidebar-card__label">فترة التحليل</p>
+        <p class="rq-sidebar-card__val" dir="ltr">2013–2026</p>
+      </div>
+      <div class="rq-sidebar-card">
+        <p class="rq-sidebar-card__label">روابط</p>
+        <a href="/ar/methodology" class="rq-sidebar-link">المنهجية ←</a>
+        <a href="/ar/corpus" class="rq-sidebar-link">المتن ←</a>
+        <a href="/ar/timeline" class="rq-sidebar-link">الخط الزمني ←</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.rq-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.rq-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.rq-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.rq-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.rq-block:last-child { border-bottom: none; }
+.rq-block__title { font-family: var(--font-arabic); font-size: 1.15rem; font-weight: 500; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.rq-quote { font-family: var(--font-arabic); font-size: clamp(1rem, 2.2vw, 1.2rem); font-weight: 400; color: var(--clr-text); line-height: 1.8; border-right: 4px solid var(--clr-red); border-left: none; padding: var(--space-lg) var(--space-xl) var(--space-lg) 0; padding-right: var(--space-xl); margin: 0; background: rgba(139,35,35,0.03); }
+.rq-list { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; padding-right: var(--space-xl); padding-left: 0; display: flex; flex-direction: column; gap: var(--space-md); margin: 0; }
+.rq-theory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-block: var(--space-lg); }
+.rq-theory-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-lg); }
+.rq-theory-card h3 { font-family: var(--font-arabic); font-size: 0.88rem; font-weight: 600; color: var(--clr-olive); margin-bottom: var(--space-xs); }
+.rq-theory-card p { font-family: var(--font-arabic); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.65; margin: 0; }
+.rq-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.rq-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.rq-sidebar-card__label { font-family: var(--font-arabic); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; color: var(--clr-text-muted); margin-bottom: var(--space-sm); display: block; }
+.rq-sidebar-card__val { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text); font-weight: 600; }
+.rq-concept-list { font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.7; padding-right: var(--space-lg); padding-left: 0; display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.rq-sidebar-link { display: block; font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); text-align: right; }
+.rq-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .rq-body { grid-template-columns: 1fr; } .rq-sidebar { position: static; } .rq-theory-grid { grid-template-columns: 1fr; } }
+</style>

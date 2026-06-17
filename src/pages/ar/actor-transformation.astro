@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import timelineData from '../../data/timeline.json';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+
+const PHASE_COLORS: Record<number, string> = {
+  1: '#8B5E35',
+  2: '#9A7B4A',
+  3: '#4A5C38',
+  4: '#2A3848',
+};
+---
+
+<BaseLayout
+  title="تحول الأطراف"
+  description="التحول الخطابي لأحمد الشرع من جبهة النصرة (2013) إلى الحكومة الانتقالية السورية (2024): أربع مراحل وتسميات وأنواع شرعية."
+  locale={locale}
+>
+
+<section class="section at-hero">
+  <div class="container">
+    <span class="page-kicker">من الفصيل المسلح إلى السلطة الانتقالية</span>
+    <h1 class="page-title">تحول الأطراف</h1>
+    <p class="page-subtitle">التحول الخطابي لأحمد الشرع / هيئة تحرير الشام، 2011–2026</p>
+  </div>
+</section>
+
+<section class="section at-names-section">
+  <div class="container">
+    <span class="section-overline">التسميات الذاتية في تطورها</span>
+    <h2 class="section-title">تسميات الطرف والمجموعة حسب المرحلة</h2>
+    <p class="at-intro" dir="rtl">
+      من أبرز سمات التحول الخطابي التغيير المنهجي في التسمية الذاتية للطرف والمجموعة.
+      كل إعادة تسمية تُشير إلى تحول استراتيجي في بناء الشرعية السياسية.
+    </p>
+
+    <div class="at-names-grid">
+      {timelineData.map((phase) => (
+        <div class="at-name-card" style={`border-top-color: ${PHASE_COLORS[phase.phase_number]};`}>
+          <div class="at-name-card__phase" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
+            Phase {phase.phase_number} · {phase.year_range}
+          </div>
+          <h3 class="at-name-card__title" dir="rtl">{phase.phase_title_ar}</h3>
+          <p class="at-name-card__title-de" lang="de" dir="ltr">{phase.phase_title_de}</p>
+          <div class="at-name-card__names">
+            {phase.actor_naming_ar.map((name) => (
+              <div class="at-name-item" dir="rtl">
+                <span lang="ar">{name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt at-phases-section">
+  <div class="container">
+    <span class="section-overline">تحليل المراحل</span>
+    <h2 class="section-title">استراتيجيات الشرعنة والمصطلحات الرئيسية</h2>
+
+    {timelineData.map((phase) => (
+      <article class="at-phase-block" id={`phase-${phase.phase_number}`}>
+        <div class="at-phase-block__header">
+          <div class="at-phase-block__num" style={`background-color: ${PHASE_COLORS[phase.phase_number]};`}>
+            {phase.phase_number}
+          </div>
+          <div>
+            <span class="at-phase-block__years" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
+              {phase.year_range}
+            </span>
+            <h3 class="at-phase-block__title" dir="rtl">{phase.phase_title_ar}</h3>
+            <p class="at-phase-block__subtitle-de" lang="de" dir="ltr">{phase.phase_subtitle_de}</p>
+          </div>
+        </div>
+
+        <div class="at-phase-block__body">
+          <div class="at-phase-block__note">
+            <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+            <p lang="de" dir="ltr">{phase.analytical_note_de}</p>
+          </div>
+
+          <div class="at-phase-block__meta">
+            <div class="at-phase-meta-row">
+              <span class="at-phase-meta-key">نوع الشرعية السائد</span>
+              <span class="at-phase-meta-val" dir="ltr">{phase.legitimacy_type_dominant.replace(/_/g, ' ')}</span>
+            </div>
+
+            <div class="at-concepts-block">
+              <p class="at-concepts-block__label">مصطلحات هذه المرحلة</p>
+              <div class="at-concepts-list">
+                {phase.dominant_concepts.map(c => (
+                  <div class="at-concept-item">
+                    <span lang="ar">{c.arabic}</span>
+                    <span class="at-concept-item__de" lang="de" dir="ltr">{c.german}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {phase.key_events && phase.key_events.length > 0 && (
+              <div class="at-events-block">
+                <p class="at-events-block__label">أحداث رئيسية</p>
+                <ul class="at-events-list">
+                  {phase.key_events.map(ev => (
+                    <li class="at-event-item" dir="rtl">
+                      <span class="at-event-item__year" dir="ltr">{ev.year}</span>
+                      <span>{ev.event_ar}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.at-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.at-intro { font-family: var(--font-arabic); font-size: 1rem; color: var(--clr-text-mid); line-height: 1.85; max-width: 65ch; margin-bottom: var(--space-2xl); margin-left: auto; }
+.at-names-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
+.at-name-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); border-top: 4px solid var(--clr-olive); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md); }
+.at-name-card__phase { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.at-name-card__title { font-family: var(--font-arabic); font-size: 1rem; font-weight: 500; color: var(--clr-text); line-height: 1.4; margin: 0; }
+.at-name-card__title-de { font-family: var(--font-serif); font-size: 0.82rem; color: var(--clr-text-muted); font-style: italic; line-height: 1.4; margin: 0; }
+.at-name-card__names { display: flex; flex-direction: column; gap: var(--space-xs); margin-top: var(--space-xs); }
+.at-name-item { padding: var(--space-xs) var(--space-md); background: var(--clr-bg-alt); border-radius: var(--radius-sm); border: 1px solid var(--clr-border-light); font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text); }
+.at-phases-section { border-top: 1px solid var(--clr-border); }
+.at-phase-block { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-xl); }
+.at-phase-block__header { display: flex; gap: var(--space-xl); align-items: flex-start; margin-bottom: var(--space-xl); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--clr-border-light); flex-direction: row-reverse; }
+.at-phase-block__num { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: white; font-family: var(--font-sans); font-size: 1rem; font-weight: 700; flex-shrink: 0; }
+.at-phase-block__years { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+.at-phase-block__title { font-family: var(--font-arabic); font-size: 1.15rem; font-weight: 500; color: var(--clr-text); margin-bottom: var(--space-xs); }
+.at-phase-block__subtitle-de { font-family: var(--font-serif); font-size: 0.85rem; color: var(--clr-text-muted); font-style: italic; margin: 0; }
+.at-phase-block__body { display: grid; grid-template-columns: 1fr 20rem; gap: var(--space-2xl); align-items: start; }
+.at-phase-block__note p { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.75; margin: var(--space-sm) 0 0; }
+.at-phase-meta-row { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--space-md); align-items: flex-end; }
+.at-phase-meta-key { font-family: var(--font-arabic); font-size: 0.75rem; font-weight: 700; color: var(--clr-text-subtle); }
+.at-phase-meta-val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); }
+.at-concepts-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
+.at-concepts-block__label, .at-events-block__label { font-family: var(--font-arabic); font-size: 0.75rem; font-weight: 700; color: var(--clr-text-subtle); margin-bottom: var(--space-sm); display: block; text-align: right; }
+.at-concepts-list { display: flex; flex-direction: column; gap: 4px; }
+.at-concept-item { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-sm); padding: 3px var(--space-sm); background: var(--clr-bg-alt); border-radius: var(--radius-sm); }
+.at-concept-item span { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text); }
+.at-concept-item__de { font-family: var(--font-sans); font-size: 0.72rem; color: var(--clr-text-muted); }
+.at-events-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
+.at-events-list { display: flex; flex-direction: column; gap: var(--space-xs); list-style: none; padding: 0; margin: 0; }
+.at-event-item { display: grid; grid-template-columns: 1fr 3rem; gap: var(--space-sm); align-items: baseline; font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text-mid); }
+.at-event-item__year { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; color: var(--clr-olive); text-align: left; }
+@media (max-width: 1100px) { .at-names-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .at-names-grid { grid-template-columns: 1fr; } .at-phase-block__body { grid-template-columns: 1fr; } .at-phase-block__header { flex-direction: column; gap: var(--space-md); } }
+</style>

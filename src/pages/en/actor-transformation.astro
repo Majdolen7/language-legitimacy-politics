@@ -1,8 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import timelineData from '../data/timeline.json';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import timelineData from '../../data/timeline.json';
+import { t } from '../../i18n/translations';
 
-const locale = 'de';
+const locale = 'en';
 
 const PHASE_COLORS: Record<number, string> = {
   1: '#8B5E35',
@@ -13,44 +14,41 @@ const PHASE_COLORS: Record<number, string> = {
 ---
 
 <BaseLayout
-  title="Akteurswandel"
-  description="Der diskursive Wandel Ahmad al-Sharaas von der bewaffneten Gruppe Jabhat al-Nusra (2013) zur syrischen Übergangsregierung (2024): vier Phasen, Benennungen, Legitimationstypen."
+  title="Actor Transformation"
+  description="The discursive transformation of Ahmad al-Sharaa from Jabhat al-Nusra (2013) to the Syrian transitional government (2024): four phases, naming, legitimacy types."
   locale={locale}
 >
 
 <section class="section at-hero">
   <div class="container">
-    <span class="page-kicker">Von der bewaffneten Gruppierung zur Übergangsautorität</span>
-    <h1 class="page-title">Akteurswandel</h1>
-    <p class="page-subtitle">
-      Diskursiver Wandel des Akteurs Ahmad al-Sharaa / Hayʾat Taḥrīr al-Shām, 2011–2026
-    </p>
+    <span class="page-kicker">From armed faction to transitional authority</span>
+    <h1 class="page-title">Actor Transformation</h1>
+    <p class="page-subtitle">Discursive transformation of Ahmad al-Sharaa / Hayʾat Taḥrīr al-Shām, 2011–2026</p>
   </div>
 </section>
 
-<!-- Name timeline -->
 <section class="section at-names-section">
   <div class="container">
-    <span class="section-overline">Selbstbezeichnungen im Wandel</span>
-    <h2 class="section-title">Akteurs- und Gruppenbezeichnungen nach Phase</h2>
+    <span class="section-overline">Self-designations in transformation</span>
+    <h2 class="section-title">Actor and group naming by phase</h2>
     <p class="at-intro">
-      Ein zentrales Merkmal des diskursiven Wandels ist die systematische Veränderung
-      der Selbstbezeichnung des Akteurs und der Gruppe. Jede Umbenennung markiert einen
-      Strategiewechsel in der Konstruktion politischer Legitimität.
+      A central feature of discursive transformation is the systematic change of the actor's
+      and group's self-designation. Each renaming marks a strategic shift in the construction
+      of political legitimacy.
     </p>
 
     <div class="at-names-grid">
       {timelineData.map((phase) => (
         <div class="at-name-card" style={`border-top-color: ${PHASE_COLORS[phase.phase_number]};`}>
-          <div class="at-name-card__phase" style={`color: ${PHASE_COLORS[phase.phase_number]};`}>
+          <div class="at-name-card__phase" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
             Phase {phase.phase_number} · {phase.year_range}
           </div>
-          <h3 class="at-name-card__title">{phase.phase_title_de}</h3>
+          <h3 class="at-name-card__title" dir="ltr">{phase.phase_title_de}</h3>
           <p class="at-name-card__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
           <div class="at-name-card__names">
             {phase.actor_naming_de.map((name, i) => (
-              <div class="at-name-item">
-                <span class="at-name-item__de">{name}</span>
+              <div class="at-name-item" dir="ltr">
+                <span>{name}</span>
                 {phase.actor_naming_ar[i] && (
                   <span class="at-name-item__ar" lang="ar" dir="rtl">{phase.actor_naming_ar[i]}</span>
                 )}
@@ -63,11 +61,10 @@ const PHASE_COLORS: Record<number, string> = {
   </div>
 </section>
 
-<!-- Phase analysis -->
 <section class="section section--alt at-phases-section">
   <div class="container">
-    <span class="section-overline">Phasenanalyse</span>
-    <h2 class="section-title">Legitimationsstrategien und Schlüsselbegriffe</h2>
+    <span class="section-overline">Phase analysis</span>
+    <h2 class="section-title">Legitimation strategies and key concepts</h2>
 
     {timelineData.map((phase) => (
       <article class="at-phase-block" id={`phase-${phase.phase_number}`}>
@@ -76,36 +73,33 @@ const PHASE_COLORS: Record<number, string> = {
             {phase.phase_number}
           </div>
           <div>
-            <span class="at-phase-block__years" style={`color: ${PHASE_COLORS[phase.phase_number]};`}>
+            <span class="at-phase-block__years" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
               {phase.year_range}
             </span>
-            <h3 class="at-phase-block__title">{phase.phase_title_de}</h3>
-            <p class="at-phase-block__subtitle">{phase.phase_subtitle_de}</p>
+            <h3 class="at-phase-block__title" dir="ltr">{phase.phase_title_de}</h3>
+            <p class="at-phase-block__subtitle" dir="ltr">{phase.phase_subtitle_de}</p>
           </div>
         </div>
 
         <div class="at-phase-block__body">
           <div class="at-phase-block__note">
-            <p>{phase.analytical_note_de}</p>
+            <p dir="ltr" lang="de">{phase.analytical_note_de}</p>
+            <span class="content-original-label">{t(locale, 'content.original-label')}</span>
           </div>
 
           <div class="at-phase-block__meta">
             <div class="at-phase-meta-row">
-              <span class="at-phase-meta-key">Dominanter Legitimationstyp</span>
-              <span class="at-phase-meta-val">{phase.legitimacy_type_dominant.replace(/_/g, ' ')}</span>
-            </div>
-            <div class="at-phase-meta-row">
-              <span class="at-phase-meta-key">Dominante Strategie</span>
-              <span class="at-phase-meta-val">{phase.legitimation_strategy_dominant}</span>
+              <span class="at-phase-meta-key">Dominant legitimacy type</span>
+              <span class="at-phase-meta-val" dir="ltr">{phase.legitimacy_type_dominant.replace(/_/g, ' ')}</span>
             </div>
 
             <div class="at-concepts-block">
-              <p class="at-concepts-block__label">Schlüsselbegriffe dieser Phase</p>
+              <p class="at-concepts-block__label">Key concepts</p>
               <div class="at-concepts-list">
                 {phase.dominant_concepts.map(c => (
                   <div class="at-concept-item">
-                    <span class="at-concept-item__ar" lang="ar" dir="rtl">{c.arabic}</span>
-                    <span class="at-concept-item__de">{c.german}</span>
+                    <span lang="ar" dir="rtl">{c.arabic}</span>
+                    <span class="at-concept-item__de" dir="ltr">{c.german}</span>
                   </div>
                 ))}
               </div>
@@ -113,12 +107,12 @@ const PHASE_COLORS: Record<number, string> = {
 
             {phase.key_events && phase.key_events.length > 0 && (
               <div class="at-events-block">
-                <p class="at-events-block__label">Schlüsselereignisse</p>
+                <p class="at-events-block__label">Key events</p>
                 <ul class="at-events-list">
                   {phase.key_events.map(ev => (
-                    <li class="at-event-item">
-                      <span class="at-event-item__year" dir="ltr">{ev.year}</span>
-                      <span class="at-event-item__desc">{ev.event_de}</span>
+                    <li class="at-event-item" dir="ltr">
+                      <span class="at-event-item__year">{ev.year}</span>
+                      <span>{ev.event_de}</span>
                     </li>
                   ))}
                 </ul>
@@ -128,23 +122,6 @@ const PHASE_COLORS: Record<number, string> = {
         </div>
       </article>
     ))}
-  </div>
-</section>
-
-<section class="section at-method-note-section">
-  <div class="container">
-    <div class="at-method-note">
-      <p class="at-method-note__text">
-        Die Bezeichnungen und Phasengrenzen in dieser Übersicht sind analytische Konstruktionen
-        des Projekts und keine offiziellen Kategorien. Die dargestellten Legitimationsstrategien
-        werden im Diskurs des Akteurs selbst identifiziert — das Projekt nimmt keine normative
-        Bewertung vor.
-      </p>
-    </div>
-    <p class="mt-xl">
-      <a href="/timeline" class="btn btn--outline">Vollständige Timeline ansehen →</a>
-      <a href="/concepts" class="btn btn--ghost btn--sm" style="margin-left: 1rem;">Zur Concept Gallery →</a>
-    </p>
   </div>
 </section>
 
@@ -158,35 +135,31 @@ const PHASE_COLORS: Record<number, string> = {
 .at-name-card__phase { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .at-name-card__title { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; color: var(--clr-text); line-height: 1.3; }
 .at-name-card__title-ar { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-muted); line-height: 1.5; margin: 0; }
-.at-name-card__names { display: flex; flex-direction: column; gap: var(--space-sm); margin-top: var(--space-xs); }
-.at-name-item { display: flex; flex-direction: column; gap: 2px; padding: var(--space-sm) var(--space-md); background: var(--clr-bg-alt); border-radius: var(--radius-sm); border: 1px solid var(--clr-border-light); }
-.at-name-item__de { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text); font-weight: 500; }
-.at-name-item__ar { font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text-muted); display: block; text-align: right; }
+.at-name-card__names { display: flex; flex-direction: column; gap: var(--space-xs); margin-top: var(--space-xs); }
+.at-name-item { display: flex; flex-direction: column; gap: 2px; padding: var(--space-xs) var(--space-md); background: var(--clr-bg-alt); border-radius: var(--radius-sm); border: 1px solid var(--clr-border-light); font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text); }
+.at-name-item__ar { font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text-muted); display: block; }
 .at-phases-section { border-top: 1px solid var(--clr-border); }
 .at-phase-block { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-xl); }
 .at-phase-block__header { display: flex; gap: var(--space-xl); align-items: flex-start; margin-bottom: var(--space-xl); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--clr-border-light); }
 .at-phase-block__num { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: white; font-family: var(--font-sans); font-size: 1rem; font-weight: 700; flex-shrink: 0; }
 .at-phase-block__years { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 4px; }
 .at-phase-block__title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; color: var(--clr-text); margin-bottom: var(--space-xs); }
-.at-phase-block__subtitle { font-family: var(--font-sans); font-size: 0.85rem; color: var(--clr-text-muted); font-style: italic; margin: 0; }
+.at-phase-block__subtitle { font-family: var(--font-serif); font-size: 0.85rem; color: var(--clr-text-muted); font-style: italic; margin: 0; }
 .at-phase-block__body { display: grid; grid-template-columns: 1fr 20rem; gap: var(--space-2xl); align-items: start; }
-.at-phase-block__note p { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.75; margin: 0; }
+.at-phase-block__note p { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.75; margin: 0 0 var(--space-sm); }
 .at-phase-meta-row { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--space-md); }
 .at-phase-meta-key { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--clr-text-subtle); }
 .at-phase-meta-val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); }
 .at-concepts-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
 .at-concepts-block__label, .at-events-block__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--clr-text-subtle); margin-bottom: var(--space-sm); }
-.at-concepts-list { display: flex; flex-direction: column; gap: var(--space-xs); }
+.at-concepts-list { display: flex; flex-direction: column; gap: 4px; }
 .at-concept-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: 3px var(--space-sm); background: var(--clr-bg-alt); border-radius: var(--radius-sm); }
-.at-concept-item__ar { font-family: var(--font-arabic); font-size: 0.9rem; color: var(--clr-text); }
+.at-concept-item span { font-family: var(--font-arabic); font-size: 0.9rem; color: var(--clr-text); }
 .at-concept-item__de { font-family: var(--font-sans); font-size: 0.72rem; color: var(--clr-text-muted); }
 .at-events-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
 .at-events-list { display: flex; flex-direction: column; gap: var(--space-xs); list-style: none; padding: 0; margin: 0; }
-.at-event-item { display: grid; grid-template-columns: 3rem 1fr; gap: var(--space-sm); align-items: baseline; }
+.at-event-item { display: grid; grid-template-columns: 3rem 1fr; gap: var(--space-sm); align-items: baseline; font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); }
 .at-event-item__year { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; color: var(--clr-olive); }
-.at-event-item__desc { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.5; }
-.at-method-note { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
-.at-method-note__text { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-muted); line-height: 1.75; border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); margin: 0; font-style: italic; }
 @media (max-width: 1100px) { .at-names-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 760px) { .at-names-grid { grid-template-columns: 1fr; } .at-phase-block__body { grid-template-columns: 1fr; } .at-phase-block__header { flex-direction: column; gap: var(--space-md); } }
 </style>

@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+---
+
+<BaseLayout
+  title="المنهجية"
+  description="الإطار المنهجي للمشروع: اختيار المتن، الترميز، تحليل الشرعية حسب فان لوفن، الاعتبارات الأخلاقية وحدود المشروع."
+  locale={locale}
+>
+
+<section class="section method-hero">
+  <div class="container">
+    <span class="page-kicker">تصميم البحث</span>
+    <h1 class="page-title">المنهجية</h1>
+    <p class="page-subtitle">اختيار المتن، الترميز، الإطار النظري والاعتبارات الأخلاقية</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container method-body">
+    <div class="method-main">
+
+      <div class="method-block">
+        <h2 class="method-block__title">الموقف التحليلي الأساسي</h2>
+        <div class="method-statement-box">
+          <p class="method-statement__text" dir="rtl">
+            يحلّل المشروع خطابات الشرعية واستراتيجيات الإضفاء عليها.
+            لا يُشرعن الأطراف السياسية ولا يُسقط عنها الشرعية مسبقاً.
+            جميع المصادر موثّقة بشفافية. تُعلَّم النقاط المفقودة أو غير المحققة
+            بوضوح بوصفها عناصر مؤقتة.
+          </p>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">معايير اختيار المتن</h2>
+        <ol class="method-list" dir="rtl">
+          <li><strong>التمثيل عبر المراحل:</strong> جميع المراحل التحليلية الأربع ممثّلة بمصدر أساسي قابل للتحقق على الأقل.</li>
+          <li><strong>الأهمية الخطابية:</strong> تتضمن الوثيقة استراتيجيات شرعنة أو مصطلحات رئيسية للمشروع.</li>
+          <li><strong>إمكانية التحقق:</strong> المصدر الأساسي متاح أو موجود في أرشيفات موثوقة.</li>
+        </ol>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">مخطط الترميز</h2>
+        <div class="method-schema-grid">
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">نوع الشرعية</span>
+            <span class="method-schema-item__val">تصنيف حسب فيبر (تقليدي، كاريزمي، عقلاني-قانوني) وأنواع موسّعة (ديني-عسكري، ثوري، إداري، دولي)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">استراتيجية الشرعنة</span>
+            <span class="method-schema-item__val">التفويض، التقييم الأخلاقي، التعقيل، السرد (حسب فان لوفن 2008)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">المصطلحات الرئيسية</span>
+            <span class="method-schema-item__val">مصطلحات عربية مع الترجمة الصوتية وتحديد المرحلة وملاحظة التحول الدلالي</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">توثيق المصدر</span>
+            <span class="method-schema-item__val">الرابط، تاريخ الوصول، نوع المصدر، حالة النص، حالة التحقق</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">الاعتبارات الأخلاقية</h2>
+        <p dir="rtl">
+          يدرس المشروع طرفاً سياسياً في سياق نزاع وانتقال نشط.
+          لا تُصاغ توصيات سياسية. ينصبّ التحليل على البناء الخطابي للشرعية،
+          لا على صحتها الفعلية أو رفضها.
+        </p>
+        <p dir="rtl">
+          تتبع أسماء المتحدثين معياراً خاصاً بالمشروع (أحمد الشرع)، موثّقاً بشفافية.
+          تُرصد التسميات البديلة (أبو محمد الجولاني) في المتن بوصفها تسميات ذاتية تاريخية.
+        </p>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">ملاحظة الترجمة</h2>
+        <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+        <div style="margin-top: var(--space-md);">
+          <p dir="ltr" lang="de" style="font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.75;">
+            Automatische Übersetzungen werden nicht verwendet. Alle deutschen Übersetzungen arabischer Texte
+            sind als vorläufige Arbeitsübersetzungen des Projekts gekennzeichnet.
+            Die ausführliche Methodologieseite ist auf Deutsch verfasst und wird redaktionell ins Arabische übertragen.
+          </p>
+        </div>
+        <span class="content-pending-notice">{t(locale, 'content.pending')}</span>
+      </div>
+
+    </div>
+
+    <aside class="method-sidebar">
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">المراجع الأساسية</p>
+        <ul class="method-ref-list" dir="ltr">
+          <li>Van Leeuwen, T. (2008). <em>Discourse and Practice</em></li>
+          <li>Weber, M. Wirtschaft und Gesellschaft</li>
+          <li>Koselleck, R. Begriffsgeschichte</li>
+        </ul>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">روابط</p>
+        <a href="/ar/research-question" class="method-sidebar-link">سؤال البحث ←</a>
+        <a href="/ar/corpus" class="method-sidebar-link">المتن ←</a>
+        <a href="/ar/timeline" class="method-sidebar-link">الخط الزمني ←</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.method-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.method-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.method-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.method-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.method-block:last-child { border-bottom: none; }
+.method-block__title { font-family: var(--font-arabic); font-size: 1.15rem; font-weight: 500; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.method-block p { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; margin-bottom: var(--space-md); }
+.method-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-statement__text { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; border-right: 3px solid var(--clr-olive); border-left: none; padding-right: var(--space-lg); padding-left: 0; margin: 0; }
+.method-list { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; padding-right: var(--space-xl); padding-left: 0; display: flex; flex-direction: column; gap: var(--space-sm); margin: 0; }
+.method-schema-grid { display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-lg); }
+.method-schema-item { display: grid; grid-template-columns: 9rem 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-sm) var(--space-md); background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); direction: rtl; }
+.method-schema-item__key { font-family: var(--font-arabic); font-size: 0.82rem; font-weight: 600; color: var(--clr-olive); }
+.method-schema-item__val { font-family: var(--font-arabic); font-size: 0.85rem; color: var(--clr-text-mid); line-height: 1.6; }
+.method-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.method-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-sidebar-card__label { font-family: var(--font-arabic); font-size: 0.75rem; font-weight: 700; color: var(--clr-text-muted); margin-bottom: var(--space-sm); display: block; }
+.method-ref-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.method-sidebar-link { display: block; font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); text-align: right; }
+.method-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .method-body { grid-template-columns: 1fr; } .method-sidebar { position: static; } .method-schema-item { grid-template-columns: 1fr; gap: 4px; } }
+</style>

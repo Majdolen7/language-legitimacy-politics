@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.4.5"
+    "astro": "^6.4.5",
+    "leaflet": "^1.9.4"
   }
 }

@@ -1,22 +1,21 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
 
-const locale = 'de';
+const locale = 'en';
 ---
 
 <BaseLayout
-  title="Forschungsfrage"
-  description="Die zentrale Forschungsfrage des Projekts: Wie wird politische Legitimität im Diskurs von Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa zwischen 2011 und 2025 neu konstruiert?"
+  title="Research Question"
+  description="The central research question: How is political legitimacy reconstructed in the discourse of HTS / Ahmad al-Sharaa between 2011 and 2025?"
   locale={locale}
 >
 
 <section class="section rq-hero">
   <div class="container">
-    <span class="page-kicker">Forschungsdesign</span>
-    <h1 class="page-title">Forschungsfrage</h1>
-    <p class="page-subtitle">
-      Zentrale Frage und analytischer Rahmen des Projekts
-    </p>
+    <span class="page-kicker">Research design</span>
+    <h1 class="page-title">Research Question</h1>
+    <p class="page-subtitle">Central question and analytical framework</p>
   </div>
 </section>
 
@@ -26,69 +25,65 @@ const locale = 'de';
     <div class="rq-main">
 
       <div class="rq-block">
-        <h2 class="rq-block__title">Zentrale Forschungsfrage</h2>
+        <h2 class="rq-block__title">Central Research Question</h2>
         <blockquote class="rq-quote">
-          Wie wird politische Legitimität im Diskurs von
-          Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa zwischen 2011 und 2025
-          neu konstruiert, und welche Rolle spielen dabei Konzepte wie
-          <span lang="ar" dir="rtl">الدولة</span> (Staat),
-          <span lang="ar" dir="rtl">الأمن</span> (Sicherheit),
-          <span lang="ar" dir="rtl">المواطنة</span> (Bürgerschaft),
-          <span lang="ar" dir="rtl">الدولة المدنية</span> (ziviler Staat) und
-          <span lang="ar" dir="rtl">الاعتراف الدولي</span> (internationale Anerkennung)?
+          How is political legitimacy reconstructed in the discourse of
+          Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa between 2011 and 2025,
+          and what role do concepts such as
+          <span lang="ar" dir="rtl">الدولة</span> (state),
+          <span lang="ar" dir="rtl">الأمن</span> (security),
+          <span lang="ar" dir="rtl">المواطنة</span> (citizenship),
+          <span lang="ar" dir="rtl">الدولة المدنية</span> (civil state), and
+          <span lang="ar" dir="rtl">الاعتراف الدولي</span> (international recognition) play?
         </blockquote>
       </div>
 
       <div class="rq-block">
-        <h2 class="rq-block__title">Unterfragen</h2>
+        <h2 class="rq-block__title">Sub-questions</h2>
         <ol class="rq-list">
-          <li>Welche sprachlichen und diskursiven Mittel nutzt Ahmad al-Sharaa, um den Übergang von einer bewaffneten Gruppierung zu einer Regierungsinstanz zu legitimieren?</li>
-          <li>Wie verändern sich Legitimationsstrategien (nach Theo van Leeuwen: Autorisierung, moralische Bewertung, Rationalisierung, Narration) über die vier analytischen Phasen?</li>
-          <li>Welche Schlüsselbegriffe — insbesondere islamische, staatliche und internationalisierte — werden in welchen Phasen zentral, und wie verändert sich ihre Bedeutung?</li>
-          <li>Inwiefern spiegeln die Veränderungen im Diskurs Reaktionen auf externe Akteure (internationale Gemeinschaft, syrische Bevölkerung, islamische Gelehrsamkeit) wider?</li>
+          <li>What linguistic and discursive strategies does Ahmad al-Sharaa use to legitimise the transition from an armed faction to a governing authority?</li>
+          <li>How do legitimation strategies (following van Leeuwen: authorisation, moral evaluation, rationalisation, narrative) change across the four analytical phases?</li>
+          <li>Which key terms — particularly Islamic, statist, and internationalised — become central in which phases, and how does their meaning shift?</li>
+          <li>To what extent do changes in discourse reflect responses to external actors (international community, Syrian population, Islamic scholarship)?</li>
         </ol>
       </div>
 
       <div class="rq-block">
-        <h2 class="rq-block__title">Theoretischer Rahmen</h2>
+        <h2 class="rq-block__title">Theoretical Framework</h2>
         <p>
-          Das Projekt verbindet kritische Diskursanalyse mit politischer Begriffsgeschichte
-          (Koselleck). Als zentraler analytischer Referenzrahmen dient Theo van Leeuwens
-          Legitimationsmodell (<em>Discourse and Practice</em>, 2008), das vier
-          Hauptstrategien der diskursiven Legitimation unterscheidet:
+          The project combines critical discourse analysis with political conceptual history (Koselleck).
+          The central analytical reference framework is Theo van Leeuwen's model of legitimation
+          (<em>Discourse and Practice</em>, 2008), which distinguishes four main strategies:
         </p>
         <div class="rq-theory-grid">
           <div class="rq-theory-card">
-            <h3>Autorisierung</h3>
-            <p>Legitimation durch Verweis auf Autorität — religiöse, politische oder traditionelle Instanzen.</p>
+            <h3>Authorisation</h3>
+            <p>Legitimation by reference to authority — religious, political, or traditional.</p>
           </div>
           <div class="rq-theory-card">
-            <h3>Moralische Bewertung</h3>
-            <p>Legitimation durch Bezug auf ein Wertesystem — religiöse oder säkulare Normen.</p>
+            <h3>Moral Evaluation</h3>
+            <p>Legitimation by reference to a value system — religious or secular norms.</p>
           </div>
           <div class="rq-theory-card">
-            <h3>Rationalisierung</h3>
-            <p>Legitimation durch Nützlichkeit oder institutionelle Logik — pragmatische Begründungen.</p>
+            <h3>Rationalisation</h3>
+            <p>Legitimation through utility or institutional logic — pragmatic justification.</p>
           </div>
           <div class="rq-theory-card">
-            <h3>Narration / Mythopoese</h3>
-            <p>Legitimation durch narrative Einbettung in kollektive Geschichte, Identität und Zukunftsvision.</p>
+            <h3>Narrative / Mythopoesis</h3>
+            <p>Legitimation through embedding in collective history, identity, and future vision.</p>
           </div>
         </div>
-        <p>
-          Ergänzend wird Webers Trias legitimer Herrschaft (traditional, charismatisch, rational-legal)
-          als Kontextualisierungsrahmen herangezogen.
-        </p>
+        <p>Weber's triad of legitimate domination (traditional, charismatic, rational-legal) is used as a contextualising framework.</p>
       </div>
 
       <div class="rq-block">
-        <h2 class="rq-block__title">Abgrenzung und Methodologische Grundhaltung</h2>
+        <h2 class="rq-block__title">Analytical Stance</h2>
         <div class="rq-method-statement">
           <p class="rq-method-statement__text">
-            Das Projekt analysiert Legitimitätsdiskurse und Legitimationsstrategien.
-            Es bewertet oder legitimiert politische Akteure nicht. Die Forschungsfrage
-            ist deskriptiv-analytisch, nicht normativ. Alle Interpretationen sind
-            explizit als solche gekennzeichnet und an Quellenbelege gebunden.
+            The project analyses legitimacy discourses and legitimation strategies.
+            It does not evaluate or legitimise political actors.
+            The research question is descriptive-analytical, not normative.
+            All interpretations are explicitly marked as such and tied to source evidence.
           </p>
         </div>
       </div>
@@ -97,33 +92,33 @@ const locale = 'de';
 
     <aside class="rq-sidebar">
       <div class="rq-sidebar-card">
-        <p class="rq-sidebar-card__label">Schlüsselkonzepte</p>
+        <p class="rq-sidebar-card__label">Key concepts</p>
         <ul class="rq-concept-list">
-          <li><span lang="ar" dir="rtl">الدولة</span> — Staat</li>
-          <li><span lang="ar" dir="rtl">الأمن</span> — Sicherheit</li>
-          <li><span lang="ar" dir="rtl">المواطنة</span> — Bürgerschaft</li>
-          <li><span lang="ar" dir="rtl">الدولة المدنية</span> — Ziviler Staat</li>
-          <li><span lang="ar" dir="rtl">الاعتراف الدولي</span> — Internationale Anerkennung</li>
+          <li><span lang="ar" dir="rtl">الدولة</span> — State</li>
+          <li><span lang="ar" dir="rtl">الأمن</span> — Security</li>
+          <li><span lang="ar" dir="rtl">المواطنة</span> — Citizenship</li>
+          <li><span lang="ar" dir="rtl">الدولة المدنية</span> — Civil State</li>
+          <li><span lang="ar" dir="rtl">الاعتراف الدولي</span> — International Recognition</li>
         </ul>
       </div>
       <div class="rq-sidebar-card">
-        <p class="rq-sidebar-card__label">Analysezeitraum</p>
-        <p class="rq-sidebar-card__val">2013–2026</p>
+        <p class="rq-sidebar-card__label">Analysis period</p>
+        <p class="rq-sidebar-card__val" dir="ltr">2013–2026</p>
       </div>
       <div class="rq-sidebar-card">
-        <p class="rq-sidebar-card__label">Methodischer Rahmen</p>
+        <p class="rq-sidebar-card__label">Methodological framework</p>
         <ul class="rq-ref-list">
           <li>Van Leeuwen (2008)</li>
-          <li>Weber — Legitime Herrschaft</li>
-          <li>Politische Diskursanalyse</li>
-          <li>Begriffsgeschichte (Koselleck)</li>
+          <li>Weber — Legitimate Domination</li>
+          <li>Political Discourse Analysis</li>
+          <li>Conceptual History (Koselleck)</li>
         </ul>
       </div>
       <div class="rq-sidebar-card">
-        <p class="rq-sidebar-card__label">Weiterführend</p>
-        <a href="/methodology" class="rq-sidebar-link">Zur Methodologie →</a>
-        <a href="/corpus" class="rq-sidebar-link">Zum Corpus →</a>
-        <a href="/concepts" class="rq-sidebar-link">Zur Concept Gallery →</a>
+        <p class="rq-sidebar-card__label">Further reading</p>
+        <a href="/en/methodology" class="rq-sidebar-link">Methodology →</a>
+        <a href="/en/corpus" class="rq-sidebar-link">Corpus →</a>
+        <a href="/en/timeline" class="rq-sidebar-link">Timeline →</a>
       </div>
     </aside>
 

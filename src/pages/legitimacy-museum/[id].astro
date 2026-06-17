@@ -1,0 +1,495 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../i18n/translations';
+
+const locale = 'de';
+
+export async function getStaticPaths() {
+  const all = await getCollection('museum');
+  const sorted = all
+    .filter(r => r.data.published)
+    .sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+  return sorted.map((record, index) => ({
+    params: { id: record.data.id },
+    props: {
+      record,
+      prevId: index > 0 ? sorted[index - 1].data.id : null,
+      nextId: index < sorted.length - 1 ? sorted[index + 1].data.id : null,
+      totalCount: sorted.length,
+      position: index + 1,
+    },
+  }));
+}
+
+const { record, prevId, nextId, totalCount, position } = Astro.props;
+const d = record.data;
+
+function verBadgeClass(v: string): string {
+  if (v === 'Partially verified') return 'museum-badge--partial';
+  if (v === 'Verified') return 'museum-badge--verified';
+  return 'museum-badge--needs-review';
+}
+
+function txBadgeClass(tx: string): string {
+  if (tx === 'Transcript unavailable') return 'museum-badge--no-transcript';
+  return 'museum-badge--has-transcript';
+}
+---
+
+<BaseLayout
+  title={`${d.id} — ${d.title}`}
+  description={`Museumseintrag ${d.id}: ${d.title}. ${d.materialType}, ${d.dateDisplay}. Verifikationsstatus: ${d.verificationStatus}.`}
+  locale={locale}
+>
+
+<!-- BREADCRUMB -->
+<nav class="museum-breadcrumb" aria-label="Eintragsnavigation">
+  <div class="container">
+    <div class="museum-breadcrumb__inner">
+      <ol class="museum-breadcrumb__list" role="list">
+        <li>
+          <a href="/legitimacy-museum" class="museum-breadcrumb__link">
+            {t(locale, 'museum.record.breadcrumb')}
+          </a>
+        </li>
+        <li aria-hidden="true" class="museum-breadcrumb__sep">›</li>
+        <li aria-current="page" class="museum-breadcrumb__current">{d.id}</li>
+      </ol>
+      <span class="museum-breadcrumb__position">
+        {t(locale, 'museum.record.position').replace('{pos}', String(position)).replace('{total}', String(totalCount))}
+      </span>
+    </div>
+  </div>
+</nav>
+
+<!-- RECORD HEADER -->
+<section class="museum-record-hero section" aria-labelledby="record-title">
+  <div class="container">
+    <div class="museum-record-hero__id-row">
+      <span class="museum-record-id">{d.id}</span>
+      <div class="museum-record-hero__badges">
+        <span class="museum-badge museum-badge--candidate">{d.corpusStatus}</span>
+        <span class={`museum-badge ${verBadgeClass(d.verificationStatus)}`}>{d.verificationStatus}</span>
+      </div>
+    </div>
+    <h1 class="museum-record-title" id="record-title">{d.title}</h1>
+    <p class="museum-record-date" dir="ltr">{d.dateDisplay}</p>
+  </div>
+</section>
+
+<!-- RECORD BODY -->
+<div class="museum-record-body">
+  <div class="container museum-record-layout">
+
+    <!-- Main content -->
+    <div class="museum-record-main">
+
+      <!-- 1. Identifizierung -->
+      <section class="museum-section" aria-labelledby="section-identification">
+        <h2 class="museum-section-title" id="section-identification">
+          <span class="museum-section-number">1</span>
+          {t(locale, 'museum.section.identification')}
+        </h2>
+        <dl class="museum-dl">
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.id')}</dt>
+            <dd dir="ltr">{d.id}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.title')}</dt>
+            <dd>{d.title}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.date')}</dt>
+            <dd>
+              <span dir="ltr">{d.dateDisplay}</span>
+              <span class="museum-dl__note">{d.dateStatus}</span>
+            </dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.speaker-used')}</dt>
+            <dd>{d.speakerNameUsed}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.speaker-normalized')}</dt>
+            <dd>
+              {d.normalizedSpeakerName}
+              {d.speakerNameMethodologicalNote && (
+                <span class="museum-dl__note">{d.speakerNameMethodologicalNote}</span>
+              )}
+            </dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.material-type')}</dt>
+            <dd>{d.materialType}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.speech-type')}</dt>
+            <dd>{d.speechType}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.phase')}</dt>
+            <dd dir="ltr">{d.politicalPhase}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- 2. Quellenbeleg -->
+      <section class="museum-section" aria-labelledby="section-source">
+        <h2 class="museum-section-title" id="section-source">
+          <span class="museum-section-number">2</span>
+          {t(locale, 'museum.section.source')}
+        </h2>
+        <dl class="museum-dl">
+          {d.channel ? (
+            <div class="museum-dl__row">
+              <dt>{t(locale, 'museum.field.channel')}</dt>
+              <dd>{d.channel}</dd>
+            </div>
+          ) : (
+            <div class="museum-dl__row">
+              <dt>{t(locale, 'museum.field.channel')}</dt>
+              <dd class="museum-dl__unknown">{t(locale, 'museum.field.not-confirmed')}</dd>
+            </div>
+          )}
+          {d.interviewer && (
+            <div class="museum-dl__row">
+              <dt>{t(locale, 'museum.field.interviewer')}</dt>
+              <dd>{d.interviewer}</dd>
+            </div>
+          )}
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.primary-status')}</dt>
+            <dd>{d.primarySourceStatus}</dd>
+          </div>
+        </dl>
+
+        {d.sourceLinks && d.sourceLinks.length > 0 ? (
+          <div class="museum-source-links">
+            <p class="museum-source-links__label">{t(locale, 'museum.sources.label')}</p>
+            <ul class="museum-source-list">
+              {d.sourceLinks.map(link => (
+                <li class="museum-source-item">
+                  <div class="museum-source-item__meta">
+                    <span class="museum-source-item__type" dir="ltr">{link.type}</span>
+                    {link.language && (
+                      <span class="museum-source-item__lang" dir="ltr">{link.language}</span>
+                    )}
+                    {link.accessStatus && (
+                      <span class={`museum-source-item__access ${
+                        link.accessStatus?.toLowerCase().includes('restricted')
+                          ? 'museum-source-item__access--restricted'
+                          : ''
+                      }`} dir="ltr">{link.accessStatus}</span>
+                    )}
+                  </div>
+                  <a
+                    href={link.url}
+                    class="museum-source-item__link"
+                    dir="ltr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                  {link.note && (
+                    <p class="museum-source-item__note">{link.note}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div class="museum-no-sources">
+            <p>{t(locale, 'museum.sources.none')}</p>
+          </div>
+        )}
+      </section>
+
+      <!-- 3. Verifikation -->
+      <section class="museum-section" aria-labelledby="section-verification">
+        <h2 class="museum-section-title" id="section-verification">
+          <span class="museum-section-number">3</span>
+          {t(locale, 'museum.section.verification')}
+        </h2>
+        <dl class="museum-dl">
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.verification')}</dt>
+            <dd>
+              <span class={`museum-badge ${verBadgeClass(d.verificationStatus)}`}>
+                {d.verificationStatus}
+              </span>
+            </dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.corpus-status')}</dt>
+            <dd>
+              <span class="museum-badge museum-badge--candidate">{d.corpusStatus}</span>
+            </dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.date-status')}</dt>
+            <dd>{d.dateStatus}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.location-certainty')}</dt>
+            <dd>{d.locationCertainty}</dd>
+          </div>
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.geo-status')}</dt>
+            <dd>
+              <span class="museum-badge museum-badge--geo">{d.geospatialStatus}</span>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- 4. Transkript und Übersetzung -->
+      <section class="museum-section" aria-labelledby="section-transcript">
+        <h2 class="museum-section-title" id="section-transcript">
+          <span class="museum-section-number">4</span>
+          {t(locale, 'museum.section.transcript')}
+        </h2>
+        <dl class="museum-dl">
+          <div class="museum-dl__row">
+            <dt>{t(locale, 'museum.field.transcript-status')}</dt>
+            <dd>
+              <span class={`museum-badge ${txBadgeClass(d.transcriptStatus)}`}>
+                {d.transcriptStatus}
+              </span>
+            </dd>
+          </div>
+        </dl>
+        {d.transcriptStatus === 'Transcript unavailable' ? (
+          <p class="museum-transcript-pending">
+            {t(locale, 'museum.transcript.pending')}
+          </p>
+        ) : (
+          <div class="museum-transcript-note">
+            <p>{d.transcriptStatus}</p>
+          </div>
+        )}
+      </section>
+
+      <!-- 5. Evidenzübersicht -->
+      <section class="museum-section" aria-labelledby="section-evidence">
+        <h2 class="museum-section-title" id="section-evidence">
+          <span class="museum-section-number">5</span>
+          {t(locale, 'museum.section.evidence')}
+        </h2>
+        <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+        <div class="museum-evidence-text">
+          <p>{d.evidenceSummary}</p>
+        </div>
+      </section>
+
+      <!-- 6. Öffentliche Forschungsnotiz -->
+      <section class="museum-section museum-section--note" aria-labelledby="section-note">
+        <h2 class="museum-section-title" id="section-note">
+          <span class="museum-section-number">6</span>
+          {t(locale, 'museum.section.note')}
+        </h2>
+        <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+        <div class="museum-research-note">
+          <p>{d.publicResearchNote}</p>
+        </div>
+        <p class="museum-research-note__disclaimer">
+          {t(locale, 'museum.note.disclaimer')}
+        </p>
+      </section>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="museum-record-sidebar" aria-label="Statusübersicht">
+      <div class="museum-sidebar-card">
+        <p class="museum-sidebar-card__label">{t(locale, 'museum.sidebar.status')}</p>
+
+        <div class="museum-sidebar-status">
+          <span class="museum-sidebar-status__key">{t(locale, 'museum.sidebar.corpus')}</span>
+          <span class="museum-badge museum-badge--candidate">{d.corpusStatus}</span>
+        </div>
+
+        <div class="museum-sidebar-status">
+          <span class="museum-sidebar-status__key">{t(locale, 'museum.sidebar.verification')}</span>
+          <span class={`museum-badge ${verBadgeClass(d.verificationStatus)}`}>
+            {d.verificationStatus}
+          </span>
+        </div>
+
+        <div class="museum-sidebar-status">
+          <span class="museum-sidebar-status__key">{t(locale, 'museum.sidebar.transcript')}</span>
+          <span class={`museum-badge ${txBadgeClass(d.transcriptStatus)}`}>
+            {d.transcriptStatus === 'Transcript unavailable'
+              ? t(locale, 'museum.sidebar.unavailable')
+              : t(locale, 'museum.sidebar.material-available')}
+          </span>
+        </div>
+
+        <div class="museum-sidebar-status">
+          <span class="museum-sidebar-status__key">{t(locale, 'museum.sidebar.geo')}</span>
+          <span class="museum-badge museum-badge--geo">{d.geospatialStatus}</span>
+        </div>
+
+        <hr class="museum-sidebar-divider" />
+
+        <div class="museum-sidebar-meta">
+          <span class="museum-sidebar-meta__key">{t(locale, 'museum.sidebar.material')}</span>
+          <span class="museum-sidebar-meta__value">{d.materialType}</span>
+        </div>
+        <div class="museum-sidebar-meta">
+          <span class="museum-sidebar-meta__key">{t(locale, 'museum.sidebar.phase')}</span>
+          <span class="museum-sidebar-meta__value" dir="ltr">{d.politicalPhase}</span>
+        </div>
+        {d.channel && (
+          <div class="museum-sidebar-meta">
+            <span class="museum-sidebar-meta__key">{t(locale, 'museum.sidebar.channel')}</span>
+            <span class="museum-sidebar-meta__value">{d.channel}</span>
+          </div>
+        )}
+        {d.interviewer && (
+          <div class="museum-sidebar-meta">
+            <span class="museum-sidebar-meta__key">{t(locale, 'museum.sidebar.interviewer')}</span>
+            <span class="museum-sidebar-meta__value">{d.interviewer}</span>
+          </div>
+        )}
+        <div class="museum-sidebar-meta">
+          <span class="museum-sidebar-meta__key">{t(locale, 'museum.sidebar.sources')}</span>
+          <span class="museum-sidebar-meta__value">
+            {d.sourceLinks && d.sourceLinks.length > 0
+              ? `${d.sourceLinks.length} Quell${d.sourceLinks.length !== 1 ? 'en' : 'e'}`
+              : t(locale, 'museum.sidebar.pending')}
+          </span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- RECORD NAVIGATION -->
+<nav class="museum-record-nav" aria-label="Vorheriger und nächster Eintrag">
+  <div class="container">
+    <div class="museum-record-nav__inner">
+      <div class="museum-record-nav__prev">
+        {prevId ? (
+          <a href={`/legitimacy-museum/${prevId}`} class="museum-record-nav__link">
+            {t(locale, 'museum.nav.prev')}
+            <span class="museum-record-nav__id">{prevId}</span>
+          </a>
+        ) : (
+          <span class="museum-record-nav__disabled">{t(locale, 'museum.nav.prev')}</span>
+        )}
+      </div>
+
+      <a href="/legitimacy-museum" class="museum-record-nav__back">
+        {t(locale, 'museum.nav.back')}
+      </a>
+
+      <div class="museum-record-nav__next">
+        {nextId ? (
+          <a href={`/legitimacy-museum/${nextId}`} class="museum-record-nav__link museum-record-nav__link--right">
+            {t(locale, 'museum.nav.next')}
+            <span class="museum-record-nav__id">{nextId}</span>
+          </a>
+        ) : (
+          <span class="museum-record-nav__disabled museum-record-nav__disabled--right">{t(locale, 'museum.nav.next')}</span>
+        )}
+      </div>
+    </div>
+  </div>
+</nav>
+
+</BaseLayout>
+
+<style>
+.museum-breadcrumb { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border-light); padding-block: var(--space-md); }
+.museum-breadcrumb__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); }
+.museum-breadcrumb__list { display: flex; align-items: center; gap: var(--space-xs); list-style: none; padding: 0; margin: 0; flex-wrap: wrap; }
+.museum-breadcrumb__link { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-olive); text-decoration: none; }
+.museum-breadcrumb__link:hover { color: var(--clr-red); }
+.museum-breadcrumb__sep { font-size: 0.75rem; color: var(--clr-text-subtle); }
+.museum-breadcrumb__current { font-family: var(--font-sans); font-size: 0.82rem; font-weight: 600; color: var(--clr-text-muted); }
+.museum-breadcrumb__position { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-subtle); white-space: nowrap; }
+.museum-record-hero { background: var(--clr-bg); border-bottom: 1px solid var(--clr-border-light); padding-bottom: var(--space-2xl); }
+.museum-record-hero__id-row { display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md); flex-wrap: wrap; }
+.museum-record-id { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-olive); background: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 3px 10px; }
+.museum-record-hero__badges { display: flex; gap: var(--space-xs); flex-wrap: wrap; }
+.museum-record-title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 400; color: var(--clr-text); letter-spacing: -0.02em; line-height: 1.3; margin-bottom: var(--space-sm); max-width: 52rem; }
+.museum-record-date { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-muted); }
+.museum-record-body { padding-block: var(--space-3xl); background: var(--clr-bg); }
+.museum-record-layout { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.museum-section { margin-bottom: var(--space-3xl); padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.museum-section:last-child { border-bottom: none; }
+.museum-section-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 400; color: var(--clr-text); letter-spacing: -0.01em; margin-bottom: var(--space-xl); display: flex; align-items: center; gap: var(--space-md); }
+.museum-section-number { display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.6rem; border: 1px solid var(--clr-olive-pale); border-radius: 50%; font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; color: var(--clr-olive); flex-shrink: 0; }
+.museum-dl { display: flex; flex-direction: column; gap: var(--space-md); }
+.museum-dl__row { display: grid; grid-template-columns: 11rem 1fr; gap: var(--space-md); align-items: baseline; font-family: var(--font-sans); font-size: 0.88rem; line-height: 1.55; }
+.museum-dl__row dt { color: var(--clr-text-muted); font-size: 0.8rem; font-weight: 500; }
+.museum-dl__row dd { color: var(--clr-text); margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.museum-dl__note { font-size: 0.75rem; color: var(--clr-text-muted); font-style: italic; line-height: 1.4; }
+.museum-dl__unknown { color: var(--clr-text-subtle); font-style: italic; }
+.museum-source-links { margin-top: var(--space-xl); }
+.museum-source-links__label { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-md); }
+.museum-source-list { display: flex; flex-direction: column; gap: var(--space-lg); list-style: none; padding: 0; }
+.museum-source-item { padding: var(--space-md) var(--space-lg); background: var(--clr-bg-alt); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-xs); }
+.museum-source-item__meta { display: flex; flex-wrap: wrap; gap: var(--space-xs); align-items: center; }
+.museum-source-item__type { font-family: var(--font-sans); font-size: 0.67rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--clr-text-subtle); }
+.museum-source-item__lang, .museum-source-item__access { font-family: var(--font-sans); font-size: 0.67rem; padding: 1px 5px; border-radius: 3px; border: 1px solid var(--clr-border-light); background: var(--clr-card); color: var(--clr-text-muted); }
+.museum-source-item__access--restricted { background: rgba(122,31,31,0.06); color: var(--clr-red); border-color: rgba(122,31,31,0.15); }
+.museum-source-item__link { font-family: var(--font-sans); font-size: 0.85rem; color: var(--clr-olive); text-decoration: underline; text-underline-offset: 2px; word-break: break-word; line-height: 1.5; }
+.museum-source-item__link:hover { color: var(--clr-red); }
+.museum-source-item__note { font-family: var(--font-sans); font-size: 0.78rem; color: var(--clr-text-muted); line-height: 1.5; margin: 0; font-style: italic; }
+.museum-no-sources { margin-top: var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--clr-bg-alt); border: 1px dashed var(--clr-border); border-radius: var(--radius-md); }
+.museum-no-sources p { font-family: var(--font-sans); font-size: 0.85rem; color: var(--clr-text-muted); font-style: italic; margin: 0; }
+.museum-transcript-pending { margin-top: var(--space-md); font-family: var(--font-sans); font-size: 0.85rem; color: var(--clr-text-muted); font-style: italic; }
+.museum-transcript-note { margin-top: var(--space-md); font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); }
+.museum-evidence-text { background: var(--clr-card); border: 1px solid var(--clr-border); border-left: 4px solid var(--clr-olive-pale); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-xl) var(--space-2xl); }
+.museum-evidence-text p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.8; margin: 0; }
+.museum-section--note { background: var(--clr-bg-alt); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-3xl); }
+.museum-research-note p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.8; margin: 0; }
+.museum-research-note__disclaimer { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-subtle); font-style: italic; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--clr-border-light); }
+.museum-record-sidebar { position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.museum-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md); }
+.museum-sidebar-card__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-xs); }
+.museum-sidebar-status { display: flex; flex-direction: column; gap: 4px; }
+.museum-sidebar-status__key { font-family: var(--font-sans); font-size: 0.72rem; color: var(--clr-text-subtle); }
+.museum-sidebar-divider { border: none; border-top: 1px solid var(--clr-border-light); margin-block: var(--space-xs); }
+.museum-sidebar-meta { display: flex; flex-direction: column; gap: 2px; }
+.museum-sidebar-meta__key { font-family: var(--font-sans); font-size: 0.67rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--clr-text-subtle); }
+.museum-sidebar-meta__value { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.4; }
+.museum-record-nav { background: var(--clr-bg-alt); border-top: 1px solid var(--clr-border); padding-block: var(--space-xl); }
+.museum-record-nav__inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-xl); }
+.museum-record-nav__back { font-family: var(--font-sans); font-size: 0.82rem; font-weight: 500; color: var(--clr-olive); text-align: center; white-space: nowrap; text-decoration: none; }
+.museum-record-nav__back:hover { color: var(--clr-red); }
+.museum-record-nav__prev, .museum-record-nav__next { display: flex; }
+.museum-record-nav__next { justify-content: flex-end; }
+.museum-record-nav__link { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); text-decoration: none; display: flex; flex-direction: column; gap: 2px; transition: color var(--transition-fast); }
+.museum-record-nav__link--right { text-align: right; }
+.museum-record-nav__link:hover { color: var(--clr-olive); }
+.museum-record-nav__link:focus { outline: 2px solid var(--clr-olive); outline-offset: 3px; border-radius: var(--radius-sm); }
+.museum-record-nav__id { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--clr-olive); opacity: 0.8; }
+.museum-record-nav__disabled { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-subtle); }
+.museum-record-nav__disabled--right { margin-left: auto; }
+.museum-badge { display: inline-block; font-family: var(--font-sans); font-size: 0.67rem; font-weight: 600; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 3px; white-space: nowrap; border: 1px solid transparent; }
+.museum-badge--candidate { background: rgba(154,123,74,0.1); color: #6b4a1a; border-color: rgba(154,123,74,0.25); }
+.museum-badge--needs-review { background: rgba(122,101,85,0.1); color: var(--clr-text-muted); border-color: rgba(122,101,85,0.2); }
+.museum-badge--partial { background: rgba(92,73,42,0.1); color: #5c4a2a; border-color: rgba(92,73,42,0.25); }
+.museum-badge--verified { background: rgba(60,74,46,0.1); color: #3c4a2e; border-color: rgba(60,74,46,0.25); }
+.museum-badge--no-transcript { background: rgba(122,101,85,0.07); color: var(--clr-text-subtle); border-color: rgba(122,101,85,0.15); }
+.museum-badge--has-transcript { background: rgba(92,73,42,0.1); color: #5c4a2a; border-color: rgba(92,73,42,0.25); }
+.museum-badge--geo { background: transparent; color: var(--clr-text-subtle); border-color: var(--clr-border-light); }
+@media (max-width: 900px) {
+  .museum-record-layout { grid-template-columns: 1fr; }
+  .museum-record-sidebar { position: static; order: -1; }
+}
+@media (max-width: 640px) {
+  .museum-dl__row { grid-template-columns: 1fr; gap: 2px; }
+  .museum-record-nav__inner { grid-template-columns: 1fr; gap: var(--space-md); text-align: center; }
+  .museum-record-nav__next { justify-content: center; }
+  .museum-record-nav__back { order: -1; }
+  .museum-record-nav__disabled--right { margin-left: 0; }
+}
+</style>

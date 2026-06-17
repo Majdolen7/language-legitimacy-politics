@@ -3,57 +3,125 @@ import '../styles/global.css';
 import '../styles/typography.css';
 import '../styles/components.css';
 import '../styles/arabic.css';
+import '../styles/rtl.css';
+import { t, type Locale } from '../i18n/translations';
+import { getLocalePath, localeDir } from '../i18n/utils';
 
 interface Props {
   title: string;
   description?: string;
-  lang?: string;
+  locale?: Locale;
 }
 
 const {
   title,
-  description = 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.',
-  lang = 'de',
+  description,
+  locale = 'de',
 } = Astro.props;
 
-const siteTitle = 'Von al-Jolani zu al-Sharaa';
-const fullTitle  = title === siteTitle ? title : `${title} | ${siteTitle}`;
-
+const dir = localeDir(locale);
+const lang = locale;
 const currentPath = Astro.url.pathname;
 
-const navItems = [
-  { href: '/',                    label: 'Startseite'       },
-  { href: '/research-question',   label: 'Forschungsfrage'  },
-  { href: '/timeline',            label: 'Timeline'         },
-  { href: '/concepts',            label: 'Konzepte'         },
-  { href: '/actor-transformation',label: 'Akteurswandel'    },
-  { href: '/cabinet',             label: 'Regierung'        },
-  { href: '/corpus',              label: 'Corpus'           },
-  { href: '/methodology',         label: 'Methodologie'     },
-  { href: '/data-sustainability', label: 'Daten'            },
+const defaultDesc = locale === 'de'
+  ? 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.'
+  : locale === 'ar'
+  ? 'مشروع بحثي رقمي حول خطابات الشرعية في سوريا بعد عام 2011.'
+  : 'A digital research project on legitimacy discourses in Syria after 2011.';
+
+const resolvedDescription = description ?? defaultDesc;
+
+const siteTitle = 'Language, Legitimacy & Politics';
+const fullTitle  = title === siteTitle ? title : `${title} | ${siteTitle}`;
+
+// Equivalent paths for hreflang and switcher
+const dePath = getLocalePath(currentPath, 'de');
+const arPath = getLocalePath(currentPath, 'ar');
+const enPath = getLocalePath(currentPath, 'en');
+
+// Locale-prefixed nav
+const prefix = locale === 'de' ? '' : `/${locale}`;
+
+// Nav items per locale — AR/EN omit pages that have no locale version
+const navItemsDE = [
+  { href: '/',                          label: 'Startseite'        },
+  { href: '/research-question',         label: 'Forschungsfrage'   },
+  { href: '/timeline',                  label: 'Timeline'          },
+  { href: '/concepts',                  label: 'Konzepte'          },
+  { href: '/actor-transformation',      label: 'Akteurswandel'     },
+  { href: '/cabinet',                   label: 'Regierung'         },
+  { href: '/corpus',                    label: 'Corpus'            },
+  { href: '/map',                       label: 'Map'               },
+  { href: '/legitimacy-museum',         label: 'Legitimacy Museum' },
+  { href: '/methodology',               label: 'Methodologie'      },
+  { href: '/data-sustainability',       label: 'Daten'             },
 ];
 
+const navItemsAR = [
+  { href: '/ar/',                       label: t('ar', 'nav.home')               },
+  { href: '/ar/research-question',      label: t('ar', 'nav.research-question')  },
+  { href: '/ar/timeline',               label: t('ar', 'nav.timeline')           },
+  { href: '/ar/actor-transformation',   label: t('ar', 'nav.actor-transformation') },
+  { href: '/ar/corpus',                 label: t('ar', 'nav.corpus')             },
+  { href: '/ar/map',                    label: t('ar', 'nav.map')                },
+  { href: '/ar/legitimacy-museum',      label: t('ar', 'nav.legitimacy-museum')  },
+  { href: '/ar/methodology',            label: t('ar', 'nav.methodology')        },
+  { href: '/ar/about',                  label: t('ar', 'footer.about')           },
+];
+
+const navItemsEN = [
+  { href: '/en/',                       label: 'Home'                },
+  { href: '/en/research-question',      label: 'Research Question'   },
+  { href: '/en/timeline',               label: 'Timeline'            },
+  { href: '/en/actor-transformation',   label: 'Actor Transformation'},
+  { href: '/en/corpus',                 label: 'Corpus'              },
+  { href: '/en/map',                    label: 'Map'                 },
+  { href: '/en/legitimacy-museum',      label: 'Legitimacy Museum'   },
+  { href: '/en/methodology',            label: 'Methodology'         },
+  { href: '/en/about',                  label: 'About'               },
+];
+
+const navItems = locale === 'de' ? navItemsDE : locale === 'ar' ? navItemsAR : navItemsEN;
+
 function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
+  // Home links: exact match only
+  if (href === '/' || href === '/ar/' || href === '/en/') {
+    return currentPath === href || currentPath === href.replace(/\/$/, '');
+  }
   return currentPath.startsWith(href);
 }
+
+// Footer links are locale-aware
+const footerLinks = [
+  { href: `${prefix}/methodology`,       label: t(locale, 'footer.methodology') },
+  { href: `${prefix}/data-sustainability`, label: t(locale, 'footer.data') },
+  { href: `${prefix}/corpus`,            label: t(locale, 'footer.corpus')      },
+  { href: `${prefix}/about`,             label: t(locale, 'footer.about')       },
+];
 ---
 
 <!DOCTYPE html>
-<html lang={lang} dir="ltr">
+<html lang={lang} dir={dir}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content={description} />
+  <meta name="description" content={resolvedDescription} />
   <meta name="generator" content={Astro.generator} />
 
   <meta property="og:title"       content={fullTitle} />
-  <meta property="og:description" content={description} />
+  <meta property="og:description" content={resolvedDescription} />
   <meta property="og:type"        content="website" />
 
   <title>{fullTitle}</title>
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Canonical and hreflang -->
+  <link rel="canonical" href={currentPath} />
+  <link rel="alternate" hreflang="de" href={dePath} />
+  <link rel="alternate" hreflang="ar" href={arPath} />
+  <link rel="alternate" hreflang="en" href={enPath} />
+  <link rel="alternate" hreflang="x-default" href={dePath} />
 
   <!--
     Crimson Pro  — serif display and headings
@@ -69,14 +137,16 @@ function isActive(href: string): boolean {
 </head>
 
 <body>
-  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+  <a href="#main-content" class="skip-link">{t(locale, 'skip.label')}</a>
 
   <!-- ================================================================
-       SITE MASTHEAD — project identity, scrolls away
+       SITE MASTHEAD
   ================================================================ -->
   <div class="site-masthead" role="banner">
     <div class="container">
-      <a href="/" class="site-masthead__link" aria-label="Von al-Jolani zu al-Sharaa — Startseite">
+      <a href={locale === 'de' ? '/' : locale === 'ar' ? '/ar/' : '/en/'}
+         class="site-masthead__link"
+         aria-label={t(locale, 'site.home-label')}>
         <img
           src="/assets/logo/lp-logo-final.svg"
           alt="Language, Legitimacy &amp; Politics logo"
@@ -86,14 +156,11 @@ function isActive(href: string): boolean {
           loading="eager"
           decoding="async"
         />
-        <span class="site-masthead__title">Von al-Jolani zu al-Sharaa</span>
-        <span class="site-masthead__subtitle-de">
-          Legitimitäts- und Staatsdiskurse in Syrien nach 2011
+        <span class="site-masthead__title" dir="ltr">Language, Legitimacy &amp; Politics</span>
+        <span class="site-masthead__subtitle-de" dir="ltr">
+          {t(locale, 'site.tagline')}
         </span>
       </a>
-      <span class="site-masthead__title-ar" lang="ar" dir="rtl" aria-hidden="true">
-        من الجولاني إلى الشرع
-      </span>
     </div>
   </div>
 
@@ -101,12 +168,12 @@ function isActive(href: string): boolean {
        SITE NAV-BAR — sticky navigation
   ================================================================ -->
   <div class="site-nav-bar">
-    <div class="container">
+    <div class="container site-nav-bar__inner">
 
       <nav
         class="site-nav"
         id="main-nav"
-        aria-label="Hauptnavigation"
+        aria-label={t(locale, 'nav.main-label')}
         role="navigation"
       >
         <ul class="site-nav__list" role="list">
@@ -124,19 +191,50 @@ function isActive(href: string): boolean {
         </ul>
       </nav>
 
+      <!-- Language switcher -->
+      <nav
+        class="lang-switcher"
+        aria-label={t(locale, 'lang.switcher-label')}
+        dir="ltr"
+      >
+        <a
+          href={dePath}
+          class={`lang-switcher__link${locale === 'de' ? ' lang-switcher__link--active' : ''}`}
+          lang="de"
+          hreflang="de"
+          aria-current={locale === 'de' ? 'true' : undefined}
+        >DE</a>
+        <span class="lang-switcher__sep" aria-hidden="true">|</span>
+        <a
+          href={arPath}
+          class={`lang-switcher__link${locale === 'ar' ? ' lang-switcher__link--active' : ''}`}
+          lang="ar"
+          hreflang="ar"
+          aria-current={locale === 'ar' ? 'true' : undefined}
+        >AR</a>
+        <span class="lang-switcher__sep" aria-hidden="true">|</span>
+        <a
+          href={enPath}
+          class={`lang-switcher__link${locale === 'en' ? ' lang-switcher__link--active' : ''}`}
+          lang="en"
+          hreflang="en"
+          aria-current={locale === 'en' ? 'true' : undefined}
+        >EN</a>
+      </nav>
+
       <button
         class="nav-toggle"
         id="nav-toggle"
         aria-controls="main-nav"
         aria-expanded="false"
-        aria-label="Navigation öffnen"
+        aria-label={t(locale, 'nav.toggle-open')}
       >
         <span class="nav-toggle__icon" aria-hidden="true">
           <span></span>
           <span></span>
           <span></span>
         </span>
-        Menü
+        {t(locale, 'nav.toggle-label')}
       </button>
 
     </div>
@@ -157,35 +255,26 @@ function isActive(href: string): boolean {
       <div class="site-footer__inner">
 
         <div class="site-footer__project">
-          <span class="site-footer__name">Von al-Jolani zu al-Sharaa</span>
-          <span class="site-footer__name-ar" lang="ar" dir="rtl">
-            من الجولاني إلى الشرع: تحولات خطاب الشرعية والدولة في سوريا بعد 2011
-          </span>
-          <p>
-            Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen
-            im syrischen Islamismus nach 2011.
-            Das Projekt analysiert Diskurse und legitimiert oder delegitimiert
-            politische Akteure nicht.
-          </p>
+          <span class="site-footer__name" dir="ltr">Language, Legitimacy &amp; Politics</span>
+          <p>{t(locale, 'footer.description')}</p>
         </div>
 
-        <nav class="site-footer__links" aria-label="Footer-Navigation">
-          <a href="/methodology"         class="site-footer__link">Methodologie</a>
-          <a href="/data-sustainability"  class="site-footer__link">Daten &amp; Nachhaltigkeit</a>
-          <a href="/corpus"              class="site-footer__link">Corpus</a>
-          <a href="/about"               class="site-footer__link">Über das Projekt</a>
+        <nav class="site-footer__links" aria-label={locale === 'de' ? 'Footer-Navigation' : locale === 'ar' ? 'تنقل التذييل' : 'Footer navigation'}>
+          {footerLinks.map(link => (
+            <a href={link.href} class="site-footer__link">{link.label}</a>
+          ))}
         </nav>
 
       </div>
 
       <div class="site-footer__bottom">
         <span>
-          Digital Humanities Projekt &middot;
+          {t(locale, 'footer.bottom')} &middot;
           <span lang="ar" dir="rtl" style="font-family: var(--font-arabic);">
             مشروع إنسانيات رقمية
           </span>
         </span>
-        <span>Alle Quellen sind gekennzeichnet. Keine echten Zitate ohne Quellenbeleg.</span>
+        <span>{t(locale, 'footer.sources-note')}</span>
       </div>
     </div>
   </footer>
@@ -193,7 +282,7 @@ function isActive(href: string): boolean {
   <!-- ================================================================
        JAVASCRIPT — Mobile Navigation Toggle
   ================================================================ -->
-  <script>
+  <script is:inline define:vars={{ openLabel: t(locale, 'nav.toggle-open'), closeLabel: t(locale, 'nav.toggle-close') }}>
     const toggle = document.getElementById('nav-toggle');
     const nav    = document.getElementById('main-nav');
 
@@ -201,17 +290,14 @@ function isActive(href: string): boolean {
       toggle.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!isOpen));
-        toggle.setAttribute(
-          'aria-label',
-          isOpen ? 'Navigation öffnen' : 'Navigation schließen'
-        );
+        toggle.setAttribute('aria-label', isOpen ? openLabel : closeLabel);
         nav.classList.toggle('nav--open');
       });
 
       nav.querySelectorAll('.site-nav__link').forEach((link) => {
         link.addEventListener('click', () => {
           toggle.setAttribute('aria-expanded', 'false');
-          toggle.setAttribute('aria-label', 'Navigation öffnen');
+          toggle.setAttribute('aria-label', openLabel);
           nav.classList.remove('nav--open');
         });
       });
@@ -228,3 +314,70 @@ function isActive(href: string): boolean {
 
 </body>
 </html>
+
+<style>
+  /* Language switcher */
+  .site-nav-bar__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* In RTL pages, margin-left: auto pushes switcher to the wrong side.
+     The dir="ltr" on the switcher fixes internal order, but we override
+     margin for RTL context via a global RTL rule. */
+
+  .lang-switcher__link {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--clr-text-muted);
+    text-decoration: none;
+    padding: 2px 5px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .lang-switcher__link:hover {
+    color: var(--clr-olive);
+  }
+
+  .lang-switcher__link:focus-visible {
+    outline: 2px solid var(--clr-olive);
+    outline-offset: 2px;
+    color: var(--clr-olive);
+  }
+
+  .lang-switcher__link--active {
+    color: var(--clr-olive);
+    background-color: rgba(154, 123, 74, 0.1);
+    font-weight: 700;
+  }
+
+  .lang-switcher__sep {
+    color: var(--clr-border);
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* Ensure nav takes remaining space */
+  .site-nav {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* Push toggle to end on mobile */
+  .nav-toggle {
+    flex-shrink: 0;
+  }
+</style>

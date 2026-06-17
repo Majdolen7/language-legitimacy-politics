@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../../i18n/translations';
+
+const locale = 'en';
+
+const allRecords = await getCollection('museum');
+const records = allRecords
+  .filter(r => r.data.published)
+  .sort((a, b) => a.data.id.localeCompare(b.data.id));
+
+const totalCount         = records.length;
+const candidateCount     = records.filter(r => r.data.corpusStatus === 'Candidate').length;
+const partiallyVerified  = records.filter(r => r.data.verificationStatus === 'Partially verified').length;
+const verifiedCount      = records.filter(r => r.data.verificationStatus === 'Verified').length;
+const primaryMatCount    = records.filter(r => r.data.primarySourceStatus !== 'Not confirmed').length;
+const transcriptCount    = records.filter(r => r.data.transcriptStatus !== 'Transcript unavailable').length;
+
+const years = [...new Set(records.map(r => r.data.date.slice(0, 4)))].sort();
+const phases = [...new Set(records.map(r => r.data.politicalPhase))].sort();
+const materialTypes = [...new Set(records.map(r => r.data.materialType))].sort();
+const verificationStatuses = [...new Set(records.map(r => r.data.verificationStatus))].sort();
+const transcriptStatuses = [...new Set(records.map(r => r.data.transcriptStatus))];
+---
+
+<BaseLayout
+  title="Legitimacy Museum"
+  description="A pseudodynamic digital archive of political language and legitimation — a curated directory of speeches, interviews, statements, and research sources."
+  locale={locale}
+>
+
+<section class="section museum-hero" aria-labelledby="museum-title">
+  <div class="container">
+    <p class="museum-kicker">{t(locale, 'museum.kicker')}</p>
+    <h1 class="museum-title" id="museum-title">{t(locale, 'museum.title')}</h1>
+    <p class="museum-subtitle">{t(locale, 'museum.subtitle')}</p>
+    <div class="museum-intro">
+      <p set:html={t(locale, 'museum.intro-1')} />
+      <p>{t(locale, 'museum.intro-2')}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt museum-stats-section" aria-label={t(locale, 'museum.stats.overview')}>
+  <div class="container">
+    <p class="section-overline">{t(locale, 'museum.stats.overview')}</p>
+    <div class="museum-stat-grid">
+      <div class="museum-stat">
+        <span class="museum-stat__number">{totalCount}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.total')}</span>
+      </div>
+      <div class="museum-stat">
+        <span class="museum-stat__number">{candidateCount}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.candidate')}</span>
+      </div>
+      <div class="museum-stat">
+        <span class="museum-stat__number">{partiallyVerified}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.partially-verified')}</span>
+      </div>
+      <div class="museum-stat museum-stat--muted">
+        <span class="museum-stat__number">{verifiedCount}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.verified')}</span>
+      </div>
+      <div class="museum-stat">
+        <span class="museum-stat__number">{primaryMatCount}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.with-primary')}</span>
+      </div>
+      <div class="museum-stat museum-stat--muted">
+        <span class="museum-stat__number">{transcriptCount}</span>
+        <span class="museum-stat__label">{t(locale, 'museum.stats.with-transcript')}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section museum-filter-section" aria-label={t(locale, 'museum.filter.aria')}>
+  <div class="container">
+
+    <div class="museum-filter-bar" role="search" aria-label={t(locale, 'museum.filter.aria')}>
+      <span class="museum-filter-bar__label">{t(locale, 'museum.filter.label')}</span>
+
+      <label for="filter-year" class="visually-hidden">{t(locale, 'museum.filter.year-label')}</label>
+      <select class="museum-filter-select" id="filter-year" aria-label={t(locale, 'museum.filter.year-label')}>
+        <option value="">{t(locale, 'museum.filter.year')}</option>
+        {years.map(y => <option value={y}>{y}</option>)}
+      </select>
+
+      <label for="filter-phase" class="visually-hidden">{t(locale, 'museum.filter.phase-label')}</label>
+      <select class="museum-filter-select" id="filter-phase" aria-label={t(locale, 'museum.filter.phase-label')}>
+        <option value="">{t(locale, 'museum.filter.phase')}</option>
+        {phases.map(p => <option value={p}>{p}</option>)}
+      </select>
+
+      <label for="filter-type" class="visually-hidden">{t(locale, 'museum.filter.type-label')}</label>
+      <select class="museum-filter-select" id="filter-type" aria-label={t(locale, 'museum.filter.type-label')}>
+        <option value="">{t(locale, 'museum.filter.type')}</option>
+        {materialTypes.map(mt => <option value={mt}>{mt}</option>)}
+      </select>
+
+      <label for="filter-verification" class="visually-hidden">{t(locale, 'museum.filter.verification-label')}</label>
+      <select class="museum-filter-select" id="filter-verification" aria-label={t(locale, 'museum.filter.verification-label')}>
+        <option value="">{t(locale, 'museum.filter.verification')}</option>
+        {verificationStatuses.map(v => <option value={v}>{v}</option>)}
+      </select>
+
+      <label for="filter-transcript" class="visually-hidden">{t(locale, 'museum.filter.transcript-label')}</label>
+      <select class="museum-filter-select" id="filter-transcript" aria-label={t(locale, 'museum.filter.transcript-label')}>
+        <option value="">{t(locale, 'museum.filter.transcript')}</option>
+        {transcriptStatuses.map(ts => <option value={ts}>{ts}</option>)}
+      </select>
+
+      <span class="museum-filter-count" id="museum-count" aria-live="polite">
+        {t(locale, 'museum.count').replace('{visible}', String(totalCount)).replace('{total}', String(totalCount))}
+      </span>
+      <button class="museum-filter-reset" id="museum-filter-reset" type="button">
+        {t(locale, 'museum.filter.reset')}
+      </button>
+    </div>
+
+    <div class="museum-search-wrap">
+      <label for="museum-search" class="museum-search-label">{t(locale, 'museum.search.label')}</label>
+      <input
+        type="search"
+        id="museum-search"
+        class="museum-search-input"
+        placeholder={t(locale, 'museum.search.placeholder')}
+        aria-label={t(locale, 'museum.search.label-aria')}
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+
+  </div>
+</section>
+
+<section class="section" aria-label={t(locale, 'museum.stats.overview')}>
+  <div class="container">
+
+    <div id="museum-no-results" class="museum-no-results" hidden aria-live="polite">
+      {t(locale, 'museum.no-results')}
+    </div>
+
+    <div class="museum-card-grid" id="museum-card-grid">
+      {records.map(record => {
+        const d = record.data;
+        const year = d.date.slice(0, 4);
+
+        return (
+          <article
+            class="museum-card"
+            data-museum-record=""
+            data-year={year}
+            data-phase={d.politicalPhase}
+            data-type={d.materialType}
+            data-verification={d.verificationStatus}
+            data-transcript={d.transcriptStatus}
+            data-search={[d.id, d.title, d.speakerNameUsed, d.channel ?? '', d.materialType].join(' ').toLowerCase()}
+          >
+            <header class="museum-card__header">
+              <span class="museum-card__id">{d.id}</span>
+              <span class="museum-card__year">{d.dateDisplay}</span>
+            </header>
+
+            <h2 class="museum-card__title">{d.title}</h2>
+
+            <dl class="museum-card__meta">
+              <div class="museum-card__meta-row">
+                <dt>{t(locale, 'museum.card.speaker')}</dt>
+                <dd>{d.speakerNameUsed}</dd>
+              </div>
+              <div class="museum-card__meta-row">
+                <dt>{t(locale, 'museum.card.type')}</dt>
+                <dd>{d.materialType}</dd>
+              </div>
+              {d.channel && (
+                <div class="museum-card__meta-row">
+                  <dt>{t(locale, 'museum.card.channel')}</dt>
+                  <dd>{d.channel}</dd>
+                </div>
+              )}
+            </dl>
+
+            <div class="museum-card__badges">
+              <span class="museum-badge museum-badge--candidate">{d.corpusStatus}</span>
+              <span class={`museum-badge ${
+                d.verificationStatus === 'Partially verified'
+                  ? 'museum-badge--partial'
+                  : d.verificationStatus === 'Verified'
+                  ? 'museum-badge--verified'
+                  : 'museum-badge--needs-review'
+              }`}>{d.verificationStatus}</span>
+              <span class={`museum-badge ${
+                d.transcriptStatus === 'Transcript unavailable'
+                  ? 'museum-badge--no-transcript'
+                  : 'museum-badge--has-transcript'
+              }`}>{d.transcriptStatus === 'Transcript unavailable'
+                  ? t(locale, 'museum.sidebar.unavailable')
+                  : t(locale, 'museum.sidebar.material-available')}</span>
+              <span class="museum-badge museum-badge--geo">{d.geospatialStatus}</span>
+            </div>
+
+            <a
+              href={`/en/legitimacy-museum/${d.id}`}
+              class="museum-card__link"
+              aria-label={t(locale, 'museum.card.view-aria').replace('{id}', d.id).replace('{title}', d.title)}
+            >
+              {t(locale, 'museum.card.view')}
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<script is:inline define:vars={{ countTemplate: t(locale, 'museum.count') }}>
+(function () {
+  const cards    = document.querySelectorAll('[data-museum-record]');
+  const countEl  = document.getElementById('museum-count');
+  const noRes    = document.getElementById('museum-no-results');
+  const resetBtn = document.getElementById('museum-filter-reset');
+  const searchInput = document.getElementById('museum-search');
+
+  const total = cards.length;
+
+  const filters = [
+    { id: 'filter-year',         dataKey: 'year'         },
+    { id: 'filter-phase',        dataKey: 'phase'        },
+    { id: 'filter-type',         dataKey: 'type'         },
+    { id: 'filter-verification', dataKey: 'verification' },
+    { id: 'filter-transcript',   dataKey: 'transcript'   },
+  ];
+
+  function apply() {
+    const vals = {};
+    for (const { id, dataKey } of filters) {
+      vals[dataKey] = document.getElementById(id)?.value ?? '';
+    }
+    const search = searchInput?.value.trim().toLowerCase() ?? '';
+
+    let visible = 0;
+    cards.forEach(card => {
+      const ds = card.dataset;
+      const ok =
+        filters.every(({ dataKey }) => !vals[dataKey] || ds[dataKey] === vals[dataKey]) &&
+        (!search || (ds.search ?? '').includes(search));
+      card.hidden = !ok;
+      if (ok) visible++;
+    });
+
+    if (countEl) countEl.textContent = countTemplate.replace('{visible}', String(visible)).replace('{total}', String(total));
+    if (noRes) noRes.hidden = visible > 0;
+  }
+
+  for (const { id } of filters) {
+    document.getElementById(id)?.addEventListener('change', apply);
+  }
+  searchInput?.addEventListener('input', apply);
+
+  resetBtn?.addEventListener('click', () => {
+    for (const { id } of filters) {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    }
+    if (searchInput) searchInput.value = '';
+    apply();
+  });
+})();
+</script>
+
+<style>
+.museum-hero { background: var(--clr-bg); border-bottom: 1px solid var(--clr-border-light); padding-bottom: var(--space-2xl); }
+.museum-kicker { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clr-olive); margin-bottom: var(--space-sm); }
+.museum-title { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 400; color: var(--clr-text); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: var(--space-sm); }
+.museum-subtitle { font-family: var(--font-serif); font-size: clamp(1rem, 2.5vw, 1.25rem); color: var(--clr-text-muted); font-style: italic; margin-bottom: var(--space-xl); line-height: 1.5; }
+.museum-intro { max-width: 52rem; display: flex; flex-direction: column; gap: var(--space-md); }
+.museum-intro p { font-family: var(--font-sans); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.75; }
+.museum-stats-section { padding-block: var(--space-2xl); }
+.museum-stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--space-md); margin-top: var(--space-lg); }
+.museum-stat { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xs); }
+.museum-stat--muted { background: var(--clr-bg-alt); }
+.museum-stat__number { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 600; color: var(--clr-olive); line-height: 1; }
+.museum-stat--muted .museum-stat__number { color: var(--clr-text-muted); }
+.museum-stat__label { font-family: var(--font-sans); font-size: 0.77rem; color: var(--clr-text-muted); line-height: 1.45; }
+.museum-filter-section { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border-light); padding-block: var(--space-xl); }
+.museum-filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.museum-filter-bar__label { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; color: var(--clr-text-muted); white-space: nowrap; }
+.museum-filter-select { font-family: var(--font-sans); font-size: 0.78rem; color: var(--clr-text); background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 5px var(--space-sm); cursor: pointer; }
+.museum-filter-count { font-family: var(--font-sans); font-size: 0.78rem; color: var(--clr-text-muted); white-space: nowrap; margin-left: auto; }
+.museum-filter-reset { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-muted); background: none; border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 4px var(--space-sm); cursor: pointer; transition: color var(--transition-fast), border-color var(--transition-fast); }
+.museum-filter-reset:hover { color: var(--clr-red); border-color: var(--clr-red); }
+.museum-search-wrap { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-md); }
+.museum-search-label { font-family: var(--font-sans); font-size: 0.82rem; font-weight: 600; color: var(--clr-text-muted); white-space: nowrap; }
+.museum-search-input { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text); background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-sm) var(--space-md); width: 100%; max-width: 28rem; transition: border-color var(--transition-fast), box-shadow var(--transition-fast); }
+.museum-search-input:focus { outline: none; border-color: var(--clr-olive); box-shadow: 0 0 0 3px rgba(154,123,74,0.12); }
+.museum-no-results { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-muted); font-style: italic; padding: var(--space-2xl); text-align: center; border: 1px dashed var(--clr-border); border-radius: var(--radius-md); }
+.museum-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); gap: var(--space-lg); }
+.museum-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md); box-shadow: var(--shadow-card); transition: box-shadow var(--transition-mid); }
+.museum-card:hover { box-shadow: var(--shadow-card-hover); }
+.museum-card__header { display: flex; align-items: center; justify-content: space-between; }
+.museum-card__id { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-olive); background: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 2px 8px; }
+.museum-card__year { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-muted); }
+.museum-card__title { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; color: var(--clr-text); line-height: 1.4; flex: 1; }
+.museum-card__meta { display: flex; flex-direction: column; gap: 4px; }
+.museum-card__meta-row { display: grid; grid-template-columns: 4.5rem 1fr; gap: var(--space-sm); font-family: var(--font-sans); font-size: 0.82rem; line-height: 1.4; }
+.museum-card__meta-row dt { color: var(--clr-text-subtle); font-weight: 500; }
+.museum-card__meta-row dd { color: var(--clr-text-mid); margin: 0; }
+.museum-card__badges { display: flex; flex-wrap: wrap; gap: 4px; }
+.museum-badge { display: inline-block; font-family: var(--font-sans); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 3px; white-space: nowrap; border: 1px solid transparent; }
+.museum-badge--candidate { background: rgba(154,123,74,0.1); color: #6b4a1a; border-color: rgba(154,123,74,0.25); }
+.museum-badge--needs-review { background: rgba(122,101,85,0.1); color: var(--clr-text-muted); border-color: rgba(122,101,85,0.2); }
+.museum-badge--partial { background: rgba(92,73,42,0.1); color: #5c4a2a; border-color: rgba(92,73,42,0.25); }
+.museum-badge--verified { background: rgba(60,74,46,0.1); color: #3c4a2e; border-color: rgba(60,74,46,0.25); }
+.museum-badge--no-transcript { background: rgba(122,101,85,0.07); color: var(--clr-text-subtle); border-color: rgba(122,101,85,0.15); }
+.museum-badge--has-transcript { background: rgba(92,73,42,0.1); color: #5c4a2a; border-color: rgba(92,73,42,0.25); }
+.museum-badge--geo { background: transparent; color: var(--clr-text-subtle); border-color: var(--clr-border-light); }
+.museum-card__link { display: inline-block; font-family: var(--font-sans); font-size: 0.82rem; font-weight: 600; color: var(--clr-olive); text-decoration: none; margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid var(--clr-border-light); transition: color var(--transition-fast); }
+.museum-card__link:hover { color: var(--clr-red); }
+</style>

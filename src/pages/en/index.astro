@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import timelineData from '../../data/timeline.json';
+import { t } from '../../i18n/translations';
+
+const locale = 'en';
+
+function preview(text: string, max = 200): string {
+  if (text.length <= max) return text;
+  const cut = text.lastIndexOf(' ', max);
+  return text.substring(0, cut > 0 ? cut : max) + ' …';
+}
+---
+
+<BaseLayout
+  title="Language, Legitimacy & Politics"
+  description="A digital research project on legitimacy discourses in Syria after 2011."
+  locale={locale}
+>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+
+      <p class="page-kicker">From armed faction to transitional authority</p>
+
+      <h1 class="hero__title">Language and the Transformation of Political Legitimacy</h1>
+
+      <p class="hero__title-ar" lang="ar" dir="rtl">
+        اللغة وتحول الشرعية السياسية
+      </p>
+
+      <div class="hero__divider" aria-hidden="true"></div>
+
+      <p class="hero__subtitle">
+        A digital discourse analysis of Ahmad al-Sharaa's speeches and public appearances, 2013–2026
+      </p>
+
+      <p class="hero__intro">
+        The project examines how political legitimacy is linguistically, symbolically, and
+        institutionally reconstructed in the discourse of Hayʾat Taḥrīr al-Shām /
+        <span lang="ar" dir="rtl">هيئة تحرير الشام</span>
+        and Ahmad al-Sharaa between 2011 and 2025. The focus is not the biography of an actor,
+        but how legitimacy is produced in discourse.
+      </p>
+
+      <div class="hero__actions">
+        <a href="/en/research-question" class="btn btn--primary">Research Question</a>
+        <a href="/en/corpus" class="btn btn--outline">Explore Corpus</a>
+        <a href="/en/legitimacy-museum" class="btn btn--outline">Legitimacy Museum</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section rq-section">
+  <div class="container">
+    <div class="rq-inner">
+      <div class="rq-label">
+        <span class="section-overline">Central Research Question</span>
+      </div>
+      <blockquote class="rq-quote">
+        How is political legitimacy reconstructed in the discourse of
+        Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa between 2011 and 2025,
+        and what role do concepts such as
+        <span lang="ar" dir="rtl">الدولة</span> (state),
+        <span lang="ar" dir="rtl">الأمن</span> (security),
+        <span lang="ar" dir="rtl">المواطنة</span> (citizenship),
+        <span lang="ar" dir="rtl">الدولة المدنية</span> (civil state), and
+        <span lang="ar" dir="rtl">الاعتراف الدولي</span> (international recognition) play?
+      </blockquote>
+      <a href="/en/research-question" class="rq-link">
+        Sub-questions and theoretical framework →
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt phases-section">
+  <div class="container">
+    <span class="section-overline">Three Research Phases</span>
+    <h2 class="section-title">Phases of Actor Transformation</h2>
+
+    <div class="grid-3 phases-grid">
+      {timelineData.map((phase) => (
+        <article class="phase-card" style={`--phase-clr: var(--clr-phase-${phase.phase_number})`}>
+          <div class="phase-card__header">
+            <span class="phase-card__years" dir="ltr">{phase.year_range}</span>
+            <span class={`phase-badge phase-badge--${phase.phase_number}`}>
+              Phase {phase.phase_number}
+            </span>
+          </div>
+
+          <h3 class="phase-card__title">{phase.phase_title_de}</h3>
+
+          <p class="phase-card__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
+
+          <p class="phase-card__note">{preview(phase.analytical_note_de)}</p>
+
+          <div class="phase-card__actors">
+            <span class="label">Actor naming</span>
+            <div class="phase-card__actor-list">
+              {phase.actor_naming_de.slice(0, 2).map((name) => (
+                <span class="phase-card__actor-tag">{name}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="phase-card__footer">
+            <a href="/en/timeline" class="btn btn--ghost btn--sm">View phase →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-xl">
+      <a href="/en/timeline" class="btn btn--outline">View full timeline</a>
+    </p>
+  </div>
+</section>
+
+<section class="section method-section">
+  <div class="container">
+    <div class="method-inner">
+      <div class="method-statement">
+        <span class="section-overline">Analytical stance</span>
+        <p class="method-statement__text">
+          The project analyses legitimacy discourses and legitimation strategies.
+          It does not legitimise or delegitimise political actors.
+          All source references are transparently marked.
+          Missing or unverified items are clearly indicated as placeholders.
+        </p>
+      </div>
+      <div class="method-tags">
+        <p class="label label--section">Theoretical &amp; methodological framework</p>
+        <div class="method-tag-list">
+          <span class="method-tag">Max Weber — Legitimate Domination</span>
+          <span class="method-tag">Theo van Leeuwen — Legitimation in Discourse</span>
+          <span class="method-tag">Political Discourse Analysis</span>
+          <span class="method-tag">History of Concepts / Begriffsgeschichte</span>
+          <span class="method-tag">JSON / CSV — curated corpus</span>
+          <span class="method-tag">Astro · GitHub Pages · Zenodo</span>
+        </div>
+        <p class="mt-lg">
+          <a href="/en/methodology" class="btn btn--ghost btn--sm">Full methodology →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.hero { background-color: var(--clr-bg-alt); padding-block: var(--space-4xl) var(--space-3xl); border-bottom: 1px solid var(--clr-border); }
+.hero__inner { max-width: 780px; }
+.hero__title { font-family: var(--font-serif); font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 400; color: var(--clr-text); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--space-sm); }
+.hero__title-ar { font-family: var(--font-arabic); font-size: clamp(1.4rem, 3vw, 2rem); direction: rtl; text-align: right; color: var(--clr-text-muted); font-weight: 400; line-height: 1.5; margin-bottom: var(--space-lg); display: block; }
+.hero__divider { width: 3rem; height: 2px; background-color: var(--clr-olive); margin-bottom: var(--space-lg); border-radius: 1px; }
+.hero__subtitle { font-family: var(--font-sans); font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 400; color: var(--clr-text); line-height: 1.5; margin-bottom: var(--space-xl); }
+.hero__intro { font-size: 0.975rem; line-height: 1.72; color: var(--clr-text-mid); max-width: 65ch; margin-bottom: var(--space-xl); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.rq-section { background-color: var(--clr-card); border-bottom: 1px solid var(--clr-border); }
+.rq-inner { max-width: 800px; }
+.rq-quote { font-family: var(--font-serif); font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 400; font-style: italic; color: var(--clr-text); line-height: 1.6; border-left: 4px solid var(--clr-red); padding: var(--space-md) var(--space-lg); margin-block: var(--space-lg) var(--space-md); background-color: rgba(139,35,35,0.03); max-width: none; }
+.rq-link { font-family: var(--font-sans); font-size: 0.875rem; color: var(--clr-olive); font-weight: 600; text-decoration: none; transition: color var(--transition-fast); }
+.rq-link:hover { color: var(--clr-red); }
+.phases-section { border-bottom: 1px solid var(--clr-border); }
+.phases-grid { align-items: stretch; }
+.phase-card { background-color: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); border-top: 4px solid var(--phase-clr, var(--clr-olive)); padding: var(--space-xl); box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: var(--space-md); transition: box-shadow var(--transition-mid); }
+.phase-card:hover { box-shadow: var(--shadow-card-hover); }
+.phase-card__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); }
+.phase-card__years { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; color: var(--phase-clr, var(--clr-olive)); }
+.phase-card__title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--clr-text); line-height: 1.3; }
+.phase-card__title-ar { font-family: var(--font-arabic); font-size: 1rem; direction: rtl; text-align: right; color: var(--clr-text-muted); font-weight: 400; line-height: 1.5; margin: 0; }
+.phase-card__note { font-size: 0.875rem; color: var(--clr-text-mid); line-height: 1.65; flex: 1; max-width: none; margin: 0; }
+.phase-card__actors { border-top: 1px solid var(--clr-border-light); padding-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-xs); }
+.phase-card__actor-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xs); }
+.phase-card__actor-tag { font-family: var(--font-sans); font-size: 0.72rem; background-color: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 2px var(--space-sm); color: var(--clr-text-muted); white-space: nowrap; }
+.phase-card__footer { margin-top: auto; padding-top: var(--space-sm); }
+.method-section { border-top: 1px solid var(--clr-border); }
+.method-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3xl); align-items: start; }
+.method-statement__text { font-size: 0.975rem; line-height: 1.72; color: var(--clr-text-mid); border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); max-width: none; margin-top: var(--space-md); }
+.method-tag-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-sm); }
+.method-tag { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-mid); background-color: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: 3px var(--space-sm); line-height: 1.5; }
+@media (max-width: 860px) { .method-inner { grid-template-columns: 1fr; } }
+</style>

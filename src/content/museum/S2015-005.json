@@ -1,0 +1,85 @@
+{
+  "id": "S2015-005",
+  "title": "Al Jazeera 'Bila Hudud' interview with Ahmad Mansour — Part 1",
+  "date": "2015-05-27",
+  "dateDisplay": "27 May 2015",
+  "dateStatus": "Broadcast/publication date verified (27 May 2015); filming/recording date unknown — not disclosed by broadcaster",
+  "speakerNameUsed": "Abu Muhammad al-Jolani",
+  "normalizedSpeakerName": "Ahmad al-Sharaa",
+  "speakerNameMethodologicalNote": "Name used in the programme: Abu Muhammad al-Jolani (أبو محمد الجولاني). The name Ahmad al-Sharaa was not used in this 2015 programme (confirmed in verification notes). The name Ahmad al-Sharaa is used here as a cross-period project identifier for organisational purposes and does not imply self-identification under that name at the date of this record.",
+  "materialType": "TV interview",
+  "speechType": "TV interview",
+  "channel": "Al Jazeera (Arabic) — قناة الجزيرة",
+  "interviewer": "Ahmad Mansour (أحمد منصور)",
+  "politicalPhase": "Phase 1 (2013–2016)",
+  "city": "Unknown",
+  "exactLocation": "Unknown",
+  "geospatialStatus": "Non-geolocated",
+  "locationCertainty": "Unknown — filming location not disclosed by Al Jazeera; not inferred from visual setting, reporting context, or references to Idlib",
+  "verificationStatus": "Partially verified",
+  "corpusStatus": "Candidate",
+  "primarySourceStatus": "Primary recording accessible — Arabic video (YouTube, Part 1)",
+  "transcriptStatus": "Unofficial English translation available (access-restricted); no complete Arabic transcript located",
+  "evidenceSummary": "A television interview broadcast on Al Jazeera Arabic in the programme 'Bila Hudud' (بلا حدود, 'Without Bounds'), conducted by journalist Ahmad Mansour (أحمد منصور). Part 1 was broadcast on 27 May 2015; Part 2 was broadcast on 3 June 2015 and is logged separately as S2015-006. The speaker is identified in the programme as Abu Muhammad al-Jolani, leader of Jabhat al-Nusra. The interview is in Arabic. The filming location is not disclosed by Al Jazeera and has not been inferred from the visual setting or contextual reporting. Core bibliographic facts — programme title, broadcaster, interviewer, broadcast date, speaker name used, and language — have been verified against the primary video and corroborating sources. An Arabic video recording (Part 1) is accessible on YouTube. An unofficial English-language translation (text PDF) is held in an Internet Archive item but is access-restricted (requires login) and its completeness has not been independently verified. No complete Arabic transcript has been located.",
+  "sourceLinks": [
+    {
+      "label": "Arabic video recording — Part 1 (YouTube)",
+      "url": "https://www.youtube.com/watch?v=7bzoUVx_B2k",
+      "type": "Primary recording (Arabic video)",
+      "language": "Arabic",
+      "accessStatus": "Accessible",
+      "note": "Al Jazeera Arabic broadcast, 27 May 2015 — Part 1. Treated as primary research material. Source log entry: 'Primary recording (Arabic)'."
+    },
+    {
+      "label": "Internet Archive — English translation PDF",
+      "url": "https://archive.org/details/aljoulani-interview-aljazeera-27may2015",
+      "type": "Derivative — unofficial English translation (text PDF; access-restricted)",
+      "language": "English",
+      "accessStatus": "Access-restricted (login required)",
+      "note": "Community translation by @Polder_Mujahid0. Text PDF, not an audio/video recording. Unofficial; completeness unverified. Not an authoritative translation and should not substitute for the Arabic original."
+    },
+    {
+      "label": "Al Jazeera Arabic — broadcaster coverage, 28 May 2015",
+      "url": "https://www.aljazeera.net/news/2015/5/28/",
+      "type": "Broadcaster reporting — corroborating",
+      "language": "Arabic",
+      "accessStatus": "Accessible",
+      "note": "Confirms broadcaster, programme context, and 27 May 2015 broadcast date."
+    },
+    {
+      "label": "Al Jazeera English — 'Nusra leader: Our mission is to defeat Syrian regime' (28 May 2015)",
+      "url": "https://www.aljazeera.com/news/2015/5/28/nusra-leader-our-mission-is-to-defeat-syrian-regime",
+      "type": "Broadcaster reporting — corroborating",
+      "language": "English",
+      "accessStatus": "Accessible",
+      "note": null
+    },
+    {
+      "label": "Al Jazeera English — 'Nusra Front leader: We will not target Syria's Alawites' (27 May 2015)",
+      "url": "https://www.aljazeera.com/news/2015/5/27/nusra-front-leader-we-will-not-target-syrias-alawites",
+      "type": "Broadcaster reporting — corroborating",
+      "language": "English",
+      "accessStatus": "Accessible",
+      "note": null
+    },
+    {
+      "label": "ahmedmansour.com — 'Bila Hudud' programme archive",
+      "url": "https://ahmedmansour.com/2024/11/30/",
+      "type": "Corroborating source — interviewer's programme archive",
+      "language": "Arabic",
+      "accessStatus": "Accessible",
+      "note": "Confirms Ahmad Mansour as interviewer and the Bila Hudud programme title."
+    },
+    {
+      "label": "Arabi21 — reception coverage of the episode",
+      "url": "https://arabi21.com/story/835658/",
+      "type": "Corroborating source — reception coverage",
+      "language": "Arabic",
+      "accessStatus": "Accessible",
+      "note": null
+    }
+  ],
+  "publicResearchNote": "S2015-005 is the only record in the current Phase 1 candidate set that has been reviewed in the verification pass (2026-06-17). Core bibliographic facts have been verified: programme title ('Bila Hudud'), broadcaster (Al Jazeera Arabic), interviewer (Ahmad Mansour), broadcast date (27 May 2015), speaker name used in the programme (Abu Muhammad al-Jolani), and language (Arabic). The primary Arabic video recording (Part 1) is accessible on YouTube. Open items requiring further work: the filming location (not disclosed by broadcaster); a complete verified Arabic transcript (not located); independent verification of the completeness of the available English translation (the Internet Archive PDF is unofficial, access-restricted, and unverified for completeness). Part 2 (broadcast 3 June 2015) is a separate candidate record, S2015-006.",
+  "featured": true,
+  "published": true
+}

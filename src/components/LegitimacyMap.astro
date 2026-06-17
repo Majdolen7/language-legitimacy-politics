@@ -1,0 +1,330 @@
+---
+import 'leaflet/dist/leaflet.css';
+import '../styles/map.css';
+import allCorpusRaw from '../data/speeches.json';
+import { t, type Locale } from '../i18n/translations';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'de' } = Astro.props;
+
+interface CorpusItem {
+  id: string;
+  title: string;
+  speaker: string;
+  speaker_name_used: string;
+  date: string;
+  city: string;
+  exact_location: string;
+  latitude: number | null;
+  longitude: number | null;
+  political_actor: string;
+  speech_type: string;
+  audience: string;
+  language_variety: string;
+  legitimacy_type: string | null;
+  keywords: string[];
+  summary: string;
+  source: string;
+  video: string;
+  transcript: string;
+  location_certainty: string;
+  geospatial_status: string;
+  material_type: string;
+  phase: string;
+  primary_source_status: string;
+  transcript_status: string;
+  corpus_status: string;
+}
+
+const allCorpus = allCorpusRaw as CorpusItem[];
+
+// --- Partition -----------------------------------------------------------
+const primaryItems = allCorpus.filter(s => s.material_type === 'Primary corpus item');
+
+const geolocatedPrimary = primaryItems.filter(
+  s => s.geospatial_status === 'Geolocated' && s.latitude !== null && s.longitude !== null
+);
+
+const nonGeolocatedPrimary = primaryItems.filter(
+  s => s.geospatial_status !== 'Geolocated' || s.latitude === null || s.longitude === null
+);
+
+// --- Counts --------------------------------------------------------------
+const totalCount       = primaryItems.length;
+const geolocatedCount  = geolocatedPrimary.length;
+const nonGeoCount      = nonGeolocatedPrimary.length;
+const needsReviewCount = primaryItems.filter(
+  s => s.corpus_status.includes('Placeholder') || s.primary_source_status.toLowerCase().includes('pending')
+).length;
+
+// --- Phase filter options (only phases that have geolocated items) --------
+const geoPhases = [...new Set(geolocatedPrimary.map(s => s.phase))].sort();
+
+// --- Phase colour map (mirrors map.js constants) -------------------------
+const PHASE_COLORS: Record<string, string> = {
+  'Phase 1: Jabhat al-Nusra (2013–2016)':      '#8B5E35',
+  'Phase 2: Jabhat Fath al-Sham (2016–2017)':  '#9A7B4A',
+  'Phase 3: Hayat Tahrir al-Sham (2017–2024)': '#4A5C38',
+  'Phase 4: Post-Regime Transition (2024–)':    '#2A3848',
+};
+const CONTEXT_COLOR = '#7A6555';
+
+function phaseColor(phase: string): string {
+  return PHASE_COLORS[phase] || '#9A7B4A';
+}
+
+// --- Chronological list: all items sorted by date ------------------------
+function sortKey(dateStr: string): number {
+  if (!dateStr) return 0;
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? 0 : d.getTime();
+}
+
+const chronological = [...allCorpus].sort((a, b) => sortKey(a.date) - sortKey(b.date));
+
+// --- Date display (locale-aware month names) ----------------------------
+const MONTHS_STR = t(locale, 'map.months') || 'January,February,March,April,May,June,July,August,September,October,November,December';
+const MONTHS = MONTHS_STR.split(',');
+
+function displayDate(dateStr: string): string {
+  if (!dateStr) return t(locale, 'map.date-unknown');
+  if (/^\d{4}$/.test(dateStr)) return dateStr;
+  if (/^\d{4}-\d{2}$/.test(dateStr)) {
+    const [y, m] = dateStr.split('-');
+    return `${MONTHS[parseInt(m, 10) - 1] ?? m} ${y}`;
+  }
+  const d = new Date(dateStr + 'T12:00:00Z');
+  if (isNaN(d.getTime())) return dateStr;
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+---
+
+<!-- ================================================================
+     CORPUS STATISTICS DASHBOARD
+================================================================ -->
+<div class="map-stats" role="region" aria-label={t(locale, 'map.stat.aria')}>
+  <div class="map-stat">
+    <span class="map-stat__number">{totalCount}</span>
+    <span class="map-stat__label">{t(locale, 'map.stats.primary')}</span>
+  </div>
+  <div class="map-stat map-stat--geo">
+    <span class="map-stat__number">{geolocatedCount}</span>
+    <span class="map-stat__label">{t(locale, 'map.stats.geolocated')}</span>
+  </div>
+  <div class="map-stat">
+    <span class="map-stat__number">{nonGeoCount}</span>
+    <span class="map-stat__label">{t(locale, 'map.stats.non-geolocated')}</span>
+  </div>
+  <div class="map-stat map-stat--warn">
+    <span class="map-stat__number">{needsReviewCount}</span>
+    <span class="map-stat__label">{t(locale, 'map.stats.needs-review')}</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     SECTION A — INTERACTIVE MAP
+================================================================ -->
+<section class="map-section" id="map-interactive" aria-labelledby="section-map-title">
+  <h2 class="map-section__title" id="section-map-title">
+    <span class="map-section__letter" aria-hidden="true"></span>
+    {t(locale, 'map.section-a.title')}
+  </h2>
+  <p class="map-section__desc">
+    {t(locale, 'map.section-a.desc')}
+  </p>
+
+  <!-- Phase filter — always LTR for select controls -->
+  <div class="map-controls" dir="ltr">
+    <label class="map-controls__label" for="map-filter-phase">
+      {t(locale, 'map.filter.phase')}
+    </label>
+    <select
+      class="map-filter"
+      id="map-filter-phase"
+      name="political-phase"
+      aria-label={t(locale, 'map.filter.aria')}
+      disabled={geolocatedCount === 0}
+    >
+      <option value="all">{t(locale, 'map.filter.all-phases')}</option>
+      {geoPhases.map(p => (
+        <option value={p}>{p}</option>
+      ))}
+    </select>
+    <span class="map-count" id="map-geo-count" aria-live="polite"></span>
+  </div>
+
+  <!-- Map or empty state — always LTR (Leaflet requirement) -->
+  {geolocatedCount === 0 ? (
+    <div class="map-empty" role="status">
+      <p>{t(locale, 'map.empty')}</p>
+    </div>
+  ) : (
+    <div
+      id="legitimacy-map"
+      dir="ltr"
+      role="region"
+      aria-label="Map of confirmed political speech locations in Syria"
+    ></div>
+  )}
+
+  <!-- Phase legend -->
+  {geolocatedCount > 0 && (
+    <div class="map-legend" role="list" aria-label={t(locale, 'map.legend.aria')}>
+      <span class="map-legend__title">{t(locale, 'map.legend.title')}</span>
+      {geoPhases.map(p => (
+        <div class="map-legend__item" role="listitem">
+          <span
+            class="map-legend__dot"
+            style={`background-color:${phaseColor(p)};`}
+            aria-hidden="true"
+          ></span>
+          {p}
+        </div>
+      ))}
+      <div class="map-legend__item" role="listitem">
+        <span class="map-legend__diamond" aria-hidden="true"></span>
+        {t(locale, 'map.legend.context')}
+      </div>
+    </div>
+  )}
+</section>
+
+<!-- ================================================================
+     SECTION B — NON-GEOLOCATED DISCOURSE EVENTS
+================================================================ -->
+<section class="map-section map-section--alt" id="map-non-geolocated" aria-labelledby="section-ngeo-title">
+  <h2 class="map-section__title" id="section-ngeo-title">
+    <span class="map-section__letter" aria-hidden="true"></span>
+    {t(locale, 'map.section-b.title')}
+  </h2>
+  <p class="map-section__desc">
+    {t(locale, 'map.section-b.desc')}
+  </p>
+
+  <p class="map-disclaimer">
+    {t(locale, 'map.disclaimer')}
+  </p>
+
+  {nonGeolocatedPrimary.length === 0 ? (
+    <p class="map-section__empty">{t(locale, 'map.ngeo.empty')}</p>
+  ) : (
+    <div class="ngeo-grid">
+      {nonGeolocatedPrimary.map(item => (
+        <article class="ngeo-card" id={item.id}>
+          <header class="ngeo-card__head">
+            <code class="ngeo-card__id" dir="ltr">{item.id}</code>
+            <span class="ngeo-card__type">{item.speech_type}</span>
+          </header>
+
+          <h3 class="ngeo-card__title">{item.title}</h3>
+          <p class="ngeo-card__speaker">{item.speaker_name_used}</p>
+
+          <dl class="ngeo-card__meta">
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.date')}</dt>
+              <dd dir="ltr">{displayDate(item.date)}</dd>
+            </div>
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.phase')}</dt>
+              <dd>
+                <span
+                  class="ngeo-phase-badge"
+                  dir="ltr"
+                  style={`border-left-color:${phaseColor(item.phase)};`}
+                >{item.phase}</span>
+              </dd>
+            </div>
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.location')}</dt>
+              <dd>
+                <span class="ngeo-status ngeo-status--geo">{item.geospatial_status}</span>
+              </dd>
+            </div>
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.primary')}</dt>
+              <dd>
+                <span class="ngeo-status">{item.primary_source_status}</span>
+              </dd>
+            </div>
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.transcript')}</dt>
+              <dd>
+                <span class="ngeo-status">{item.transcript_status}</span>
+              </dd>
+            </div>
+            <div class="ngeo-card__row">
+              <dt>{t(locale, 'map.ngeo.corpus')}</dt>
+              <dd>
+                <span class="ngeo-status ngeo-status--corpus">{item.corpus_status}</span>
+              </dd>
+            </div>
+          </dl>
+
+          {item.source && item.source.startsWith('http') && (
+            <a
+              class="ngeo-card__link"
+              href={item.source}
+              dir="ltr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t(locale, 'map.ngeo.source-link')}
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  )}
+</section>
+
+<!-- ================================================================
+     SECTION C — CHRONOLOGICAL CORPUS TIMELINE
+================================================================ -->
+<section class="map-section" id="map-timeline" aria-labelledby="section-timeline-title">
+  <h2 class="map-section__title" id="section-timeline-title">
+    <span class="map-section__letter" aria-hidden="true"></span>
+    {t(locale, 'map.section-c.title')}
+  </h2>
+  <p class="map-section__desc">
+    {t(locale, 'map.section-c.desc')}
+  </p>
+
+  <div class="ctimeline" role="list">
+    {chronological.map(item => {
+      const isPrimary = item.material_type === 'Primary corpus item';
+      const color     = isPrimary ? phaseColor(item.phase) : CONTEXT_COLOR;
+      return (
+        <div
+          class={`ctimeline__item ${isPrimary ? 'ctimeline__item--primary' : 'ctimeline__item--context'}`}
+          role="listitem"
+        >
+          <div class="ctimeline__spine" aria-hidden="true">
+            <span class="ctimeline__dot" style={`background-color:${color};`}></span>
+            <span class="ctimeline__line"></span>
+          </div>
+          <div class="ctimeline__body">
+            <div class="ctimeline__top">
+              <time class="ctimeline__date" dir="ltr" datetime={item.date}>{displayDate(item.date)}</time>
+              <span class={`ctimeline__type-badge ${isPrimary ? '' : 'ctimeline__type-badge--context'}`}>
+                {item.material_type}
+              </span>
+              {item.geospatial_status === 'Geolocated' && (
+                <span class="ctimeline__geo-badge">{t(locale, 'map.stats.geolocated')}</span>
+              )}
+            </div>
+            <p class="ctimeline__title">{item.title}</p>
+            <p class="ctimeline__actor">{item.speaker_name_used}</p>
+            <p class="ctimeline__phase" dir="ltr" style={`color:${color};`}>{item.phase}</p>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  import '../scripts/map.js';
+</script>

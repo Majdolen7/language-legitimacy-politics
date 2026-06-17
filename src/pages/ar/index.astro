@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import timelineData from '../../data/timeline.json';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+
+function preview(text: string, max = 200): string {
+  if (text.length <= max) return text;
+  const cut = text.lastIndexOf(' ', max);
+  return text.substring(0, cut > 0 ? cut : max) + ' …';
+}
+---
+
+<BaseLayout
+  title="اللغة والشرعية والسياسة"
+  description="مشروع بحثي رقمي حول خطابات الشرعية في سوريا بعد عام 2011."
+  locale={locale}
+>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+
+      <p class="page-kicker">من الفصيل المسلح إلى السلطة الانتقالية</p>
+
+      <h1 class="hero__title">اللغة وتحول الشرعية السياسية</h1>
+
+      <p class="hero__title-de" lang="de" dir="ltr">
+        Sprache und die Transformation politischer Legitimität
+      </p>
+
+      <div class="hero__divider" aria-hidden="true"></div>
+
+      <p class="hero__subtitle">
+        تحليل رقمي لخطابات أحمد الشرع وظهوره العلني بين عامي 2013 و2026
+      </p>
+
+      <p class="hero__intro">
+        يدرس هذا المشروع كيف تُبنى الشرعية السياسية خطابياً ورمزياً ومؤسسياً
+        في خطاب هيئة تحرير الشام / أحمد الشرع بين عامي 2011 و2025.
+        لا يتناول المشروع سيرة شخصية لأحد الأطراف، بل يدرس كيف تُنتَج الشرعية في الخطاب.
+      </p>
+
+      <div class="hero__actions">
+        <a href="/ar/research-question" class="btn btn--primary">
+          سؤال البحث
+        </a>
+        <a href="/ar/corpus" class="btn btn--outline">استكشاف المتن</a>
+        <a href="/ar/legitimacy-museum" class="btn btn--outline">Legitimacy Museum</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section rq-section">
+  <div class="container">
+    <div class="rq-inner">
+      <div class="rq-label">
+        <span class="section-overline">سؤال البحث الرئيسي</span>
+      </div>
+      <blockquote class="rq-quote" dir="rtl">
+        كيف تُعاد بناء الشرعية السياسية في خطاب هيئة تحرير الشام / أحمد الشرع
+        بين عامي 2011 و2025؟ وما الدور الذي تؤديه مفاهيم مثل
+        الدولة والأمن والمواطنة والدولة المدنية والاعتراف الدولي؟
+      </blockquote>
+      <a href="/ar/research-question" class="rq-link">
+        الأسئلة الفرعية والإطار النظري ←
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt phases-section">
+  <div class="container">
+    <span class="section-overline">ثلاث مراحل بحثية</span>
+    <h2 class="section-title">مراحل تحول الطرف</h2>
+
+    <div class="grid-3 phases-grid">
+      {timelineData.map((phase) => (
+        <article
+          class="phase-card"
+          style={`--phase-clr: var(--clr-phase-${phase.phase_number})`}
+        >
+          <div class="phase-card__header">
+            <span class="phase-card__years" dir="ltr">{phase.year_range}</span>
+            <span class={`phase-badge phase-badge--${phase.phase_number}`}>
+              المرحلة {phase.phase_number}
+            </span>
+          </div>
+
+          <h3 class="phase-card__title">{phase.phase_title_ar}</h3>
+
+          <p class="phase-card__title-de" lang="de" dir="ltr">
+            {phase.phase_title_de}
+          </p>
+
+          <div class="phase-card__actors">
+            <span class="label">تسميات الطرف</span>
+            <div class="phase-card__actor-list">
+              {phase.actor_naming_ar.slice(0, 2).map((name) => (
+                <span class="phase-card__actor-tag" lang="ar">{name}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="phase-card__footer">
+            <a href="/ar/timeline" class="btn btn--ghost btn--sm">
+              استعراض المرحلة ←
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-xl">
+      <a href="/ar/timeline" class="btn btn--outline">
+        عرض الخط الزمني الكامل
+      </a>
+    </p>
+  </div>
+</section>
+
+<section class="section method-section">
+  <div class="container">
+    <div class="method-inner">
+      <div class="method-statement">
+        <span class="section-overline">الموقف التحليلي</span>
+        <p class="method-statement__text">
+          يحلّل المشروع خطابات الشرعية واستراتيجيات الإضفاء عليها.
+          لا يُشرعن الأطراف السياسية ولا يُسقط عنها الشرعية.
+          جميع المصادر موثّقة بشفافية. تُعلَّم النقاط المفقودة أو غير المحققة
+          بوضوح بوصفها عناصر مؤقتة.
+        </p>
+      </div>
+      <div class="method-tags">
+        <p class="label label--section">الإطار النظري والمنهجي</p>
+        <div class="method-tag-list">
+          <span class="method-tag" dir="ltr">Max Weber — Legitime Herrschaft</span>
+          <span class="method-tag" dir="ltr">Theo van Leeuwen — Legitimation in Discourse</span>
+          <span class="method-tag">تحليل الخطاب السياسي</span>
+          <span class="method-tag">تاريخ المفاهيم</span>
+          <span class="method-tag" dir="ltr">JSON / CSV</span>
+          <span class="method-tag" dir="ltr">Astro · GitHub Pages · Zenodo</span>
+        </div>
+        <p class="mt-lg">
+          <a href="/ar/methodology" class="btn btn--ghost btn--sm">
+            المنهجية الكاملة ←
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.hero { background-color: var(--clr-bg-alt); padding-block: var(--space-4xl) var(--space-3xl); border-bottom: 1px solid var(--clr-border); }
+.hero__inner { max-width: 780px; margin-left: auto; }
+.hero__title { font-family: var(--font-arabic); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; color: var(--clr-text); letter-spacing: 0; line-height: 1.25; margin-bottom: var(--space-sm); }
+.hero__title-de { font-family: var(--font-serif); font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--clr-text-muted); font-weight: 400; line-height: 1.4; margin-bottom: var(--space-lg); display: block; }
+.hero__divider { width: 3rem; height: 2px; background-color: var(--clr-olive); margin-bottom: var(--space-lg); border-radius: 1px; margin-left: auto; }
+.hero__subtitle { font-family: var(--font-arabic); font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 400; color: var(--clr-text); line-height: 1.6; margin-bottom: var(--space-xl); }
+.hero__intro { font-family: var(--font-arabic); font-size: 1rem; line-height: 1.85; color: var(--clr-text-mid); max-width: 65ch; margin-bottom: var(--space-xl); margin-left: auto; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: flex-end; }
+.rq-section { background-color: var(--clr-card); border-bottom: 1px solid var(--clr-border); }
+.rq-inner { max-width: 800px; margin-left: auto; }
+.rq-quote { font-family: var(--font-arabic); font-size: clamp(1rem, 2.2vw, 1.3rem); font-weight: 400; color: var(--clr-text); line-height: 1.75; border-right: 4px solid var(--clr-red); border-left: none; padding: var(--space-md) var(--space-lg) var(--space-md) 0; padding-right: var(--space-lg); margin-block: var(--space-lg) var(--space-md); background-color: rgba(139,35,35,0.03); max-width: none; }
+.rq-link { font-family: var(--font-arabic); font-size: 0.9rem; color: var(--clr-olive); font-weight: 600; text-decoration: none; transition: color var(--transition-fast); display: block; text-align: right; }
+.rq-link:hover { color: var(--clr-red); }
+.phases-section { border-bottom: 1px solid var(--clr-border); }
+.phases-grid { align-items: stretch; }
+.phase-card { background-color: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); border-top: 4px solid var(--phase-clr, var(--clr-olive)); padding: var(--space-xl); box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: var(--space-md); transition: box-shadow var(--transition-mid); }
+.phase-card:hover { box-shadow: var(--shadow-card-hover); }
+.phase-card__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); flex-direction: row-reverse; }
+.phase-card__years { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.07em; color: var(--phase-clr, var(--clr-olive)); }
+.phase-card__title { font-family: var(--font-arabic); font-size: 1.1rem; font-weight: 500; color: var(--clr-text); line-height: 1.4; }
+.phase-card__title-de { font-family: var(--font-serif); font-size: 0.88rem; color: var(--clr-text-muted); font-weight: 400; line-height: 1.4; margin: 0; }
+.phase-card__actors { border-top: 1px solid var(--clr-border-light); padding-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-xs); }
+.phase-card__actor-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xs); justify-content: flex-end; }
+.phase-card__actor-tag { font-family: var(--font-arabic); font-size: 0.82rem; background-color: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 2px var(--space-sm); color: var(--clr-text-muted); }
+.phase-card__footer { margin-top: auto; padding-top: var(--space-sm); text-align: left; }
+.method-section { border-top: 1px solid var(--clr-border); }
+.method-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3xl); align-items: start; }
+.method-statement__text { font-family: var(--font-arabic); font-size: 1rem; line-height: 1.85; color: var(--clr-text-mid); border-right: 3px solid var(--clr-olive); border-left: none; padding-right: var(--space-lg); padding-left: 0; max-width: none; margin-top: var(--space-md); }
+.method-tag-list { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-sm); justify-content: flex-end; }
+.method-tag { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-mid); background-color: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: 3px var(--space-sm); line-height: 1.5; }
+@media (max-width: 860px) { .method-inner { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,53 @@
+{
+  "id": "S2016-009",
+  "title": "Video: rebranding to Jabhat Fateh al-Sham; split from al-Qaeda (first face reveal)",
+  "date": "2016-07-28",
+  "dateDisplay": "28 July 2016 (publication date; needs verification)",
+  "dateStatus": "Needs review — publication date 28 July 2016 noted in candidate file; event/recording date listed as 'Needs review' in candidate file; primary video has not been verified in this research pass",
+  "speakerNameUsed": "Abu Muhammad al-Jolani (al-Shara name UNRESOLVED)",
+  "normalizedSpeakerName": "Ahmad al-Sharaa",
+  "speakerNameMethodologicalNote": "The candidate file records the speaker name as 'Abu Muhammad al-Jolani (al-Shara name UNRESOLVED)', indicating that the question of whether this individual is the same person later known as Ahmad al-Sharaa was noted as unresolved at the time of candidacy. The name Ahmad al-Sharaa is used here as a cross-period project identifier for organisational purposes and does not imply confirmed self-identification under that name at the date of this record. The speaker-name question requires explicit resolution as part of the verification process for this item.",
+  "materialType": "Video statement",
+  "speechType": "Video statement",
+  "channel": null,
+  "interviewer": null,
+  "politicalPhase": "Phase 1 (2013–2016)",
+  "city": "Unknown",
+  "exactLocation": "Unknown",
+  "geospatialStatus": "Non-geolocated",
+  "locationCertainty": "Unknown",
+  "verificationStatus": "Needs manual verification",
+  "corpusStatus": "Candidate",
+  "primarySourceStatus": "Not confirmed",
+  "transcriptStatus": "Transcript unavailable",
+  "evidenceSummary": "A video statement attributed to Abu Muhammad al-Jolani, recorded in the candidate file with a publication date of 28 July 2016 (event/recording date listed as 'Needs review'). The statement is described as announcing the dissolution of Jabhat al-Nusra and the formation of Jabhat Fateh al-Sham, including a declared separation from al-Qaeda. The candidate file notes this as the speaker's first public appearance without a face covering. The speaker name is recorded in the candidate file as 'Abu Muhammad al-Jolani (al-Shara name UNRESOLVED)'. The publication date, recording date, distribution channel, and primary video source have not been confirmed through primary source verification. This item has not been reviewed in the current verification pass (which covered S2015-005 only). The secondary sources listed below are noted in project research materials but have not been evaluated as confirmed sources for this museum record.",
+  "sourceLinks": [
+    {
+      "label": "Al Jazeera English — 'Al-Nusra leader Jolani announces split from al-Qaeda' (29 July 2016)",
+      "url": "https://www.aljazeera.com/news/2016/7/29/al-nusra-leader-jolani-announces-split-from-al-qaeda",
+      "type": "Secondary source — noted in project research materials; not yet evaluated for this record",
+      "language": "English",
+      "accessStatus": "Accessible",
+      "note": "News report on the announcement. Not the primary video. Pending evaluation as a source for this museum record."
+    },
+    {
+      "label": "CTC West Point — 'Al-Qa'ida Uncoupling: Jabhat al-Nusra's Rebranding as Jabhat Fateh al-Sham'",
+      "url": "https://ctc.westpoint.edu/al-qaida-uncoupling-jabhat-al-nusras-rebranding-as-jabhat-fateh-al-sham/",
+      "type": "Secondary source — noted in project research materials; not yet evaluated for this record",
+      "language": "English",
+      "accessStatus": "Accessible",
+      "note": "Academic analysis. Pending evaluation as a source for this museum record."
+    },
+    {
+      "label": "GlobalSecurity.org — Jabhat Fateh al-Sham entry (2016)",
+      "url": "https://www.globalsecurity.org/military/world/para/jfs.htm",
+      "type": "Secondary source — noted in project research materials; not yet evaluated for this record",
+      "language": "English",
+      "accessStatus": "Accessible",
+      "note": "Reference entry. Pending evaluation as a source for this museum record."
+    }
+  ],
+  "publicResearchNote": "This video statement is retained as a Phase 1 corpus candidate because the candidate file describes it as the attributed announcement of the dissolution of Jabhat al-Nusra and the formation of Jabhat Fateh al-Sham, including a declared separation from al-Qaeda, and as the speaker's first public appearance without a face covering. The speaker-name question is recorded as unresolved in the candidate file and requires explicit verification. The primary video source, publication date, and all content details require verification. This item has not been reviewed in the current verification pass.",
+  "featured": false,
+  "published": true
+}

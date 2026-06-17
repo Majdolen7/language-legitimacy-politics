@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+---
+
+<BaseLayout
+  title="حول المشروع"
+  description="معلومات حول مشروع Language, Legitimacy & Politics: الخلفية والأهداف والسياق."
+  locale={locale}
+>
+
+<section class="section about-hero">
+  <div class="container">
+    <span class="page-kicker">معلومات المشروع</span>
+    <h1 class="page-title">حول المشروع</h1>
+    <p class="page-subtitle">خلفية مشروع الإنسانيات الرقمية وأهدافه وسياقه</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container about-body">
+
+    <div class="about-main">
+
+      <div class="about-block">
+        <h2 class="about-block__title">خلفية المشروع</h2>
+        <p dir="rtl">
+          <em>Language, Legitimacy &amp; Politics</em> مشروع إنسانيات رقمية يدرس
+          البناء الخطابي للشرعية السياسية في خطابات أحمد الشرع (أبو محمد الجولاني)
+          العلنية خلال الفترة 2013–2026.
+        </p>
+        <p dir="rtl">
+          نشأ المشروع في سياق التحول السياسي في سوريا بعد 2011 وتصاعد الحضور العام
+          لهيئة تحرير الشام / الحكومة الانتقالية السورية. صُمِّم بوصفه نموذجاً أولياً
+          أكاديمياً للمقررات الدراسية، ويمكن توسيعه في إطار مشروع ماجستير متكامل.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">الأهداف</h2>
+        <p dir="rtl">
+          يسعى المشروع إلى هدفين: أولاً تحليل خطابي لبنى الشرعية في سياق سياسي محدد؛
+          وثانياً تجربة سير عمل إنسانيات رقمية قابل للتكرار ومُوثَّق علنياً،
+          يستند إلى مواقع ويب مولَّدة بشكل ثابت وتنسيقات بيانات مفتوحة (JSON/CSV)
+          وممارسات أرشفة شفافة (Zenodo).
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">الموقف المنهجي</h2>
+        <div class="about-statement-box">
+          <p class="about-statement__text" dir="rtl">
+            يحلّل المشروع خطابات الشرعية واستراتيجيات الإضفاء عليها.
+            لا يُشرعن الأطراف السياسية ولا يُسقط عنها الشرعية.
+            جميع المصادر موثّقة بشفافية. لا يتخذ المشروع أي موقف سياسي
+            من الأطراف أو الأحداث الموصوفة.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">التنفيذ التقني</h2>
+        <p dir="rtl">
+          الموقع تطبيق Astro 6 مُولَّد بشكل ثابت ومستضاف على GitHub Pages.
+          يستخدم المشروع معايير الويب المفتوحة ولا يعتمد على خوادم قواعد بيانات
+          أو بنية تحتية احتكارية. تعدديةُ اللغات (الألمانية والعربية والإنجليزية)
+          مُنجَزة من خلال صفحات تحريرية وجملة أدوات i18n المدمجة في Astro —
+          دون أي ترجمة آلية.
+        </p>
+      </div>
+
+    </div>
+
+    <aside class="about-sidebar">
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">نوع المشروع</p>
+        <p class="about-sidebar-card__val">إنسانيات رقمية · تحليل خطاب</p>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">اللغات</p>
+        <p class="about-sidebar-card__val">الألمانية (أساسية) · العربية · الإنجليزية</p>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">التقنية</p>
+        <ul class="about-tech-list" dir="ltr">
+          <li>Astro 6 · GitHub Pages</li>
+          <li>Leaflet · JSON / CSV</li>
+          <li>Zenodo</li>
+        </ul>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">روابط</p>
+        <a href="/ar/research-question" class="about-sidebar-link">سؤال البحث ←</a>
+        <a href="/ar/methodology" class="about-sidebar-link">المنهجية ←</a>
+        <a href="/ar/legitimacy-museum" class="about-sidebar-link">Legitimacy Museum ←</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.about-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.about-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.about-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.about-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.about-block:last-child { border-bottom: none; }
+.about-block__title { font-family: var(--font-arabic); font-size: 1.15rem; font-weight: 500; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.about-block p { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; margin-bottom: var(--space-md); }
+.about-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.about-statement__text { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.85; border-right: 3px solid var(--clr-olive); border-left: none; padding-right: var(--space-lg); padding-left: 0; margin: 0; }
+.about-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.about-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.about-sidebar-card__label { font-family: var(--font-arabic); font-size: 0.75rem; font-weight: 700; color: var(--clr-text-muted); margin-bottom: var(--space-sm); display: block; }
+.about-sidebar-card__val { font-family: var(--font-arabic); font-size: 0.85rem; color: var(--clr-text-mid); line-height: 1.5; }
+.about-tech-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.about-sidebar-link { display: block; font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); text-align: right; }
+.about-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .about-body { grid-template-columns: 1fr; } .about-sidebar { position: static; } }
+</style>

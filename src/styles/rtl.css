@@ -1,0 +1,306 @@
+/* ==========================================================================
+   RTL.CSS
+   Overrides for right-to-left Arabic pages (html[dir="rtl"])
+   All LTR pages are unaffected.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   SITE MASTHEAD
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .site-masthead__link {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .site-masthead__title,
+[dir="rtl"] .site-masthead__subtitle-de {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   NAV BAR — flip layout for RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .site-nav-bar__inner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .lang-switcher {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .site-nav__list {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-toggle {
+  order: -1;
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .site-footer__inner {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .site-footer__links {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .site-footer__bottom {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   LTR ISOLATION INSIDE RTL PAGES
+   These selectors ensure identifiers, dates, URLs, and Latin metadata
+   remain left-to-right even inside an RTL document.
+   -------------------------------------------------------------------------- */
+
+/* Corpus IDs and codes */
+[dir="rtl"] .museum-card__id,
+[dir="rtl"] .museum-record-id,
+[dir="rtl"] .museum-breadcrumb__current,
+[dir="rtl"] .ngeo-card__id,
+[dir="rtl"] .corpus-ref-tag,
+[dir="rtl"] .phase-badge {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+/* ISO dates */
+[dir="rtl"] time,
+[dir="rtl"] .museum-card__year,
+[dir="rtl"] .museum-record-date,
+[dir="rtl"] .ctimeline__date {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+/* URLs and external source links */
+[dir="rtl"] .museum-source-item__link,
+[dir="rtl"] .ngeo-card__link,
+[dir="rtl"] a[href^="http"] {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  word-break: break-all;
+}
+
+/* Museum record nav prev/next IDs */
+[dir="rtl"] .museum-record-nav__id {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Source link metadata badges (lang, access) */
+[dir="rtl"] .museum-source-item__type,
+[dir="rtl"] .museum-source-item__lang,
+[dir="rtl"] .museum-source-item__access {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Museum DL rows — term labels go on right, values on left in RTL */
+[dir="rtl"] .museum-dl__row {
+  direction: rtl;
+}
+
+[dir="rtl"] .museum-dl__row dt {
+  text-align: right;
+}
+
+[dir="rtl"] .museum-dl__row dd {
+  text-align: right;
+}
+
+/* Sidebar metas */
+[dir="rtl"] .museum-sidebar-meta,
+[dir="rtl"] .museum-sidebar-status {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   BLOCKQUOTE — RTL variant (border on right)
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .rq-quote {
+  border-left: none;
+  border-right: 4px solid var(--clr-red);
+  padding-left: 0;
+  padding-right: var(--space-lg);
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   METHOD STATEMENT — border flip
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .method-statement__text {
+  border-left: none;
+  border-right: 3px solid var(--clr-olive);
+  padding-left: 0;
+  padding-right: var(--space-lg);
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   MUSEUM RECORD NAV
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .museum-record-nav__inner {
+  direction: rtl;
+}
+
+[dir="rtl"] .museum-record-nav__link--right {
+  text-align: left;
+}
+
+[dir="rtl"] .museum-record-nav__disabled--right {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------------------------------
+   MUSEUM BREADCRUMB
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .museum-breadcrumb__inner {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .museum-breadcrumb__list {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   FILTER BAR
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .museum-filter-bar {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .museum-filter-count {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------------------------------
+   CONTENT PENDING NOTICE
+   -------------------------------------------------------------------------- */
+.content-pending-notice {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--clr-text-muted);
+  background-color: var(--clr-bg-alt);
+  border: 1px dashed var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+/* Original text label for content shown in a different language */
+.content-original-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--clr-text-subtle);
+  margin-bottom: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+/* --------------------------------------------------------------------------
+   PAGE KICKER / SECTION OVERLINE in RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .page-kicker,
+[dir="rtl"] .section-overline,
+[dir="rtl"] .museum-kicker {
+  text-align: right;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   HERO AND HEADINGS in RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .hero__title,
+[dir="rtl"] .hero__subtitle,
+[dir="rtl"] .hero__intro,
+[dir="rtl"] .hero__actions,
+[dir="rtl"] .tl-hero__title,
+[dir="rtl"] .tl-hero__intro,
+[dir="rtl"] .museum-title,
+[dir="rtl"] .museum-subtitle,
+[dir="rtl"] .museum-intro,
+[dir="rtl"] .section-title,
+[dir="rtl"] .page-title,
+[dir="rtl"] .page-subtitle {
+  text-align: right;
+}
+
+[dir="rtl"] .hero__actions {
+  justify-content: flex-end;
+}
+
+/* --------------------------------------------------------------------------
+   PHASE CARDS in RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .phase-card__header {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   MAP CONTROLS in RTL — keep LTR for select + Leaflet
+   -------------------------------------------------------------------------- */
+[dir="rtl"] #legitimacy-map {
+  direction: ltr;
+}
+
+[dir="rtl"] .map-controls {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .map-controls__label {
+  text-align: right;
+}
+
+[dir="rtl"] .map-stats {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .ngeo-card__head {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .ngeo-card__meta {
+  direction: rtl;
+}
+
+[dir="rtl"] .ngeo-card__row {
+  flex-direction: row-reverse;
+}
+
+/* --------------------------------------------------------------------------
+   ANALYTICAL NOTE BOXES in RTL
+   -------------------------------------------------------------------------- */
+[dir="rtl"] .analytical-note,
+[dir="rtl"] .phase-shift-note,
+[dir="rtl"] .method-note-box {
+  border-left: none;
+  border-right: 4px solid var(--clr-olive);
+  padding-left: 0;
+  padding-right: var(--space-xl);
+  text-align: right;
+}
+
+[dir="rtl"] .museum-evidence-text {
+  border-left: none;
+  border-right: 4px solid var(--clr-olive-pale);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  text-align: right;
+}

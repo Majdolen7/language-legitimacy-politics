@@ -1,9 +1,9 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import LegitimacyMap from '../components/LegitimacyMap.astro';
-import { t } from '../i18n/translations';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegitimacyMap from '../../components/LegitimacyMap.astro';
+import { t } from '../../i18n/translations';
 
-const locale = 'de';
+const locale = 'en';
 ---
 
 <BaseLayout
@@ -17,11 +17,8 @@ const locale = 'de';
       <h1 class="map-page__title" id="map-page-title">
         {t(locale, 'map.title')}
       </h1>
-      <p class="map-page__intro">
-        {t(locale, 'map.intro')}
-      </p>
+      <p class="map-page__intro">{t(locale, 'map.intro')}</p>
     </div>
-
     <div class="container">
       <LegitimacyMap locale={locale} />
     </div>

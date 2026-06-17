@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'en';
+---
+
+<BaseLayout
+  title="About"
+  description="About Language, Legitimacy & Politics: project background, objectives, context, and technical implementation."
+  locale={locale}
+>
+
+<section class="section about-hero">
+  <div class="container">
+    <span class="page-kicker">Project information</span>
+    <h1 class="page-title">About</h1>
+    <p class="page-subtitle">Background, objectives, and context of the Digital Humanities project</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container about-body">
+
+    <div class="about-main">
+
+      <div class="about-block">
+        <h2 class="about-block__title">Project Background</h2>
+        <p>
+          <em>Language, Legitimacy &amp; Politics</em> is a Digital Humanities research project
+          examining the discursive construction of political legitimacy in Ahmad al-Sharaa's
+          (Abu Mohammad al-Jolani's) public appearances between 2013 and 2026.
+        </p>
+        <p>
+          The project emerged in the context of Syria's political transformation after 2011 and
+          the growing public visibility of Hayʾat Taḥrīr al-Shām / the Syrian transitional government.
+          It is conceived as an academic course prototype and can be expanded into a full master's project.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">Objectives</h2>
+        <p>
+          The project pursues two goals: first, a discourse-analytical investigation of legitimacy
+          constructions in a specific political context; second, the testing of a reproducible,
+          openly documented Digital Humanities workflow based on statically generated websites,
+          open data formats (JSON/CSV), and transparent archiving practices (Zenodo).
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">Analytical Stance</h2>
+        <div class="about-statement-box">
+          <p class="about-statement__text">
+            The project analyses legitimacy discourses and legitimation strategies.
+            It does not legitimise or delegitimise political actors.
+            All source references are transparently marked. The project takes no political
+            position on the actors or events described.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-block">
+        <h2 class="about-block__title">Technical Implementation</h2>
+        <p>
+          The website is a statically generated Astro 6 application hosted on GitHub Pages.
+          The project uses open web standards and does not depend on database servers, server-side
+          rendering, or proprietary infrastructure. Multilingualism (German, Arabic, English) is
+          implemented through editorial pages and Astro's built-in i18n support — without machine translation.
+        </p>
+        <p>
+          The source code is public. Research data are stored in open formats (JSON, CSV)
+          and prepared for Zenodo archiving.
+        </p>
+      </div>
+
+    </div>
+
+    <aside class="about-sidebar">
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">Project type</p>
+        <p class="about-sidebar-card__val">Digital Humanities · Discourse Analysis</p>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">Languages</p>
+        <p class="about-sidebar-card__val">German (primary) · Arabic · English</p>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">Technology</p>
+        <ul class="about-tech-list">
+          <li>Astro 6 · GitHub Pages</li>
+          <li>Leaflet · JSON / CSV</li>
+          <li>Zenodo (archiving)</li>
+        </ul>
+      </div>
+      <div class="about-sidebar-card">
+        <p class="about-sidebar-card__label">Further reading</p>
+        <a href="/en/research-question" class="about-sidebar-link">Research Question →</a>
+        <a href="/en/methodology" class="about-sidebar-link">Methodology →</a>
+        <a href="/en/legitimacy-museum" class="about-sidebar-link">Legitimacy Museum →</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.about-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.about-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.about-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.about-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.about-block:last-child { border-bottom: none; }
+.about-block__title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.about-block p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; margin-bottom: var(--space-md); }
+.about-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.about-statement__text { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); margin: 0; }
+.about-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.about-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.about-sidebar-card__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-sm); }
+.about-sidebar-card__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.5; }
+.about-tech-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.about-sidebar-link { display: block; font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); }
+.about-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .about-body { grid-template-columns: 1fr; } .about-sidebar { position: static; } }
+</style>

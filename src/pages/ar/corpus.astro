@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import corpusData from '../../data/corpus.json';
+import { t } from '../../i18n/translations';
+
+const locale = 'ar';
+
+interface CorpusEntry {
+  id: string;
+  year: number;
+  phase: number;
+  actor: string;
+  actor_name_used: string;
+  text_type: string;
+  source_category: string;
+  source_title: string;
+  source_url?: string | null;
+  platform?: string | null;
+  duration?: string | null;
+  transcript_status: string;
+  language: string;
+  main_concept: string;
+  related_concepts: string[];
+  keywords_ar: string[];
+  keywords_de: string[];
+  legitimation_strategy: string;
+  legitimacy_type: string;
+  audience: string;
+  quote_ar?: string | null;
+  quote_de_translation?: string | null;
+  analytical_note_de: string;
+  reliability_note: string;
+  source_type_primary_or_contextual: string;
+}
+
+const entries = corpusData as CorpusEntry[];
+---
+
+<BaseLayout
+  title={t(locale, 'nav.corpus')}
+  description="متن البحث: مصادر مختارة ومرمَّزة من خطابات أحمد الشرع وظهوره العلني، 2013–2026."
+  locale={locale}
+>
+
+<section class="section corpus-hero">
+  <div class="container">
+    <span class="page-kicker">مصادر بحثية</span>
+    <h1 class="page-title">{t(locale, 'nav.corpus')}</h1>
+    <p class="page-subtitle">
+      مصادر مختارة ومرمَّزة لتحليل الخطاب، 2013–2026
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <div class="corpus-stats">
+      <div class="corpus-stat">
+        <span class="corpus-stat__num">{entries.length}</span>
+        <span class="corpus-stat__label">إجمالي السجلات</span>
+      </div>
+      <div class="corpus-stat">
+        <span class="corpus-stat__num">{entries.filter(e => e.source_type_primary_or_contextual === 'primary').length}</span>
+        <span class="corpus-stat__label">مصادر أساسية</span>
+      </div>
+      <div class="corpus-stat">
+        <span class="corpus-stat__num">{entries.filter(e => e.source_type_primary_or_contextual === 'contextual').length}</span>
+        <span class="corpus-stat__label">مصادر سياقية</span>
+      </div>
+    </div>
+
+    <div class="corpus-list">
+      {entries.map(entry => (
+        <article class="corpus-card">
+          <div class="corpus-card__head">
+            <code class="corpus-card__id" dir="ltr">{entry.id}</code>
+            <span class="corpus-card__year" dir="ltr">{entry.year}</span>
+            <span class="corpus-card__phase">المرحلة {entry.phase}</span>
+            <span class={`corpus-card__type corpus-card__type--${entry.source_type_primary_or_contextual}`}>
+              {entry.source_type_primary_or_contextual === 'primary' ? 'أساسي' : 'سياقي'}
+            </span>
+          </div>
+
+          <h3 class="corpus-card__title">{entry.source_title}</h3>
+          <p class="corpus-card__actor">{entry.actor_name_used}</p>
+
+          {entry.quote_ar && (
+            <blockquote class="corpus-card__quote" lang="ar" dir="rtl">
+              {entry.quote_ar}
+            </blockquote>
+          )}
+
+          <div class="corpus-card__meta">
+            <span class="corpus-card__tag">{entry.legitimacy_type.replace(/_/g, ' ')}</span>
+            {entry.keywords_ar.map(kw => (
+              <span class="corpus-card__kw" lang="ar">{kw}</span>
+            ))}
+          </div>
+
+          {entry.source_url && (
+            <a href={entry.source_url} class="corpus-card__link" dir="ltr" target="_blank" rel="noopener noreferrer">
+              {entry.source_title} ←
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.corpus-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.corpus-stats { display: flex; gap: var(--space-xl); margin-bottom: var(--space-2xl); flex-direction: row-reverse; }
+.corpus-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-lg) var(--space-xl); }
+.corpus-stat__num { font-family: var(--font-sans); font-size: 2rem; font-weight: 700; color: var(--clr-olive); line-height: 1; }
+.corpus-stat__label { font-family: var(--font-arabic); font-size: 0.8rem; color: var(--clr-text-muted); }
+.corpus-list { display: flex; flex-direction: column; gap: var(--space-lg); }
+.corpus-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); padding: var(--space-xl); }
+.corpus-card__head { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); flex-wrap: wrap; flex-direction: row-reverse; }
+.corpus-card__id { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; color: var(--clr-olive); background: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 2px 8px; }
+.corpus-card__year { font-family: var(--font-sans); font-size: 0.75rem; color: var(--clr-text-muted); }
+.corpus-card__phase { font-family: var(--font-arabic); font-size: 0.75rem; color: var(--clr-text-muted); }
+.corpus-card__type { font-family: var(--font-arabic); font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid transparent; }
+.corpus-card__type--primary { background: rgba(60,74,46,0.1); color: #3c4a2e; border-color: rgba(60,74,46,0.25); }
+.corpus-card__type--contextual { background: rgba(122,101,85,0.1); color: var(--clr-text-muted); border-color: rgba(122,101,85,0.2); }
+.corpus-card__title { font-family: var(--font-arabic); font-size: 1rem; font-weight: 500; color: var(--clr-text); margin-bottom: var(--space-xs); }
+.corpus-card__actor { font-family: var(--font-arabic); font-size: 0.85rem; color: var(--clr-text-muted); margin-bottom: var(--space-md); }
+.corpus-card__quote { font-family: var(--font-arabic); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.8; border-right: 3px solid var(--clr-olive-pale); border-left: none; padding-right: var(--space-lg); padding-left: 0; margin-block: var(--space-md); background: rgba(154,123,74,0.04); padding-block: var(--space-md); }
+.corpus-card__meta { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-md); flex-direction: row-reverse; }
+.corpus-card__tag { font-family: var(--font-sans); font-size: 0.7rem; background: var(--clr-bg-alt); border: 1px solid var(--clr-border); border-radius: var(--radius-sm); padding: 2px 8px; color: var(--clr-text-muted); }
+.corpus-card__kw { font-family: var(--font-arabic); font-size: 0.78rem; color: var(--clr-olive); background: rgba(154,123,74,0.08); border: 1px solid rgba(154,123,74,0.2); border-radius: var(--radius-sm); padding: 2px 8px; }
+.corpus-card__link { display: inline-block; margin-top: var(--space-md); font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-olive); text-decoration: underline; text-underline-offset: 2px; word-break: break-all; }
+.corpus-card__link:hover { color: var(--clr-red); }
+</style>

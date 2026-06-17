@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { t } from '../../i18n/translations';
+
+const locale = 'en';
+---
+
+<BaseLayout
+  title="Methodology"
+  description="Methodological framework: corpus selection, coding, legitimation analysis following van Leeuwen, ethical reflection, and project limits."
+  locale={locale}
+>
+
+<section class="section method-hero">
+  <div class="container">
+    <span class="page-kicker">Research design</span>
+    <h1 class="page-title">Methodology</h1>
+    <p class="page-subtitle">Corpus selection, coding, theoretical framework, and ethical reflection</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container method-body">
+
+    <div class="method-main">
+
+      <div class="method-block">
+        <h2 class="method-block__title">Analytical Stance</h2>
+        <div class="method-statement-box">
+          <p class="method-statement__text">
+            The project analyses legitimacy discourses and legitimation strategies.
+            It does not evaluate or legitimise political actors in advance.
+            All source references are transparently marked. Missing or unverified items
+            are clearly indicated as placeholders.
+          </p>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Corpus Selection Criteria</h2>
+        <p>The primary corpus covers speeches, interviews, press statements, videos, and audio documents by Ahmad al-Sharaa from 2013–2026. Selection follows three criteria:</p>
+        <ol class="method-list">
+          <li><strong>Cross-phase representativity:</strong> All four analytical phases are represented by at least one verifiable primary source document.</li>
+          <li><strong>Discursive significance:</strong> The document contains identifiable legitimation strategies or key project terms.</li>
+          <li><strong>Source verifiability:</strong> The primary source is accessible or available in secure archives (YouTube, Wayback Machine, media databases).</li>
+        </ol>
+        <p>Context sources (EUAA reports, academic publications, Reuters, ICG, Carnegie) are coded as secondary sources and not treated as primary corpus entries.</p>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Coding Schema</h2>
+        <div class="method-schema-grid">
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Legitimacy type</span>
+            <span class="method-schema-item__val">Classification following Weber (traditional, charismatic, rational-legal) and extended types (religious-militant, revolutionary, administrative, international)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Legitimation strategy</span>
+            <span class="method-schema-item__val">Authorisation, moral evaluation, rationalisation, narrative (following van Leeuwen 2008)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Key terms</span>
+            <span class="method-schema-item__val">Arabic terms with transliteration, phase assignment, and semantic shift notes</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Source reference</span>
+            <span class="method-schema-item__val">URL, access date, source type, transcript status, verification status</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Project Limits</h2>
+        <ul class="method-list">
+          <li>The corpus covers selected, not all discourse acts by Ahmad al-Sharaa. The selection is transparently documented.</li>
+          <li>Automatic translations are not used. All English translations of Arabic texts are marked as provisional working translations.</li>
+          <li>Transcripts are not provided for all entries — the transcript status is indicated for each entry.</li>
+          <li>The project is not a full-text archive, but an analytical coding and reference system.</li>
+        </ul>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Ethical Reflection</h2>
+        <p>The project analyses a political actor in an active conflict and transitional context. No policy recommendations are made. The analytical focus is on the discursive construction of legitimacy, not its factual validity or rejection. All source classifications are marked as methodological decisions, not factual determinations.</p>
+        <p>Speaker names follow a project-specific normalisation (Ahmad al-Sharaa), transparently documented. Alternative names (Abu Mohammad al-Jolani) are recorded in the corpus as historical self-designations.</p>
+      </div>
+
+    </div>
+
+    <aside class="method-sidebar">
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Core references</p>
+        <ul class="method-ref-list">
+          <li>Van Leeuwen, T. (2008). <em>Discourse and Practice</em>. Oxford UP.</li>
+          <li>Weber, M. Economy and Society (ch. III)</li>
+          <li>Koselleck, R. Conceptual History</li>
+        </ul>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Corpus scope</p>
+        <p class="method-sidebar-card__val">10–15 entries (course prototype)<br/>30–50 entries (master project)</p>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Technical stack</p>
+        <ul class="method-tech-list">
+          <li>Astro 6 · GitHub Pages</li>
+          <li>JSON / CSV data format</li>
+          <li>Zenodo (archiving)</li>
+          <li>Leaflet (map)</li>
+        </ul>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Further reading</p>
+        <a href="/en/research-question" class="method-sidebar-link">Research Question →</a>
+        <a href="/en/corpus" class="method-sidebar-link">Corpus →</a>
+        <a href="/en/about" class="method-sidebar-link">About →</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.method-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.method-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.method-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.method-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.method-block:last-child { border-bottom: none; }
+.method-block__title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.method-block p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; margin-bottom: var(--space-md); }
+.method-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-statement__text { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); margin: 0; }
+.method-list { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; padding-left: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-md) 0; }
+.method-schema-grid { display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-lg); }
+.method-schema-item { display: grid; grid-template-columns: 10rem 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-sm) var(--space-md); background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); }
+.method-schema-item__key { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 600; color: var(--clr-olive); }
+.method-schema-item__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.5; }
+.method-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.method-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-sidebar-card__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-sm); }
+.method-sidebar-card__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.6; }
+.method-ref-list, .method-tech-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.method-sidebar-link { display: block; font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); }
+.method-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .method-body { grid-template-columns: 1fr; } .method-sidebar { position: static; } .method-schema-item { grid-template-columns: 1fr; gap: 4px; } }
+</style>

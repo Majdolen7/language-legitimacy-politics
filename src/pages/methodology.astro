@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const locale = 'de';
+---
+
+<BaseLayout
+  title="Methodologie"
+  description="Methodologischer Rahmen des Projekts: Corpus-Auswahl, Kodierung, Legitimationsanalyse nach van Leeuwen, ethische Reflexion und Grenzen des Projekts."
+  locale={locale}
+>
+
+<section class="section method-hero">
+  <div class="container">
+    <span class="page-kicker">Forschungsdesign</span>
+    <h1 class="page-title">Methodologie</h1>
+    <p class="page-subtitle">
+      Corpus-Auswahl, Kodierung, theoretischer Rahmen und ethische Reflexion
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container method-body">
+
+    <div class="method-main">
+
+      <div class="method-block">
+        <h2 class="method-block__title">Grundhaltung und analytische Rahmung</h2>
+        <div class="method-statement-box">
+          <p class="method-statement__text">
+            Das Projekt analysiert Legitimitätsdiskurse und Legitimationsstrategien.
+            Es bewertet oder legitimiert politische Akteure nicht im Voraus.
+            Alle Quellenangaben sind transparent gekennzeichnet. Fehlende oder
+            unverifizierte Stellen sind deutlich als Platzhalter markiert.
+          </p>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Corpus-Auswahl und Einschlusskriterien</h2>
+        <p>
+          Das Primärcorpus umfasst Reden, Interviews, Presseerklärungen, Videos und Audiodokumente
+          von Ahmad al-Sharaa aus dem Zeitraum 2013–2026. Die Auswahl folgt drei Kriterien:
+        </p>
+        <ol class="method-list">
+          <li><strong>Phasenübergreifende Repräsentativität:</strong> Alle vier analytischen Phasen sind durch mindestens ein verifizierbares Primärquellendokument vertreten.</li>
+          <li><strong>Diskursive Signifikanz:</strong> Das Dokument enthält erkennbare Legitimationsstrategien oder Schlüsselbegriffe des Projekts.</li>
+          <li><strong>Quellenverifizierbarkeit:</strong> Die Primärquelle ist abrufbar oder in gesicherten Archiven zugänglich (YouTube, Wayback Machine, Mediendatenbanken).</li>
+        </ol>
+        <p>
+          Kontextquellen (EUAA-Berichte, wissenschaftliche Publikationen, Reuters, ICG, Carnegie)
+          werden als Sekundärquellen kodiert und nicht als Primärcorpus-Einträge behandelt.
+        </p>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Kodierungsschema</h2>
+        <p>
+          Jeder Corpus-Eintrag wird nach einem einheitlichen Schema kodiert:
+        </p>
+        <div class="method-schema-grid">
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Legitimationstyp</span>
+            <span class="method-schema-item__val">Klassifikation nach Weber (traditional, charismatisch, rational-legal) und erweiterten Typen (religiös-militant, revolutionär, administrativ, international)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Legitimationsstrategie</span>
+            <span class="method-schema-item__val">Autorisierung, moralische Bewertung, Rationalisierung, Narration (nach van Leeuwen 2008)</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Schlüsselbegriffe</span>
+            <span class="method-schema-item__val">Arabische Termini mit Transliteration, Phasenzuordnung und semantischer Verschiebungsnotiz</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Quellenangabe</span>
+            <span class="method-schema-item__val">URL, Abrufdatum, Quellentyp, Transkriptstatus, Verifikationsstatus</span>
+          </div>
+          <div class="method-schema-item">
+            <span class="method-schema-item__key">Analysezitat</span>
+            <span class="method-schema-item__val">Arabisches Originalzitat mit deutscher Übersetzung, als solche gekennzeichnet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Grenzen des Projekts</h2>
+        <ul class="method-list">
+          <li>Das Corpus erfasst ausgewählte, nicht alle Diskursakte Ahmad al-Sharaas. Die Auswahl ist transparent dokumentiert.</li>
+          <li>Automatische Übersetzungen werden nicht verwendet. Alle deutschen Übersetzungen arabischer Texte sind als vorläufige Arbeitsübersetzungen des Projekts gekennzeichnet.</li>
+          <li>Transkripte werden nicht für alle Einträge angeboten — der Transkriptstatus ist für jeden Eintrag angegeben.</li>
+          <li>Das Projekt ist kein Archiv vollständiger Texte, sondern ein analytisches Kodierungs- und Verweissystem.</li>
+        </ul>
+      </div>
+
+      <div class="method-block">
+        <h2 class="method-block__title">Ethische Reflexion</h2>
+        <p>
+          Das Projekt analysiert einen politischen Akteur in einem aktiven Konflikt- und Übergangskontext.
+          Es werden keine politischen Empfehlungen formuliert. Der analytische Blick gilt der
+          diskursiven Konstruktion von Legitimität, nicht ihrer faktischen Gültigkeit oder Ablehnung.
+          Alle Quellenbezeichnungen und Klassifikationen sind als methodische Entscheidungen des
+          Projekts gekennzeichnet, nicht als Tatsachenfeststellungen.
+        </p>
+        <p>
+          Sprechernamen folgen einer projekteigenen Normierung (Ahmad al-Sharaa), die transparent
+          dokumentiert ist. Alternative Benennungen (Abu Mohammad al-Jolani, al-Joulani) werden
+          im Corpus als historische Selbstbezeichnungen erfasst.
+        </p>
+      </div>
+
+    </div>
+
+    <aside class="method-sidebar">
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Kernreferenzen</p>
+        <ul class="method-ref-list">
+          <li>Van Leeuwen, T. (2008). <em>Discourse and Practice</em>. Oxford UP.</li>
+          <li>Weber, M. Wirtschaft und Gesellschaft (Kap. III)</li>
+          <li>Koselleck, R. Begriffsgeschichte</li>
+        </ul>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Corpus-Umfang</p>
+        <p class="method-sidebar-card__val">10–15 Einträge (Kursprototyp)<br/>30–50 Einträge (Masterprojekt)</p>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Technischer Stack</p>
+        <ul class="method-tech-list">
+          <li>Astro 6 · GitHub Pages</li>
+          <li>JSON / CSV Datenformat</li>
+          <li>Zenodo (Archivierung)</li>
+          <li>Leaflet (Karte)</li>
+        </ul>
+      </div>
+      <div class="method-sidebar-card">
+        <p class="method-sidebar-card__label">Weiterführend</p>
+        <a href="/research-question" class="method-sidebar-link">Zur Forschungsfrage →</a>
+        <a href="/data-sustainability" class="method-sidebar-link">Zu Daten &amp; Nachhaltigkeit →</a>
+        <a href="/corpus" class="method-sidebar-link">Zum Corpus →</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.method-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.method-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
+.method-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
+.method-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
+.method-block:last-child { border-bottom: none; }
+.method-block__title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--clr-text); margin-bottom: var(--space-lg); }
+.method-block p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; margin-bottom: var(--space-md); }
+.method-block p:last-child { margin-bottom: 0; }
+.method-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-statement__text { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); margin: 0; }
+.method-list { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; padding-left: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-md) 0; }
+.method-schema-grid { display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-lg); }
+.method-schema-item { display: grid; grid-template-columns: 11rem 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-sm) var(--space-md); background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); }
+.method-schema-item__key { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 600; color: var(--clr-olive); }
+.method-schema-item__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.5; }
+.method-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
+.method-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-sidebar-card__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-sm); }
+.method-sidebar-card__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.6; }
+.method-ref-list, .method-tech-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }
+.method-sidebar-link { display: block; font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-olive); text-decoration: none; margin-top: var(--space-sm); }
+.method-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) { .method-body { grid-template-columns: 1fr; } .method-sidebar { position: static; } .method-schema-item { grid-template-columns: 1fr; gap: 4px; } }
+</style>

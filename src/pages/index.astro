@@ -15,7 +15,7 @@ function preview(text: string, max = 200): string {
 ---
 
 <BaseLayout
-  title="Von al-Jolani zu al-Sharaa"
+  title="Language, Legitimacy & Politics"
   description="Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011."
 >
 
@@ -30,20 +30,19 @@ function preview(text: string, max = 200): string {
           Von der bewaffneten Gruppierung zur Übergangsautorität
         </p>
 
-        <h1 class="hero__title">Von al-Jolani zu al-Sharaa</h1>
+        <h1 class="hero__title">Sprache und die Transformation politischer Legitimität</h1>
 
         <p class="hero__title-ar" lang="ar" dir="rtl">
-          من الجولاني إلى الشرع
+          اللغة وتحول الشرعية السياسية
         </p>
 
         <div class="hero__divider" aria-hidden="true"></div>
 
         <p class="hero__subtitle">
-          Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen
-          in Syrien nach 2011
+          Eine digitale Diskursanalyse der Reden und öffentlichen Auftritte Ahmad al-Sharaas, 2013–2026
         </p>
-        <p class="hero__subtitle-en">
-          A Digital Museum of Legitimacy Discourses in Post-2011 Syria
+        <p class="hero__subtitle-ar" lang="ar" dir="rtl">
+          تحليل رقمي لخطابات أحمد الشرع وظهوره العلني بين عامي 2013 و2026
         </p>
 
         <p class="hero__intro">
@@ -442,13 +441,17 @@ function preview(text: string, max = 200): string {
     max-width: none;
   }
 
-  .hero__subtitle-en {
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
+  .hero__subtitle-ar {
+    font-family: var(--font-arabic);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    direction: rtl;
+    text-align: right;
     color: var(--clr-text-muted);
-    font-style: italic;
+    font-weight: 400;
+    line-height: 1.6;
     margin-bottom: var(--space-xl);
     max-width: none;
+    display: block;
   }
 
   .hero__intro {
