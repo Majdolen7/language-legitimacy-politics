@@ -1,0 +1,925 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import timelineData from '../data/timeline.json';
+
+/* ------------------------------------------------------------------
+   Display helpers
+   ------------------------------------------------------------------ */
+const legitimacyLabels: Record<string, string> = {
+  religious_militant_legitimacy:   'Religiös-militärische Legitimität',
+  revolutionary_legitimacy:        'Revolutionäre Legitimität',
+  administrative_legitimacy:       'Administrative Legitimität',
+  security_performance_legitimacy: 'Sicherheitsperformanz-Legitimität',
+  national_legitimacy:             'Nationale Legitimität',
+  international_legitimacy:        'Internationale Legitimität',
+  procedural_legal_legitimacy:     'Prozedural-rechtliche Legitimität',
+};
+
+const strategyLabels: Record<string, string> = {
+  authorization:    'Authorization',
+  moral_evaluation: 'Moral Evaluation',
+  rationalization:  'Rationalization',
+  narrative:        'Narrative / Mythopoesis',
+};
+
+// CSS suffix for legit-tag color classes (from components.css)
+const legitTagSuffix: Record<string, string> = {
+  religious_militant_legitimacy:   'religious',
+  revolutionary_legitimacy:        'revolutionary',
+  administrative_legitimacy:       'administrative',
+  security_performance_legitimacy: 'security',
+  national_legitimacy:             'national',
+  international_legitimacy:        'international',
+  procedural_legal_legitimacy:     'procedural',
+};
+
+// Analytically derived shifts between phases — not invented, derived from data
+const phaseShifts: string[] = [
+  'Ausgangspunkt: religiös-militärische Rahmung. Legitimität durch Jihad, Scharia und transnationalen Treueschwur (Bayʿa). Publikum: jihadistische Netzwerke.',
+  'Verschiebung von jihadistischer zu administrativer Performanzlegitimität. Von „Front" (جبهة) zu „Körperschaft" (هيئة). Publikum: lokale Bevölkerung in Idlib.',
+  'Von administrativ-lokaler zu national-staatlicher und internationaler Legitimität. Von Kampfname (Abu Muhammad al-Jolani) zu bürgerlichem Namen (Ahmad al-Sharaa).',
+];
+
+function formatAudience(s: string): string {
+  return s.replace(/_/g, ' ');
+}
+---
+
+<BaseLayout
+  title="Timeline der Legitimitätsdiskurse"
+  description="Drei analytische Phasen des Akteurswandels: Jabhat al-Nusra → HTS → Übergangsautorität. Diskursive Verschiebungen, Legitimationstypen, Akteursbenennungen."
+>
+
+  <!-- ============================================================
+       PAGE HERO
+       ============================================================ -->
+  <section class="tl-hero">
+    <div class="container">
+      <div class="tl-hero__inner">
+
+        <span class="page-kicker">Analytische Timeline</span>
+
+        <h1 class="tl-hero__title">Timeline der Legitimitätsdiskurse</h1>
+
+        <p class="tl-hero__title-ar" lang="ar" dir="rtl">
+          الخط الزمني لتحولات خطاب الشرعية
+        </p>
+
+        <p class="tl-hero__intro">
+          Diese Timeline rekonstruiert keine vollständige Geschichte des syrischen
+          Konflikts. Sie zeigt ausgewählte diskursive Phasen, in denen sich
+          Benennungen, Konzepte und Legitimationsstrategien verschieben —
+          von religiös-militärischer Rahmung über administrative Performanz
+          hin zu nationaler und internationaler Staatlichkeit.
+        </p>
+
+        <div class="tl-hero__nav">
+          <a href="#phase-1" class="phase-anchor-link phase-anchor-link--1">
+            <span class="phase-anchor-link__years">2011–2016</span>
+            <span class="phase-anchor-link__label">Faktionale Phase</span>
+          </a>
+          <span class="phase-anchor-sep" aria-hidden="true">→</span>
+          <a href="#phase-2" class="phase-anchor-link phase-anchor-link--2">
+            <span class="phase-anchor-link__years">2017–2024</span>
+            <span class="phase-anchor-link__label">Governance-Phase</span>
+          </a>
+          <span class="phase-anchor-sep" aria-hidden="true">→</span>
+          <a href="#phase-3" class="phase-anchor-link phase-anchor-link--3">
+            <span class="phase-anchor-link__years">2025</span>
+            <span class="phase-anchor-link__label">Übergangsautorität</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       THREE PHASE SECTIONS — rendered from timeline.json
+       ============================================================ -->
+  {timelineData.map((phase, idx) => (
+    <section
+      id={`phase-${phase.phase_number}`}
+      class={`phase-section phase-section--${phase.phase_number}`}
+    >
+      <div class="container">
+
+        <!-- Phase identifier header -->
+        <header class="phase-header">
+          <div class="phase-header__left">
+            <span class={`phase-badge phase-badge--${phase.phase_number}`}>
+              Phase {phase.phase_number}
+            </span>
+            <span class="phase-header__years">{phase.year_range}</span>
+          </div>
+          <span class={`legit-tag legit-tag--${legitTagSuffix[phase.legitimacy_type_dominant]}`}>
+            {legitimacyLabels[phase.legitimacy_type_dominant]}
+          </span>
+        </header>
+
+        <!-- Phase titles -->
+        <div class="phase-title-block">
+          <h2 class="phase-title">{phase.phase_title_de}</h2>
+          <p class="phase-title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
+          <p class="phase-subtitle">{phase.phase_subtitle_de}</p>
+        </div>
+
+        <!-- Main content grid: metadata (left) + concepts (right) -->
+        <div class="phase-content-grid">
+
+          <!-- Left column: actors, audience, strategy, legit type -->
+          <div class="phase-meta-col">
+
+            <div class="phase-meta-block">
+              <p class="label label--section">Akteursbenennungen</p>
+              <ul class="phase-actor-list">
+                {phase.actor_naming_de.map((name, i) => (
+                  <li class="phase-actor-item">
+                    <span class="phase-actor-de">{name}</span>
+                    {phase.actor_naming_ar[i] && (
+                      <span class="phase-actor-ar" lang="ar" dir="rtl">
+                        {phase.actor_naming_ar[i]}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="phase-meta-block">
+              <p class="label label--section">Hauptpublikum</p>
+              <p class="phase-meta-text">
+                {formatAudience(phase.audience_primary)}
+              </p>
+              {phase.audience_secondary && (
+                <p class="phase-meta-text phase-meta-text--secondary">
+                  (sekundär: {formatAudience(phase.audience_secondary)})
+                </p>
+              )}
+            </div>
+
+            <div class="phase-meta-block">
+              <p class="label label--section">Legitimationsstrategie (van Leeuwen)</p>
+              <span class="strategy-tag">
+                {strategyLabels[phase.legitimation_strategy_dominant]}
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Right column: dominant concepts as bilingual pills -->
+          <div class="phase-concepts-col">
+            <p class="label label--section">Dominante Konzepte</p>
+            <div class="phase-concepts-grid">
+              {phase.dominant_concepts.map((concept) => (
+                <div class={`phase-concept-pill phase-concept-pill--${phase.phase_number}`}>
+                  <span class="phase-concept-pill__ar" lang="ar" dir="rtl">
+                    {concept.arabic}
+                  </span>
+                  <span class="phase-concept-pill__de">{concept.german}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Analytical note (full width) -->
+        <div class="analytical-note">
+          <span class="label">Analytische Notiz</span>
+          <p>{phase.analytical_note_de}</p>
+        </div>
+
+        <!-- Discursive shift note -->
+        <div class="phase-shift-note">
+          <span class="label">
+            {idx === 0
+              ? 'Diskursiver Ausgangspunkt'
+              : `Diskursive Verschiebung gegenüber Phase ${phase.phase_number - 1}`}
+          </span>
+          <p>{phaseShifts[idx]}</p>
+        </div>
+
+        <!-- Key events -->
+        {phase.key_events && phase.key_events.length > 0 && (
+          <div class="phase-events">
+            <p class="label label--section">
+              Schlüsselereignisse — Kontext, nicht Primäranalyse
+            </p>
+            <ul class="phase-event-list">
+              {phase.key_events.map((event) => (
+                <li class="phase-event-item">
+                  <span class="phase-event-year">{event.year}</span>
+                  <div class="phase-event-content">
+                    <p class="phase-event-de">{event.event_de}</p>
+                    <p class="phase-event-ar" lang="ar" dir="rtl">
+                      {event.event_ar}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Corpus entry references -->
+        {phase.corpus_entry_ids && phase.corpus_entry_ids.length > 0 && (
+          <div class="phase-corpus-refs">
+            <span class="label">Corpus-Einträge dieser Phase</span>
+            <div class="phase-corpus-refs__tags">
+              {phase.corpus_entry_ids.map((id) => (
+                <a href={`/corpus#${id}`} class="corpus-ref-tag">
+                  {id}
+                </a>
+              ))}
+            </div>
+            <a href="/corpus" class="btn btn--ghost btn--sm">
+              Alle Quellen im Corpus →
+            </a>
+          </div>
+        )}
+
+      </div>
+    </section>
+  ))}
+
+
+  <!-- ============================================================
+       VERGLEICHENDE ÜBERSICHT
+       ============================================================ -->
+  <section class="section section--alt comparison-section">
+    <div class="container">
+
+      <span class="section-overline">Analytischer Vergleich</span>
+      <h2 class="section-title">Vergleichende Übersicht der drei Phasen</h2>
+
+      <div class="corpus-table-wrap">
+        <table class="corpus-table comparison-table">
+          <thead>
+            <tr>
+              <th scope="col">Phase</th>
+              <th scope="col">Akteursbenennung</th>
+              <th scope="col">Dominante Konzepte</th>
+              <th scope="col">Legitimationstyp</th>
+              <th scope="col">Diskursive Verschiebung</th>
+            </tr>
+          </thead>
+          <tbody>
+            {timelineData.map((phase, idx) => (
+              <tr>
+                <td>
+                  <div class="comparison-phase-cell">
+                    <span class={`phase-badge phase-badge--${phase.phase_number}`}>
+                      Phase {phase.phase_number}
+                    </span>
+                    <span class="comparison-years">{phase.year_range}</span>
+                  </div>
+                </td>
+                <td>
+                  <ul class="comparison-actors">
+                    {phase.actor_naming_de.slice(0, 2).map((name) => (
+                      <li>{name}</li>
+                    ))}
+                  </ul>
+                </td>
+                <td>
+                  <div class="comparison-concepts">
+                    {phase.dominant_concepts.slice(0, 3).map((c) => (
+                      <span class="comparison-concept">
+                        <span lang="ar" dir="rtl">{c.arabic}</span>
+                        {' / '}
+                        {c.german}
+                      </span>
+                    ))}
+                  </div>
+                </td>
+                <td>
+                  <span class={`legit-tag legit-tag--${legitTagSuffix[phase.legitimacy_type_dominant]}`}>
+                    {legitimacyLabels[phase.legitimacy_type_dominant]}
+                  </span>
+                </td>
+                <td class="comparison-shift-cell">
+                  {phaseShifts[idx]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       METHODISCHE HINWEISBOX
+       ============================================================ -->
+  <section class="section method-note-section">
+    <div class="container">
+      <div class="method-note-box">
+
+        <div class="method-note-box__icon" aria-hidden="true">※</div>
+
+        <div class="method-note-box__content">
+          <h3 class="method-note-box__title">Methodischer Hinweis zur Timeline</h3>
+          <p>
+            Die Timeline dient nicht der vollständigen Ereignisgeschichte des syrischen Konflikts,
+            sondern der Strukturierung des Corpus und der Analyse von Begriffen,
+            Akteursbenennungen und Legitimationsstrategien. Die Schlüsselereignisse
+            sind ausgewählt, um den diskursiven Wandel zu kontextualisieren —
+            sie erheben keinen Anspruch auf Vollständigkeit.
+          </p>
+          <p>
+            Die Phasengrenzen sind analytische Konstrukte. Diskursive Verschiebungen
+            verlaufen graduell und sind selten synchron mit Ereignissen. Alle
+            Einordnungen sind theoretisch begründet (Weber, van Leeuwen,
+            Diskursanalyse) und können im Corpus-Material überprüft werden.
+          </p>
+          <div class="method-note-box__links">
+            <a href="/methodology" class="btn btn--outline btn--sm">
+              Zur vollständigen Methodologie
+            </a>
+            <a href="/corpus" class="btn btn--ghost btn--sm">
+              Corpus ansehen →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+
+<!-- ================================================================
+     PAGE-SPECIFIC STYLES (scoped by Astro)
+     ================================================================ -->
+<style>
+
+  /* ------------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------------ */
+  .tl-hero {
+    background-color: var(--clr-bg-alt);
+    padding-block: var(--space-3xl) var(--space-2xl);
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .tl-hero__inner {
+    max-width: 800px;
+  }
+
+  .tl-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-sm);
+    line-height: 1.15;
+  }
+
+  .tl-hero__title-ar {
+    font-family: var(--font-arabic);
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    display: block;
+    margin-bottom: var(--space-xl);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .tl-hero__intro {
+    font-size: 0.975rem;
+    line-height: 1.72;
+    color: var(--clr-text-mid);
+    max-width: 65ch;
+    margin-bottom: var(--space-2xl);
+  }
+
+  /* Phase anchor navigation (horizontal, top of page) */
+  .tl-hero__nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+  }
+
+  .phase-anchor-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    gap: 2px;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    transition: background-color var(--transition-fast);
+  }
+
+  .phase-anchor-link:hover {
+    background-color: var(--clr-bg-alt);
+  }
+
+  .phase-anchor-link--1 { border-left: 3px solid var(--clr-phase-1); }
+  .phase-anchor-link--2 { border-left: 3px solid var(--clr-phase-2); }
+  .phase-anchor-link--3 { border-left: 3px solid var(--clr-phase-3); }
+
+  .phase-anchor-link__years {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--clr-text-muted);
+  }
+
+  .phase-anchor-link__label {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--clr-text);
+  }
+
+  .phase-anchor-link--1 .phase-anchor-link__years { color: var(--clr-phase-1); }
+  .phase-anchor-link--2 .phase-anchor-link__years { color: var(--clr-phase-2); }
+  .phase-anchor-link--3 .phase-anchor-link__years { color: var(--clr-phase-3); }
+
+  .phase-anchor-sep {
+    font-size: 1rem;
+    color: var(--clr-border);
+    flex-shrink: 0;
+  }
+
+  /* ------------------------------------------------------------------
+     PHASE SECTIONS
+     ------------------------------------------------------------------ */
+  .phase-section {
+    padding-block: var(--space-3xl);
+    border-bottom: 1px solid var(--clr-border);
+    scroll-margin-top: 5rem; /* offset for sticky header */
+  }
+
+  /* Alternate backgrounds for visual separation */
+  .phase-section--1 { background-color: var(--clr-bg);     }
+  .phase-section--2 { background-color: var(--clr-bg-alt); }
+  .phase-section--3 { background-color: var(--clr-bg);     }
+
+  /* Phase header row: badge + years (left) | legit-tag (right) */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .phase-header__left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .phase-header__years {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--clr-text-muted);
+  }
+
+  /* Phase title block */
+  .phase-title-block {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .phase-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    margin-bottom: var(--space-xs);
+    line-height: 1.2;
+  }
+
+  .phase-title-ar {
+    font-family: var(--font-arabic);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    display: block;
+    margin-bottom: var(--space-sm);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .phase-subtitle {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--clr-text-mid);
+    font-style: italic;
+    line-height: 1.5;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Two-column content grid */
+  .phase-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl);
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+  }
+
+  .phase-meta-block {
+    margin-bottom: var(--space-lg);
+  }
+
+  .phase-meta-block:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Actor list */
+  .phase-actor-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .phase-actor-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-xs) 0;
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .phase-actor-item:last-child {
+    border-bottom: none;
+  }
+
+  .phase-actor-de {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--clr-text);
+  }
+
+  .phase-actor-ar {
+    font-family: var(--font-arabic);
+    font-size: 0.95rem;
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    display: block;
+    line-height: 1.5;
+  }
+
+  .phase-meta-text {
+    font-size: 0.85rem;
+    color: var(--clr-text-mid);
+    margin: var(--space-xs) 0 0;
+    max-width: none;
+    line-height: 1.5;
+  }
+
+  .phase-meta-text--secondary {
+    color: var(--clr-text-muted);
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+
+  /* Concept pills */
+  .phase-concepts-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .phase-concept-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--clr-border);
+    background-color: var(--clr-bg);
+    min-width: 8rem;
+  }
+
+  .phase-concept-pill--1 { border-left: 3px solid var(--clr-phase-1); }
+  .phase-concept-pill--2 { border-left: 3px solid var(--clr-phase-2); }
+  .phase-concept-pill--3 { border-left: 3px solid var(--clr-phase-3); }
+
+  .phase-concept-pill__ar {
+    font-family: var(--font-arabic);
+    font-size: 1rem;
+    direction: rtl;
+    color: var(--clr-text);
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .phase-concept-pill__de {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--clr-text-muted);
+    font-style: italic;
+  }
+
+  /* Discursive shift note */
+  .phase-shift-note {
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border-light);
+    border-left: 3px solid var(--clr-text-muted);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+
+  .phase-shift-note .label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--clr-text-muted);
+  }
+
+  .phase-shift-note p {
+    font-size: 0.875rem;
+    color: var(--clr-text-mid);
+    font-style: italic;
+    line-height: 1.65;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Key events */
+  .phase-events {
+    margin-bottom: var(--space-xl);
+  }
+
+  .phase-event-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: var(--space-sm);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .phase-event-item {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: var(--space-md);
+    align-items: start;
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--clr-border-light);
+    background-color: var(--clr-card);
+    transition: background-color var(--transition-fast);
+  }
+
+  .phase-event-item:last-child {
+    border-bottom: none;
+  }
+
+  .phase-event-item:hover {
+    background-color: var(--clr-card-hover);
+  }
+
+  .phase-event-year {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--clr-text-muted);
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+
+  .phase-event-de {
+    font-size: 0.875rem;
+    color: var(--clr-text-mid);
+    line-height: 1.55;
+    margin: 0 0 var(--space-xs);
+    max-width: none;
+  }
+
+  .phase-event-ar {
+    font-family: var(--font-arabic);
+    font-size: 0.9rem;
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    margin: 0;
+    max-width: none;
+    line-height: 1.6;
+  }
+
+  /* Corpus references */
+  .phase-corpus-refs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border-light);
+    border-radius: var(--radius-md);
+  }
+
+  .phase-corpus-refs .label {
+    flex-basis: 100%;
+    margin-bottom: var(--space-xs);
+  }
+
+  .phase-corpus-refs__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .corpus-ref-tag {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px var(--space-sm);
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-sm);
+    color: var(--clr-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .corpus-ref-tag:hover {
+    color: var(--clr-olive);
+    border-color: var(--clr-olive);
+  }
+
+  /* ------------------------------------------------------------------
+     COMPARISON TABLE
+     ------------------------------------------------------------------ */
+  .comparison-section {
+    border-top: 1px solid var(--clr-border);
+  }
+
+  .comparison-phase-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .comparison-years {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--clr-text-muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .comparison-actors {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.82rem;
+    color: var(--clr-text-mid);
+  }
+
+  .comparison-concepts {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .comparison-concept {
+    font-size: 0.8rem;
+    color: var(--clr-text-mid);
+    line-height: 1.4;
+  }
+
+  .comparison-concept [lang="ar"] {
+    font-family: var(--font-arabic);
+    font-size: 0.9em;
+  }
+
+  .comparison-shift-cell {
+    font-size: 0.8rem;
+    color: var(--clr-text-mid);
+    font-style: italic;
+    line-height: 1.55;
+    max-width: 28ch;
+  }
+
+  /* ------------------------------------------------------------------
+     METHODICAL NOTE BOX
+     ------------------------------------------------------------------ */
+  .method-note-section {
+    border-top: 1px solid var(--clr-border);
+  }
+
+  .method-note-box {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-left: 4px solid var(--clr-olive);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-xl);
+    max-width: 800px;
+  }
+
+  .method-note-box__icon {
+    font-size: 1.5rem;
+    color: var(--clr-olive);
+    font-family: var(--font-serif);
+    text-align: center;
+    padding-top: var(--space-xs);
+  }
+
+  .method-note-box__title {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--clr-text);
+    margin-bottom: var(--space-md);
+  }
+
+  .method-note-box__content p {
+    font-size: 0.9rem;
+    color: var(--clr-text-mid);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+    max-width: 60ch;
+  }
+
+  .method-note-box__content p:last-of-type {
+    margin-bottom: var(--space-lg);
+  }
+
+  .method-note-box__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  /* ------------------------------------------------------------------
+     RESPONSIVE
+     ------------------------------------------------------------------ */
+  @media (max-width: 860px) {
+    .phase-content-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .tl-hero__nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .phase-anchor-sep {
+      display: none;
+    }
+
+    .method-note-box {
+      grid-template-columns: 1fr;
+    }
+
+    .method-note-box__icon {
+      display: none;
+    }
+
+    .phase-event-item {
+      grid-template-columns: 3rem 1fr;
+      gap: var(--space-sm);
+    }
+
+    .comparison-shift-cell {
+      max-width: none;
+    }
+  }
+
+</style>

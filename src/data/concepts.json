@@ -1,0 +1,173 @@
+[
+  {
+    "id": "concept_01",
+    "arabic": "الشرعية",
+    "transliteration": "al-sharʿiyya",
+    "german": "Legitimität",
+    "english": "Legitimacy",
+    "sort_order": 1,
+    "analysis_question_de": "Wodurch wird Herrschaft als legitim dargestellt? Welche Quellen von Legitimität werden in welcher Phase aktiviert?",
+    "description_de": "الشرعية ist das zentrale Konzept dieses Projekts. Es bezeichnet die Eigenschaft politischer Herrschaft, als rechtmäßig, gerechtfertigt und anerkannt zu gelten. Legitimität ist keine statische Eigenschaft, sondern muss diskursiv hergestellt, aufrechterhalten und immer wieder neu verhandelt werden. Das Projekt fragt, durch welche Strategien und Begriffe Legitimität in unterschiedlichen Phasen konstruiert wird.",
+    "legitimacy_types": [
+      "religious_militant_legitimacy",
+      "revolutionary_legitimacy",
+      "administrative_legitimacy",
+      "security_performance_legitimacy",
+      "national_legitimacy",
+      "international_legitimacy",
+      "procedural_legal_legitimacy"
+    ],
+    "weber_reference": "Max Weber unterscheidet drei Typen legitimer Herrschaft: traditionell, charismatisch und legal-rational. Für das Projekt relevant: Der Wandel von charismatisch-militärischer Autorität (Phase 1) über administrative Performanz (Phase 2) hin zu institutioneller und legal-rationaler Legitimation (Phase 3).",
+    "van_leeuwen_reference": "Theo van Leeuwen beschreibt Legitimation als diskursiven Prozess, der durch Authorization, Moral Evaluation, Rationalization und Mythopoesis/Narrative vollzogen wird. الشرعية wird in diesem Projekt durch alle vier Strategien konstruiert, je nach Phase und Publikum.",
+    "phase_relevance": {
+      "phase_1": "Religiös-militärische Legitimität: Jihad, Scharia, Umma, Treue gegenüber al-Qaida-Führung als Legitimationsquellen.",
+      "phase_2": "Administrative und sicherheitsbezogene Legitimität: Ordnung, Dienstleistungen, Verwaltungsperformanz in Idlib.",
+      "phase_3": "Nationale, institutionelle und internationale Legitimität: Staat, Bürgerschaft, Übergangsautorität, internationale Anerkennung."
+    },
+    "related_concepts": ["concept_02", "concept_03", "concept_04", "concept_05", "concept_06", "concept_07"],
+    "color_accent": "#8b2323"
+  },
+  {
+    "id": "concept_02",
+    "arabic": "الدولة",
+    "transliteration": "al-dawla",
+    "german": "Staat",
+    "english": "State",
+    "sort_order": 2,
+    "analysis_question_de": "Wie wird der Staat imaginiert? Welche Begriffe konstituieren das Bild von Staatlichkeit?",
+    "description_de": "الدولة ist ein vieldeutiger Begriff, der sowohl 'Staat' als auch 'Herrschaft', 'Regierung' oder 'Macht' bedeuten kann. Im Projektzusammenhang wird analysiert, wie das Konzept des Staates diskursiv konstruiert wird: als Institutionen, als Verwaltungsapparat, als Souverän, als Schutzmacht, als nationale Gemeinschaft. Besonderes Augenmerk liegt auf der Frage, wie sich die Bedeutung von 'Staat' von Phase 1 (kaum verwendet) über Phase 2 (administrative Staatspraxis) zu Phase 3 (expliziter Staatlichkeitsanspruch) verändert.",
+    "legitimacy_types": [
+      "administrative_legitimacy",
+      "procedural_legal_legitimacy",
+      "national_legitimacy"
+    ],
+    "weber_reference": "Weber definiert den Staat als diejenige menschliche Gemeinschaft, welche innerhalb eines bestimmten Gebietes das Monopol legitimer physischer Gewaltsamkeit für sich beansprucht. Analysefrage: Wie und wann wird dieser Anspruch im Diskurs von HTS/al-Sharaa konstruiert?",
+    "van_leeuwen_reference": "Rationalization: Staatlichkeit wird als funktionale Notwendigkeit dargestellt (Sicherheit, Ordnung, Wiederaufbau). Narrative: Der Staat als Ziel der Revolution, als historische Erlösung Syriens.",
+    "phase_relevance": {
+      "phase_1": "Der Begriff 'Dawla' (Staat) tritt in Phase 1 kaum als positiver Selbstbezug auf; die Legitimation ist primär religiös-transnational.",
+      "phase_2": "HTS übernimmt Verwaltungsaufgaben in Idlib; staatliche Begriffe wie Dienstleistungen, Institutionen und Ordnung werden zunehmend zentral.",
+      "phase_3": "Expliziter Anspruch auf staatliche Souveränität; Begriffe wie Übergangsregierung, Institutionen, Verfassung, Souveränität dominieren."
+    },
+    "related_concepts": ["concept_01", "concept_03", "concept_04", "concept_05", "concept_06"],
+    "color_accent": "#4a5240"
+  },
+  {
+    "id": "concept_03",
+    "arabic": "الدولة المدنية",
+    "transliteration": "al-dawla al-madaniyya",
+    "german": "ziviler Staat",
+    "english": "Civil State",
+    "sort_order": 3,
+    "analysis_question_de": "Wird der Staat als nicht-militärisch, nicht-sektiererisch, demokratisch, institutionell oder islamisch gerahmt? Wie wird الدولة المدنية definiert und von anderen Staatskonzepten abgegrenzt?",
+    "description_de": "الدولة المدنية bezeichnet im arabischen politischen Diskurs einen 'zivilen Staat', der sich von Theokratie und Militärherrschaft abgrenzt. Der Begriff ist jedoch in sich umstritten: Er kann einen säkularen Rechtsstaat, eine konstitutionelle Ordnung mit islamischer Referenz oder ein technokratisches Verwaltungssystem bezeichnen. Im Kontext der syrischen Übergangsautorität ist zu untersuchen, ob und wie der Begriff verwendet wird, und welche politische Funktion er erfüllt: Abgrenzung von jihad, Signal an internationale Akteure, oder Ausdruck eines genuinen Staatlichkeitskonzepts.",
+    "legitimacy_types": [
+      "national_legitimacy",
+      "procedural_legal_legitimacy",
+      "international_legitimacy"
+    ],
+    "weber_reference": "Relevant für den Übergang von charismatischer/religiöser Herrschaft zu legal-rationaler: Die Proklamation eines 'zivilen Staates' signalisiert den Anspruch auf legal-rationale Herrschaftsformen.",
+    "van_leeuwen_reference": "Moral Evaluation: Der zivile Staat als moralisch überlegene Alternative zu militärischer Herrschaft und sektiererischer Gewalt. Authorization: Legitimitätsquelle 'Bürgerschaft' und 'nationales Interesse' statt religiöser Autorität.",
+    "phase_relevance": {
+      "phase_1": "Begriff weitgehend absent.",
+      "phase_2": "Begriff beginnt vereinzelt im Kontext der Governance-Rhetorik aufzutauchen.",
+      "phase_3": "Begriff wird im Kontext der Übergangsautorität relevant als Abgrenzungsstrategie und Signal an internationale Akteure."
+    },
+    "related_concepts": ["concept_01", "concept_02", "concept_05", "concept_06"],
+    "color_accent": "#4a5240"
+  },
+  {
+    "id": "concept_04",
+    "arabic": "الأمن",
+    "transliteration": "al-amn",
+    "german": "Sicherheit",
+    "english": "Security",
+    "sort_order": 4,
+    "analysis_question_de": "Wie wird Sicherheit als Quelle von Legitimität verwendet? Wessen Sicherheit wird adressiert?",
+    "description_de": "الأمن (Sicherheit) ist in allen drei Phasen präsent, aber seine Bedeutung und Funktion verschiebt sich erheblich. In Phase 1 ist Sicherheit mit militärischem Kampf und der Bedrohung durch das Assad-Regime verbunden. In Phase 2 wird Sicherheit zur zentralen Legitimationsquelle der HTS-Governance in Idlib: Ordnung, Schutz vor Banditentum, Waffenkontrolle. In Phase 3 wird Sicherheit als staatsbildende Aufgabe und als Voraussetzung für Wiederaufbau und Bürgerschaft gerahmt. Analysiert wird auch, wessen Sicherheit adressiert wird: die sunnitische Bevölkerung, Minderheiten, oder alle Syrer.",
+    "legitimacy_types": [
+      "security_performance_legitimacy",
+      "administrative_legitimacy",
+      "national_legitimacy"
+    ],
+    "weber_reference": "Staatliches Gewaltmonopol und Schutz als Kern legitimer Herrschaft. Sicherheitsperformanz als empirische Legitimationsquelle jenseits normativer Ansprüche.",
+    "van_leeuwen_reference": "Rationalization: Sicherheit als Notwendigkeit und Zweck legitimer Herrschaft. Moral Evaluation: Schutz der Bevölkerung als moralische Pflicht der Autorität.",
+    "phase_relevance": {
+      "phase_1": "Sicherheit als militärischer Kampf gegen das Regime; Schutz der sunnitischen Bevölkerung als religiöse Pflicht.",
+      "phase_2": "Sicherheit als administrative Performanz: Ordnung, Waffenkontrolle, Schutz vor Kriminalität in Idlib.",
+      "phase_3": "Sicherheit als staatliche Kernaufgabe; Voraussetzung für Rückkehr, Wiederaufbau, internationale Anerkennung."
+    },
+    "related_concepts": ["concept_01", "concept_02", "concept_05"],
+    "color_accent": "#5c4a2a"
+  },
+  {
+    "id": "concept_05",
+    "arabic": "المواطنة",
+    "transliteration": "al-muwāṭana",
+    "german": "Bürgerschaft / Staatsbürgerschaft",
+    "english": "Citizenship",
+    "sort_order": 5,
+    "analysis_question_de": "Wer gehört zur politischen Gemeinschaft? Wie wird die Grenze zwischen 'Wir' und 'Sie' gezogen?",
+    "description_de": "المواطنة bezeichnet Bürgerschaft im Sinne politischer Zugehörigkeit. In Phase 1 ist Zugehörigkeit primär religiös-ideologisch konstruiert (Muslim, Mujahed, Umma). In Phase 2 entsteht eine zunehmend territoriale Konstruktion (Bevölkerung in Idlib, Syrer). In Phase 3 wird المواطنة explizit zum politischen Schlüsselbegriff: eine inklusive Staatsbürgerschaft, die Minderheiten, Frauen, und verschiedene Komponenten der syrischen Gesellschaft einschließen soll. Analysiert wird: Ist diese Bürgerschaft religiös oder staatsbürgerlich definiert? Wie werden Minderheiten bezeichnet (Komponenten, Mitbürger)?",
+    "legitimacy_types": [
+      "national_legitimacy",
+      "procedural_legal_legitimacy",
+      "international_legitimacy"
+    ],
+    "weber_reference": "Zugehörigkeit zur politischen Gemeinschaft als Grundlage der Legitimation: Wessen Herrschaft? Für wen?",
+    "van_leeuwen_reference": "Moral Evaluation: Inklusive Bürgerschaft als moralischer Wert und Zeichen legitimer Herrschaft. Authorization: 'Das syrische Volk' als Legitimitätsquelle.",
+    "phase_relevance": {
+      "phase_1": "Zugehörigkeit primär religiös-ideologisch: Umma, Mujahedeen, sunnitische Gemeinschaft.",
+      "phase_2": "Territoriale Zugehörigkeit: Bevölkerung von Idlib, Syrer unter HTS-Kontrolle.",
+      "phase_3": "Staatsbürgerlicher Bürgerbegriff: alle Syrer, Minderheiten als Mitbürger, Frauen in der Regierung als Signal."
+    },
+    "related_concepts": ["concept_01", "concept_02", "concept_03", "concept_06"],
+    "color_accent": "#4a5240"
+  },
+  {
+    "id": "concept_06",
+    "arabic": "الاعتراف الدولي",
+    "transliteration": "al-iʿtirāf al-duwalī",
+    "german": "internationale Anerkennung",
+    "english": "International Recognition",
+    "sort_order": 6,
+    "analysis_question_de": "Wie wird internationale Anerkennung sprachlich und politisch relevant gemacht? Welche Rolle spielt sie für die Konstruktion von Legitimität?",
+    "description_de": "الاعتراف الدولي ist ein Legitimationskonzept, das besonders in Phase 3 zentral wird. In Phase 1 ist internationale Anerkennung nicht nur absent, sondern aktiv negiert (Terrorismusklassifizierung durch die UN, USA, EU). In Phase 2 beginnt eine vorsichtige Neupositionierung, die auf internationale Wahrnehmung zielt (PBS-Interview 2021). In Phase 3 wird internationale Anerkennung zur existenziellen Legitimationsquelle: Aufhebung von Sanktionen, Aufhebung der Terrorismusklassifizierung, diplomatische Kontakte, Unterstützung für den Wiederaufbau. Analysiert wird: Wie wird dieser Wandel sprachlich vollzogen? Welche Rolle spielt internationale Anerkennung im Legitimitätsdiskurs?",
+    "legitimacy_types": [
+      "international_legitimacy",
+      "procedural_legal_legitimacy",
+      "national_legitimacy"
+    ],
+    "weber_reference": "External recognition as a dimension of legitimate statehood in the international system.",
+    "van_leeuwen_reference": "Authorization: Legitimation durch internationale Akteure, Institutionen, Staaten. Rationalization: Internationale Anerkennung als notwendige Voraussetzung für Wiederaufbau und Stabilität.",
+    "phase_relevance": {
+      "phase_1": "Internationale Anerkennung ist negativ: Terrorismusklassifizierung durch UN, USA, EU.",
+      "phase_2": "Vorsichtige Neupositionierung für internationale Öffentlichkeit (PBS-Interview 2021).",
+      "phase_3": "Internationale Anerkennung als zentrale Legitimationsquelle; Aufhebung von Sanktionen als Ziel."
+    },
+    "related_concepts": ["concept_01", "concept_02", "concept_03", "concept_05"],
+    "color_accent": "#2a3a4a"
+  },
+  {
+    "id": "concept_07",
+    "arabic": "الشريعة",
+    "transliteration": "al-sharīʿa",
+    "german": "Scharia",
+    "english": "Sharia",
+    "sort_order": 7,
+    "analysis_question_de": "Wie verändert sich der Stellenwert von الشريعة im Diskurs? Verschwindet der Begriff, wird er abgeschwächt, bleibt er zentral, oder wird er in staatliche Sprache übersetzt?",
+    "description_de": "الشريعة ist in Phase 1 ein zentraler Legitimitätsbegriff: Islamisches Recht als Ziel, als Referenzrahmen, als Legitimationsquelle. In Phase 2 tritt der Begriff in den Hintergrund, wird aber nicht vollständig ersetzt. In Phase 3 stellt sich die analytische Frage, ob der Begriff aus dem öffentlichen Diskurs verschwindet, ob er in institutionelle Sprache übersetzt wird, oder ob er in Spannung zu staatlicher und zivilgesellschaftlicher Sprache tritt. Analysiert wird: Wann und wie taucht der Begriff auf? In welchem Zusammenhang? Welche politische Funktion erfüllt er noch? Analytisch wichtig: Nicht die normativer Bewertung, sondern die diskursive Funktion steht im Mittelpunkt.",
+    "legitimacy_types": [
+      "religious_militant_legitimacy",
+      "procedural_legal_legitimacy"
+    ],
+    "weber_reference": "Traditionelle und religiöse Herrschaft als Legitimationsquelle; Spannung mit dem Übergang zu legal-rationaler Herrschaft.",
+    "van_leeuwen_reference": "Authorization: Religiöses Recht als höchste Legitimitätsquelle in Phase 1. Moral Evaluation: Scharia als moralischer Rahmen auch in Phase 2 und 3.",
+    "phase_relevance": {
+      "phase_1": "Scharia ist zentraler Legitimationsbegriff: Ziel, Referenz, Pflicht.",
+      "phase_2": "Begriff tritt zurück; Fokus auf administrative Performanz, aber religiöse Referenz bleibt.",
+      "phase_3": "Analytisch offen: Verschwindet der Begriff? Wird er in institutionelle Sprache transformiert? Bleibt er in Spannung zur staatlichen Sprache?"
+    },
+    "related_concepts": ["concept_01", "concept_02", "concept_03"],
+    "color_accent": "#8b2323"
+  }
+]

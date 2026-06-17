@@ -1,0 +1,136 @@
+[
+  {
+    "id": "phase_01",
+    "phase_number": 1,
+    "year_range": "2011–2016",
+    "year_start": 2011,
+    "year_end": 2016,
+    "phase_title_de": "Faktionale und militärische Phase",
+    "phase_title_ar": "مرحلة الفصائل والعمل المسلح",
+    "phase_subtitle_de": "Jabhat al-Nusra und die Konstruktion religiös-militärischer Legitimität",
+    "actor_naming_ar": ["جبهة النصرة", "جبهة فتح الشام", "أبو محمد الجولاني"],
+    "actor_naming_de": ["Jabhat al-Nusra", "Jabhat Fath al-Sham (ab 2016)", "Abu Muhammad al-Jolani"],
+    "dominant_concepts": [
+      { "arabic": "الجهاد", "german": "Jihad" },
+      { "arabic": "الشريعة", "german": "Scharia" },
+      { "arabic": "الأمة", "german": "Umma" },
+      { "arabic": "البيعة", "german": "Bayʿa / Treueschwur" },
+      { "arabic": "الجبهة", "german": "Front / bewaffnete Gruppe" }
+    ],
+    "legitimacy_type_dominant": "religious_militant_legitimacy",
+    "legitimation_strategy_dominant": "authorization",
+    "audience_primary": "jihadistische_netzwerke_syrische_kämpfer",
+    "audience_secondary": "syrische_bevölkerung_sunnitisch",
+    "analytical_note_de": "In Phase 1 ist Legitimität primär religiös-militärisch konstruiert. Die Autorität der Gruppe gründet auf religiöser Pflicht (Jihad), islamischem Recht (Scharia) und Einbettung in transnationale jihadistische Netzwerke (Bayʿa an al-Qaida-Führung). Die Selbstbezeichnung als 'Front' (جبهة) signalisiert einen militärischen und faktionalen Anspruch, keine Staatlichkeit. Das Publikum ist primär das jihadistische Netzwerk und die kämpfende Bevölkerung; internationale Öffentlichkeit und staatliche Institutionen spielen keine Rolle. Der Schlüsselbruch am Ende dieser Phase (2016) ist die formale Trennung von al-Qaida und die Umbenennung in Jabhat Fath al-Sham – ein erster diskursiver Schritt in Richtung nationaler Legitimierung.",
+    "key_events": [
+      {
+        "year": 2012,
+        "event_de": "Gründung von Jabhat al-Nusra, Ausrufung des bewaffneten Kampfes gegen das Assad-Regime",
+        "event_ar": "تأسيس جبهة النصرة"
+      },
+      {
+        "year": 2013,
+        "event_de": "Al-Jolani erklärt Bayʿa an Ayman al-Zawahiri, lehnt Fusion mit ISIS ab",
+        "event_ar": "إعلان البيعة للظواهري ورفض الاندماج مع داعش"
+      },
+      {
+        "year": 2016,
+        "event_de": "Ankündigung der Trennung von al-Qaida und Gründung von Jabhat Fath al-Sham",
+        "event_ar": "إعلان فك الارتباط بتنظيم القاعدة وتأسيس جبهة فتح الشام"
+      }
+    ],
+    "corpus_entry_ids": ["c001", "c002", "c003", "c004"]
+  },
+  {
+    "id": "phase_02",
+    "phase_number": 2,
+    "year_range": "2017–2024",
+    "year_start": 2017,
+    "year_end": 2024,
+    "phase_title_de": "Governance-Phase in Idlib",
+    "phase_title_ar": "مرحلة الحوكمة في إدلب",
+    "phase_subtitle_de": "Hayʾat Taḥrīr al-Shām: Vom bewaffneten Akteur zur Verwaltungsinstanz",
+    "actor_naming_ar": ["هيئة تحرير الشام", "حكومة الإنقاذ السورية", "أبو محمد الجولاني"],
+    "actor_naming_de": ["Hayʾat Taḥrīr al-Shām (HTS)", "Syrian Salvation Government", "Abu Muhammad al-Jolani"],
+    "dominant_concepts": [
+      { "arabic": "الأمن", "german": "Sicherheit" },
+      { "arabic": "الإدارة", "german": "Verwaltung" },
+      { "arabic": "الخدمات", "german": "Dienstleistungen" },
+      { "arabic": "الاستقرار", "german": "Stabilität" },
+      { "arabic": "النظام", "german": "Ordnung" },
+      { "arabic": "الهيئة", "german": "Körperschaft / Behörde" }
+    ],
+    "legitimacy_type_dominant": "administrative_legitimacy",
+    "legitimation_strategy_dominant": "rationalization",
+    "audience_primary": "bevölkerung_in_idlib",
+    "audience_secondary": "internationale_öffentlichkeit",
+    "analytical_note_de": "In Phase 2 verschiebt sich die Legitimationsgrundlage von religiös-militärischer Autorität zu administrativer Performanz. HTS übernimmt Verwaltungsaufgaben in Idlib: Gerichte, Schulen, Stromversorgung, Polizei. Die Legitimität gründet zunehmend auf der Fähigkeit, Ordnung herzustellen, Dienstleistungen zu erbringen und Sicherheit zu gewährleisten. Der Schlüsselbegriff ist nicht mehr 'Jihad' oder 'Scharia', sondern 'Sicherheit', 'Stabilität' und 'Verwaltung'. Analytisch bedeutsam ist der Übergang von 'Front' (جبهة) zu 'Körperschaft/Behörde' (هيئة) in der Selbstbezeichnung. Das PBS Frontline Interview (2021) markiert den Versuch, auch eine internationale Öffentlichkeit anzusprechen: al-Jolani tritt ohne Gesichtsmaske auf und formuliert staatliche, nicht jihadistische Sprache.",
+    "key_events": [
+      {
+        "year": 2017,
+        "event_de": "Gründung von Hayʾat Taḥrīr al-Shām (Januar 2017)",
+        "event_ar": "تأسيس هيئة تحرير الشام (يناير 2017)"
+      },
+      {
+        "year": 2017,
+        "event_de": "HTS etabliert Kontrolle über Idlib-Region und baut parallele Verwaltungsstrukturen auf",
+        "event_ar": "سيطرة هيئة تحرير الشام على محافظة إدلب وبناء هياكل إدارية"
+      },
+      {
+        "year": 2021,
+        "event_de": "PBS Frontline Interview mit al-Jolani ('The Jihadist'): erste öffentliche Neupositionierung für westliche Öffentlichkeit",
+        "event_ar": "مقابلة PBS Frontline مع الجولاني: أول ظهور علني بلا قناع للجمهور الغربي"
+      },
+      {
+        "year": 2024,
+        "event_de": "HTS-geführte Offensive: Einnahme von Aleppo, Hama, Homs; Vormarsch auf Damaskus",
+        "event_ar": "الهجوم الذي قادته هيئة تحرير الشام وسقوط حلب وحماة وحمص والتقدم نحو دمشق"
+      }
+    ],
+    "corpus_entry_ids": ["c005", "c006", "c007", "c008"]
+  },
+  {
+    "id": "phase_03",
+    "phase_number": 3,
+    "year_range": "2025",
+    "year_start": 2025,
+    "year_end": 2025,
+    "phase_title_de": "Übergangsautorität",
+    "phase_title_ar": "مرحلة هيئة الحكم الانتقالي",
+    "phase_subtitle_de": "Ahmad al-Sharaa und die Konstruktion staatlicher und internationaler Legitimität",
+    "actor_naming_ar": ["أحمد الشرع", "هيئة الحكم الانتقالي", "الحكومة الانتقالية السورية"],
+    "actor_naming_de": ["Ahmad al-Sharaa", "Übergangsautorität", "syrische Übergangsregierung"],
+    "dominant_concepts": [
+      { "arabic": "الدولة", "german": "Staat" },
+      { "arabic": "المواطنة", "german": "Bürgerschaft" },
+      { "arabic": "المؤسسات", "german": "Institutionen" },
+      { "arabic": "الاعتراف الدولي", "german": "internationale Anerkennung" },
+      { "arabic": "إعادة الإعمار", "german": "Wiederaufbau" },
+      { "arabic": "الوحدة الوطنية", "german": "nationale Einheit" },
+      { "arabic": "الدولة المدنية", "german": "ziviler Staat" }
+    ],
+    "legitimacy_type_dominant": "national_legitimacy",
+    "legitimation_strategy_dominant": "narrative",
+    "audience_primary": "syrische_bevölkerung_gesamt",
+    "audience_secondary": "internationale_gemeinschaft_diplomatie",
+    "analytical_note_de": "In Phase 3 wird Legitimität auf mehreren Ebenen gleichzeitig konstruiert: national (das syrische Volk, Bürgerschaft, Einheit), institutionell (Übergangsregierung, Institutionen, Verfassungsprozess) und international (diplomatische Anerkennung, Aufhebung von Sanktionen). Die Selbstbezeichnung wechselt von militärisch-faktional zu staatlich: Ahmad al-Sharaa, nicht mehr Abu Muhammad al-Jolani. Das Kabinett selbst wird als Legitimitätsstrategie eingesetzt: Diversität, Technokratie, Geschlechterrepräsentation als Signale an verschiedene Publika. Analytisch relevant: Welche Spannungen bleiben bestehen zwischen islamischer Referenz, staatlicher Sprache und internationaler Anschlussfähigkeit?",
+    "key_events": [
+      {
+        "year": 2024,
+        "event_de": "Fall des Assad-Regimes und Einmarsch in Damaskus (8.–9. Dezember 2024)",
+        "event_ar": "سقوط نظام الأسد ودخول دمشق (8-9 ديسمبر 2024)"
+      },
+      {
+        "year": 2025,
+        "event_de": "Bildung der Übergangsautorität und Übergangsregierung",
+        "event_ar": "تشكيل هيئة الحكم الانتقالي والحكومة الانتقالية"
+      },
+      {
+        "year": 2025,
+        "event_de": "Internationale Diplomatie: erste diplomatische Kontakte, Diskussionen über Sanktionsaufhebung [NOCH ZU VERIFIZIEREN]",
+        "event_ar": "الدبلوماسية الدولية: أولى الاتصالات الدبلوماسية ومناقشات رفع العقوبات [NOCH ZU VERIFIZIEREN]"
+      }
+    ],
+    "corpus_entry_ids": ["c009", "c010", "c011", "c012"]
+  }
+]

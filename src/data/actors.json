@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "page_title_de": "Akteurswandel",
+    "page_title_ar": "تحولات الفاعل",
+    "page_subtitle_de": "Von al-Jolani zu al-Sharaa: Benennungen, Symbole und die diskursive Rekonstruktion von Legitimität",
+    "analytical_note_de": "Diese Seite untersucht den Wandel des politischen Akteurs auf zwei Ebenen: organisationale Benennung (Jabhat al-Nusra → Übergangsautorität) und personale Benennung (Abu Muhammad al-Jolani → Ahmad al-Sharaa). Im Mittelpunkt steht nicht die Biografie, sondern die Frage: Was bedeuten diese Namensänderungen analytisch? Was signalisieren sie über Legitimationsansprüche, Zielpublika und die diskursive Konstruktion von Staatlichkeit?",
+    "tracks": ["organizational", "personal"]
+  },
+  "organizational_track": {
+    "track_title_de": "Organisationale Benennung",
+    "track_title_ar": "التسمية التنظيمية",
+    "track_note_de": "Jede Umbenennung ist kein bloßer Verwaltungsakt, sondern ein diskursiver Schritt: eine Neupositionierung gegenüber bestimmten Publika, Legitimationsquellen und politischen Kontexten.",
+    "steps": [
+      {
+        "id": "org_01",
+        "step_number": 1,
+        "name_ar": "جبهة النصرة",
+        "name_transliterated": "Jabhat al-Nusra",
+        "name_de": "Die Nusra-Front",
+        "year_range": "2012–2016",
+        "year_start": 2012,
+        "year_end": 2016,
+        "context_de": "Jabhat al-Nusra wurde 2012 in Syrien als Ableger von al-Qaida im Irak gegründet. Der Name bedeutet wörtlich 'Front der Unterstützung' oder 'Hilfsfront'. Die Gruppe operierte unter dem Banner des Jihad gegen das Assad-Regime und war Teil des transnationalen jihadistischen Netzwerks von al-Qaida.",
+        "name_analysis_de": "Der Begriff 'Jabha' (جبهة, Front) bezeichnet eine bewaffnete Koalition mit militärischem Charakter. 'al-Nusra' (النصرة, Unterstützung/Hilfe) hat eine religiöse Konnotation: die Unterstützung des Islams und der unterdrückten muslimischen Gemeinschaft. Der Name ist primär religiös-militärisch gerahmt und an ein jihadistisches Netzwerk adressiert.",
+        "legitimacy_type_associated": "religious_militant_legitimacy",
+        "related_concepts": ["concept_01", "concept_07"],
+        "symbolic_significance_de": "Der Name signalisiert: Krieg, religiöse Pflicht, transnationale Einbettung in al-Qaida, keine staatlichen Ansprüche.",
+        "source_note": "Name und Gründung öffentlich umfassend dokumentiert. [QUELLE EINFÜGEN für Gründungsdokumente]"
+      },
+      {
+        "id": "org_02",
+        "step_number": 2,
+        "name_ar": "جبهة فتح الشام",
+        "name_transliterated": "Jabhat Fath al-Sham",
+        "name_de": "Front zur Öffnung / Befreiung der Levante",
+        "year_range": "2016–2017",
+        "year_start": 2016,
+        "year_end": 2017,
+        "context_de": "Im Juli 2016 verkündete al-Jolani die formale Trennung von al-Qaida und die Umbenennung in Jabhat Fath al-Sham. Offiziell begründet wurde dies mit dem Wunsch, die syrische Bevölkerung nicht durch internationale Terrorismusklassifizierungen zu belasten.",
+        "name_analysis_de": "'Fath' (فتح) bedeutet 'Öffnung', 'Befreiung' oder 'Sieg' – ein Begriff mit revolutionärer und religiöser Doppelbedeutung. 'al-Sham' (الشام) bezeichnet die historische Levante-Region (Syrien, Libanon, Jordanien, Palästina) und ist ein regional-identitärer Begriff. Die Entfernung des Begriffs 'Nusra' und des Bezugs zu al-Qaida ist analytisch bedeutsam: ein erster Schritt der Regionalisierung und Nationalisierung des Legitimationsrahmens.",
+        "legitimacy_type_associated": "revolutionary_legitimacy",
+        "related_concepts": ["concept_01", "concept_02"],
+        "symbolic_significance_de": "Der Name signalisiert: Versuch der Loslösung vom transnationalen Jihadismus, Regionalisierung, aber weiterhin militärische 'Front'-Identität.",
+        "source_note": "Ankündigung öffentlich dokumentiert durch Al Jazeera, Reuters (Juli 2016). [QUELLE EINFÜGEN für Originalvideo]"
+      },
+      {
+        "id": "org_03",
+        "step_number": 3,
+        "name_ar": "هيئة تحرير الشام",
+        "name_transliterated": "Hayʾat Taḥrīr al-Shām",
+        "name_de": "Körperschaft zur Befreiung der Levante",
+        "year_range": "2017–2024",
+        "year_start": 2017,
+        "year_end": 2024,
+        "context_de": "Im Januar 2017 fusionierte Jabhat Fath al-Sham mit mehreren anderen bewaffneten Gruppen zu Hayʾat Taḥrīr al-Shām. HTS wurde zur dominanten Kraft in der Idlib-Region und baute parallele Verwaltungsstrukturen auf, die als 'Syrian Salvation Government' bekannt wurden.",
+        "name_analysis_de": "Der entscheidende terminologische Wechsel: von 'Jabha' (جبهة, Front) zu 'Hayʾa' (هيئة, Körperschaft, Behörde, Gremium). 'Hayʾa' ist ein institutioneller Begriff; er bezeichnet eine formalisierte, organisierte Körperschaft – nicht mehr eine militärische Front. 'Taḥrīr' (تحرير, Befreiung) bleibt revolutionär, verweist aber auch auf staatliche und politische Zielsetzungen. Analytisch: Der Name vollzieht einen ersten Übergang von militärischer zu institutioneller Selbstdarstellung.",
+        "legitimacy_type_associated": "administrative_legitimacy",
+        "related_concepts": ["concept_01", "concept_02", "concept_04"],
+        "symbolic_significance_de": "Der Name signalisiert: Institutionalisierung, Übergang von 'Front' zu 'Körperschaft', administrative Ambitionen, Abschwächung der jihadistischen Symbolik.",
+        "source_note": "Gründung öffentlich dokumentiert (Januar 2017). [QUELLE EINFÜGEN für Gründungsankündigung]"
+      },
+      {
+        "id": "org_04",
+        "step_number": 4,
+        "name_ar": "هيئة الحكم الانتقالي / الحكومة الانتقالية السورية",
+        "name_transliterated": "Hayʾat al-Ḥukm al-Intiqālī / al-Ḥukūma al-Intiqāliyya al-Sūriyya",
+        "name_de": "Übergangsautorität / Syrische Übergangsregierung",
+        "year_range": "2025–",
+        "year_start": 2025,
+        "year_end": null,
+        "context_de": "Nach dem Fall des Assad-Regimes im Dezember 2024 konstituierte sich eine Übergangsautorität unter der Führung von Ahmad al-Sharaa. Eine Übergangsregierung wurde gebildet, die den Anspruch auf staatliche Souveränität über ganz Syrien erhebt.",
+        "name_analysis_de": "'al-Ḥukm al-Intiqālī' (الحكم الانتقالي) bedeutet 'Übergangsherrschaft'. 'Intiqālī' (انتقالي, Übergangs-) ist ein Begriff mit starker normativer Ladung im internationalen Recht und im Bereich der Transitional Justice: Er signalisiert Temporalität, Legitimationsanspruch, und die Absicht einer geregelten Übergabe. Die Verwendung dieses Begriffs ist ein bewusster Anschluss an internationale demokratische Transitionen und signalisiert internationale Anschlussfähigkeit. 'Hayʾat' (Körperschaft) bleibt, verstärkt aber den institutionellen Charakter.",
+        "legitimacy_type_associated": "procedural_legal_legitimacy",
+        "related_concepts": ["concept_01", "concept_02", "concept_05", "concept_06"],
+        "symbolic_significance_de": "Der Name signalisiert: Staatlichkeit, Institutionalität, Temporalität (Übergang als Versprechen auf Zukunft), internationale Anschlussfähigkeit, Ende des militärischen Rahmens.",
+        "source_note": "Öffentlich dokumentiert (Dezember 2024–2025). [QUELLE EINFÜGEN]"
+      }
+    ]
+  },
+  "personal_track": {
+    "track_title_de": "Personale Benennung",
+    "track_title_ar": "التسمية الشخصية",
+    "track_note_de": "Der Namenswechsel von Abu Muhammad al-Jolani zu Ahmad al-Sharaa ist kein bloßer biografischer Schritt, sondern ein symbolischer Akt der Identitätsrekonstruktion. Er markiert den Übergang von militärisch-faktionaler zu staatsbürgerlicher Identität – analytisch lesbar als Teil der Legitimitätsstrategie.",
+    "steps": [
+      {
+        "id": "per_01",
+        "step_number": 1,
+        "name_ar": "أبو محمد الجولاني",
+        "name_transliterated": "Abū Muḥammad al-Jūlānī",
+        "name_de": "Abu Muhammad al-Jolani",
+        "name_type": "Kampfname / Nisbah",
+        "year_range": "2012–2024",
+        "year_start": 2012,
+        "year_end": 2024,
+        "context_de": "Abu Muhammad al-Jolani ist ein Kampfname (Kunya + Nisbah). 'Abu Muhammad' ist eine übliche Kunya im jihadistischen Kontext (Vater von Muhammad). 'al-Jolani' ist eine Nisbah, die auf die Golan-Region verweist – die von Israel annektierte syrische Region. Der Name ist in jihadistischen Netzwerken entstanden und wurde durch internationales Medieninteresse bekannt.",
+        "name_analysis_de": "Analytisch: Der Kampfname signalisiert Anonymität, Einbettung in jihadistische Nomenklatur, Identität als Kämpfer. Die Nisbah 'al-Jolani' verweist auf syrische Herkunft und verbindet den Träger mit einer umstrittenen Region – einer territorialen Identität, die im syrischen Nationalismus aufgeladen ist.",
+        "legitimacy_type_associated": "religious_militant_legitimacy",
+        "related_concepts": ["concept_01", "concept_07"],
+        "symbolic_significance_de": "Der Name signalisiert: jihadistische Identität, Anonymität, militärische Einbettung, syrische territoriale Identität (Golan).",
+        "source_note": "Name öffentlich dokumentiert seit 2012. [QUELLE EINFÜGEN]"
+      },
+      {
+        "id": "per_02",
+        "step_number": 2,
+        "name_ar": "أحمد الشرع",
+        "name_transliterated": "Aḥmad al-Sharāʿ",
+        "name_de": "Ahmad al-Sharaa",
+        "name_type": "Bürgerlicher Name",
+        "year_range": "2024/2025–",
+        "year_start": 2024,
+        "year_end": null,
+        "context_de": "Der bürgerliche Name Ahmad al-Sharaa trat nach dem Fall des Assad-Regimes (Dezember 2024) in den Vordergrund. Er ersetzte im öffentlichen Diskurs weitgehend den Kampfnamen Abu Muhammad al-Jolani.",
+        "name_analysis_de": "Analytisch: Der Wechsel zum bürgerlichen Namen ist ein symbolischer Akt der Entmilitarisierung der Identität. 'Ahmad' ist ein gewöhnlicher arabischer Vorname. 'al-Sharaa' (الشرع) ist eine Nisbah, die auf den arabischen Begriff für Recht/Scharia/Weg (شرع) verweist – sie ist nicht regional, sondern normativ konnotiert. Analytisch interessant: Während 'al-Jolani' territorial (Golan) war, ist 'al-Sharaa' normativ (Recht, Weg). Ob und wie dieser Bezug in öffentlichen Ansprachen thematisiert oder ignoriert wird, ist eine offene Forschungsfrage.",
+        "legitimacy_type_associated": "national_legitimacy",
+        "related_concepts": ["concept_01", "concept_02", "concept_05"],
+        "symbolic_significance_de": "Der Name signalisiert: Übergang zu bürgerlicher Identität, Ablösung der militärischen Symbolik, normative Konnotation (Recht/Weg), Anspruch auf staatsbürgerliche statt kämpferische Autorität.",
+        "source_note": "Name öffentlich dokumentiert seit Dezember 2024. [QUELLE EINFÜGEN – Reuters, Al Jazeera, BBC]"
+      }
+    ]
+  },
+  "analytical_synthesis_de": "Die Transformation des Akteurs auf beiden Ebenen – organisational und personal – folgt einer erkennbaren Logik: von militärisch-faktionaler zu institutioneller und staatsbürgerlicher Sprache. Analytisch zu untersuchen ist, ob diese Transformation primär strategisch (auf Außenwirkung und Legitimation ausgerichtet) oder auch strukturell (im Sinne veränderter interner Governance-Praktiken) ist. Diese Frage lässt sich mit dem vorliegenden Corpus-Material nicht abschließend beantworten, ist aber methodisch einzuordnen."
+}

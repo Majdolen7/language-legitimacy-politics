@@ -1,0 +1,136 @@
+---
+/**
+ * LogoMark.astro
+ * Project identity mark for Von al-Jolani zu al-Sharaa.
+ *
+ * Variants:
+ *   mark     — J → S  (icon only, for compact/favicon contexts)
+ *   logotype — bilingual text only
+ *   full     — mark + logotype (default, for site header)
+ */
+interface Props {
+  variant?: 'mark' | 'logotype' | 'full';
+  class?: string;
+}
+const { variant = 'full', class: className = '' } = Astro.props;
+---
+
+{variant === 'mark' && (
+  <span class:list={['lm-mark', className]} aria-label="Von al-Jolani zu al-Sharaa">
+    <span class="lm-j" aria-hidden="true">J</span>
+    <svg class="lm-arrow" viewBox="0 0 22 10" aria-hidden="true" focusable="false">
+      <line x1="0" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <polyline points="13,1.5 17.5,5 13,8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="lm-s" aria-hidden="true">S</span>
+  </span>
+)}
+
+{variant === 'logotype' && (
+  <span class:list={['lm-logotype', className]}>
+    <span class="lm-logotype__de">Von al-Jolani zu al-Sharaa</span>
+    <span class="lm-logotype__ar" lang="ar" dir="rtl">من الجولاني إلى الشرع</span>
+  </span>
+)}
+
+{variant === 'full' && (
+  <span class:list={['lm-full', className]}>
+    <span class="lm-mark" aria-hidden="true">
+      <span class="lm-j">J</span>
+      <svg class="lm-arrow" viewBox="0 0 22 10" aria-hidden="true" focusable="false">
+        <line x1="0" y1="5" x2="17" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <polyline points="13,1.5 17.5,5 13,8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="lm-s">S</span>
+    </span>
+    <span class="lm-logotype">
+      <span class="lm-logotype__de">Von al-Jolani zu al-Sharaa</span>
+      <span class="lm-logotype__ar" lang="ar" dir="rtl">من الجولاني إلى الشرع</span>
+    </span>
+  </span>
+)}
+
+<style>
+  /* ---- Mark: J → S ---- */
+  .lm-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.22rem;
+    font-family: var(--font-sans);
+    line-height: 1;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .lm-j {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--clr-text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .lm-arrow {
+    width: 1.1rem;
+    height: 0.5rem;
+    color: #8b2323;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .lm-s {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--clr-text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  /* ---- Logotype: bilingual text ---- */
+  .lm-logotype {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .lm-logotype__de {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--clr-text);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .lm-logotype__ar {
+    display: block;
+    font-family: var(--font-arabic);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--clr-text-muted);
+    line-height: 1.3;
+    direction: rtl;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ---- Full: mark + logotype ---- */
+  .lm-full {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  /* ---- Responsive: collapse Arabic on narrow screens ---- */
+  @media (max-width: 580px) {
+    .lm-logotype__ar { display: none; }
+  }
+
+  @media (max-width: 360px) {
+    .lm-full .lm-logotype { display: none; }
+  }
+</style>

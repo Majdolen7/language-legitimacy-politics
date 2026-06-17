@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "page_title_de": "Regierung als Legitimität",
+    "page_title_ar": "الحكومة باعتبارها شرعية",
+    "page_subtitle_de": "Wie wird die Zusammensetzung der Übergangsregierung als Legitimitätsstrategie eingesetzt?",
+    "analysis_question_de": "Wie wird die Zusammensetzung der Übergangsregierung genutzt, um Staatlichkeit, Inklusion, Technokratie, Stabilität und internationale Anschlussfähigkeit zu signalisieren?",
+    "methodological_note_de": "Diese Seite enthält ausschließlich öffentlich belegbare Informationen. Keine privaten Daten, keine Spekulationen, keine sensiblen personenbezogenen Informationen. Alle Einträge sind mit Quellenangaben versehen oder als 'NOCH ZU VERIFIZIEREN' markiert. Ziel ist nicht die Bewertung von Personen, sondern die Analyse der diskursiven Funktion der Regierungszusammensetzung als Legitimitätsstrategie.",
+    "representation_types": [
+      "technocratic_representation",
+      "gender_representation",
+      "religious_minority_representation",
+      "ethnic_representation",
+      "security_military_continuity",
+      "civil_society_representation",
+      "international_signaling"
+    ]
+  },
+  "members": [
+    {
+      "id": "cab_001",
+      "name": "Ahmad al-Sharaa",
+      "arabic_name": "أحمد الشرع",
+      "position_de": "Staatsoberhaupt / Vorsitzender der Übergangsautorität",
+      "position_ar": "رئيس هيئة الحكم الانتقالي",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Militärischer und politischer Anführer, der die HTS-geführte Offensive gegen das Assad-Regime anführte. Zuvor bekannt unter dem Namen Abu Muhammad al-Jolani. Anführer von Hayʾat Taḥrīr al-Shām seit deren Gründung.",
+      "representation_type": [
+        "security_military_continuity",
+        "international_signaling"
+      ],
+      "possible_link_to_HTS_or_independent": "HTS – zentraler Anführer",
+      "related_concepts": ["concept_01", "concept_02", "concept_04", "concept_06"],
+      "discursive_function_de": "Als Staatsoberhaupt signalisiert al-Sharaa den Anspruch auf staatliche Souveränität und Führerschaft. Der Namenswechsel von 'Abu Muhammad al-Jolani' (Kampfname) zu 'Ahmad al-Sharaa' (Bürgerlicher Name) ist selbst ein diskursiver Akt der Entsymbolisierung militärischer Identität und Rekonstruktion staatsbürgerlicher Identität. Seine Person verkörpert den Übergang, steht aber gleichzeitig für Kontinuität der Machtsstrukturen.",
+      "source_url": "QUELLE EINFÜGEN – Reuters, Al Jazeera, BBC (Dezember 2024 – 2025)",
+      "reliability_note": "Name und Position öffentlich umfassend dokumentiert durch internationale Nachrichtenagenturen. Genaues Ernennungsdatum noch zu verifizieren."
+    },
+    {
+      "id": "cab_002",
+      "name": "Mohammad al-Bashir",
+      "arabic_name": "محمد البشير",
+      "position_de": "Interimspremierminister",
+      "position_ar": "رئيس الحكومة الانتقالية",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "War bereits Premierminister der von HTS kontrollierten 'Syrian Salvation Government' in Idlib. Technokratischer Hintergrund; Ingenieurwesen. Öffentlich präsentiert als administrativer, nicht militärischer Akteur.",
+      "representation_type": [
+        "technocratic_representation",
+        "security_military_continuity"
+      ],
+      "possible_link_to_HTS_or_independent": "HTS-nahe – Premierminister der Syrian Salvation Government",
+      "related_concepts": ["concept_02", "concept_04", "concept_01"],
+      "discursive_function_de": "Al-Bashir steht für Kontinuität der Governance-Strukturen aus der Idlib-Phase und gleichzeitig für technokratische Präsentation: ein Premierminister ohne militärisches Auftreten, der mit Verwaltung und Dienstleistungen assoziiert wird. Seine Ernennung signalisiert, dass das System aus Idlib als Vorlage für die Übergangsregierung dient.",
+      "source_url": "QUELLE EINFÜGEN – Reuters, Al Jazeera (Dezember 2024)",
+      "reliability_note": "Name und Position öffentlich dokumentiert durch mehrere internationale Nachrichtenagenturen. [NOCH ZU VERIFIZIEREN]"
+    },
+    {
+      "id": "cab_003",
+      "name": "Asaad al-Shaibani",
+      "arabic_name": "أسعد الشيباني",
+      "position_de": "Außenminister",
+      "position_ar": "وزير الخارجية",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Öffentlich als Außenminister der syrischen Übergangsautorität bekannt. Trat in diplomatischen Kontexten in Erscheinung. Hintergrund noch zu verifizieren.",
+      "representation_type": [
+        "international_signaling",
+        "technocratic_representation"
+      ],
+      "possible_link_to_HTS_or_independent": "NOCH ZU VERIFIZIEREN",
+      "related_concepts": ["concept_06", "concept_02", "concept_01"],
+      "discursive_function_de": "Der Außenminister ist eine Schlüsselfigur für internationale Anschlussfähigkeit. Seine Ernennung signalisiert, dass die Übergangsautorität diplomatische Kommunikation mit der internationalen Gemeinschaft als Priorität setzt. Analysefrage: Welche Sprache und welche Konzepte werden in diplomatischen Kontexten eingesetzt?",
+      "source_url": "QUELLE EINFÜGEN – Reuters, AP (2025)",
+      "reliability_note": "Name und Position in mehreren internationalen Nachrichtenquellen erwähnt. Hintergrund und genaues Ernennungsdatum noch zu verifizieren. [NOCH ZU VERIFIZIEREN]"
+    },
+    {
+      "id": "cab_004",
+      "name": "PLATZHALTER – Vertreter: technokratische Repräsentation",
+      "arabic_name": "PLATZHALTER",
+      "position_de": "Ministerium für [NOCH ZU VERIFIZIEREN] – technokratisches Profil",
+      "position_ar": "وزارة [QUELLE EINFÜGEN]",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Eintrag für ein Kabinettsmitglied mit technokratischem Profil (z.B. Wirtschaft, Infrastruktur, Bildung). Konkrete Person und Position noch zu recherchieren und zu verifizieren.",
+      "representation_type": [
+        "technocratic_representation"
+      ],
+      "possible_link_to_HTS_or_independent": "NOCH ZU VERIFIZIEREN",
+      "related_concepts": ["concept_02", "concept_04"],
+      "discursive_function_de": "Technokratische Repräsentation im Kabinett signalisiert Staatlichkeit und administrative Kompetenz. Technokrat:innen ohne militärische Vergangenheit dienen als Symbol für den Übergang von militärischer zu institutioneller Herrschaft.",
+      "source_url": "QUELLE EINFÜGEN",
+      "reliability_note": "Platzhalter. Konkrete Besetzung noch zu recherchieren und zu verifizieren. [QUELLE EINFÜGEN]"
+    },
+    {
+      "id": "cab_005",
+      "name": "PLATZHALTER – Vertreter: Geschlechterrepräsentation",
+      "arabic_name": "PLATZHALTER",
+      "position_de": "Ministerium für [NOCH ZU VERIFIZIEREN] – weibliche Besetzung",
+      "position_ar": "وزارة [QUELLE EINFÜGEN]",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Eintrag für eine Ministerin in der Übergangsregierung. Konkrete Person und Position noch zu recherchieren und zu verifizieren.",
+      "representation_type": [
+        "gender_representation",
+        "international_signaling"
+      ],
+      "possible_link_to_HTS_or_independent": "NOCH ZU VERIFIZIEREN",
+      "related_concepts": ["concept_05", "concept_01", "concept_06"],
+      "discursive_function_de": "Die Besetzung von Ministerposten mit Frauen ist ein diskursiver Akt mit mehreren Zielgruppen: Signalisierung von Inklusion gegenüber der syrischen Gesellschaft, Signal an internationale Akteure (Vereinte Nationen, westliche Regierungen), Abgrenzung vom Bild des jihadistischen Akteurs. Analysefrage: In welchen Ministerien? Welche Position? Welche symbolische Funktion?",
+      "source_url": "QUELLE EINFÜGEN",
+      "reliability_note": "Platzhalter. Konkrete Besetzung noch zu recherchieren und zu verifizieren. [QUELLE EINFÜGEN]"
+    },
+    {
+      "id": "cab_006",
+      "name": "PLATZHALTER – Vertreter: religiöse Minderheit",
+      "arabic_name": "PLATZHALTER",
+      "position_de": "Ministerium für [NOCH ZU VERIFIZIEREN] – Repräsentation religiöser Minderheit",
+      "position_ar": "وزارة [QUELLE EINFÜGEN]",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Eintrag für ein Kabinettsmitglied aus einer religiösen Minderheit (z.B. christliche, drusische oder alevitische Gemeinschaft). Konkrete Person und Position noch zu recherchieren und zu verifizieren.",
+      "representation_type": [
+        "religious_minority_representation",
+        "international_signaling"
+      ],
+      "possible_link_to_HTS_or_independent": "unabhängig (erwartet)",
+      "related_concepts": ["concept_05", "concept_03", "concept_01"],
+      "discursive_function_de": "Die Einbeziehung von Vertreter:innen religiöser Minderheiten ist ein zentrales Element der Legitimitätsstrategie der Phase 3: Inklusion, Bürgerschaft, ziviler Staat. Analysefrage: Welche Gemeinschaft? Welches Ressort? Welche Funktion im Legitimitätsdiskurs?",
+      "source_url": "QUELLE EINFÜGEN",
+      "reliability_note": "Platzhalter. Konkrete Besetzung noch zu recherchieren und zu verifizieren. [QUELLE EINFÜGEN]"
+    },
+    {
+      "id": "cab_007",
+      "name": "PLATZHALTER – Vertreter: ethnische Repräsentation (z.B. kurdische oder andere ethnische Komponente)",
+      "arabic_name": "PLATZHALTER",
+      "position_de": "Ministerium für [NOCH ZU VERIFIZIEREN] – ethnische Repräsentation",
+      "position_ar": "وزارة [QUELLE EINFÜGEN]",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Eintrag für ein Kabinettsmitglied mit ethnischer Repräsentationsfunktion. Konkrete Person und Position noch zu recherchieren und zu verifizieren.",
+      "representation_type": [
+        "ethnic_representation",
+        "national_legitimacy"
+      ],
+      "possible_link_to_HTS_or_independent": "NOCH ZU VERIFIZIEREN",
+      "related_concepts": ["concept_05", "concept_02", "concept_01"],
+      "discursive_function_de": "Ethnische Repräsentation im Kabinett ist ein Signal für nationale Einheit. Analysefrage: Welche ethnischen Gemeinschaften sind vertreten? Welche nicht? Wie wird das Kabinett als 'nationales' Kabinett konstruiert?",
+      "source_url": "QUELLE EINFÜGEN",
+      "reliability_note": "Platzhalter. Konkrete Besetzung noch zu recherchieren und zu verifizieren. [QUELLE EINFÜGEN]"
+    },
+    {
+      "id": "cab_008",
+      "name": "PLATZHALTER – Vertreter: Zivilgesellschaft",
+      "arabic_name": "PLATZHALTER",
+      "position_de": "Ministerium für [NOCH ZU VERIFIZIEREN] – Zivilgesellschaft / unabhängiges Profil",
+      "position_ar": "وزارة [QUELLE EINFÜGEN]",
+      "appointment_date": "NOCH ZU VERIFIZIEREN",
+      "public_background": "Eintrag für ein Kabinettsmitglied aus dem Bereich Zivilgesellschaft, Bildung oder Kultur ohne direkte militärische Vergangenheit. Konkrete Person noch zu recherchieren.",
+      "representation_type": [
+        "civil_society_representation",
+        "technocratic_representation"
+      ],
+      "possible_link_to_HTS_or_independent": "unabhängig (erwartet)",
+      "related_concepts": ["concept_03", "concept_05", "concept_02"],
+      "discursive_function_de": "Vertreter:innen der Zivilgesellschaft signalisieren, dass das Kabinett über den HTS-Kern hinausgeht und gesellschaftliche Breite anstrebt. Analysefrage: Sind diese Posten symbolisch oder mit realer Entscheidungsmacht ausgestattet?",
+      "source_url": "QUELLE EINFÜGEN",
+      "reliability_note": "Platzhalter. Konkrete Besetzung noch zu recherchieren und zu verifizieren. [QUELLE EINFÜGEN]"
+    }
+  ]
+}

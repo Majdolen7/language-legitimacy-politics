@@ -1,0 +1,876 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import corpusData from '../data/corpus.json';
+
+interface CorpusEntry {
+  id: string;
+  year: number;
+  phase: number;
+  actor: string;
+  actor_name_used: string;
+  text_type: string;
+  source_category: string;
+  source_title: string;
+  source_url?: string | null;
+  platform?: string | null;
+  duration?: string | null;
+  transcript_status: string;
+  language: string;
+  main_concept: string;
+  related_concepts: string[];
+  keywords_ar: string[];
+  keywords_de: string[];
+  legitimation_strategy: string;
+  legitimacy_type: string;
+  audience: string;
+  quote_ar?: string | null;
+  quote_de_translation?: string | null;
+  analytical_note_de: string;
+  reliability_note: string;
+  source_type_primary_or_contextual: string;
+}
+
+const entries = corpusData as CorpusEntry[];
+
+const categoryLabels: Record<string, string> = {
+  schriftliche_quellen:  'Schriftlich',
+  audiovisuelle_quellen: 'Audiovisuell',
+  kontextquellen:        'Kontext',
+  transkripte:           'Transkript',
+};
+
+const strategyLabels: Record<string, string> = {
+  authorization:    'Autorisierung',
+  moral_evaluation: 'Moralische Bewertung',
+  rationalization:  'Rationalisierung',
+  narrative:        'Narration / Mythopoese',
+};
+
+const legitLabels: Record<string, string> = {
+  religious_militant_legitimacy:   'Religiös-militant',
+  revolutionary_legitimacy:        'Revolutionär',
+  administrative_legitimacy:       'Administrativ',
+  security_performance_legitimacy: 'Sicherheitsleistung',
+  national_legitimacy:             'National',
+  international_legitimacy:        'International',
+  procedural_legal_legitimacy:     'Prozedural-legal',
+};
+
+const legitTagSuffix: Record<string, string> = {
+  religious_militant_legitimacy:   'religious',
+  revolutionary_legitimacy:        'revolutionary',
+  administrative_legitimacy:       'administrative',
+  security_performance_legitimacy: 'security',
+  national_legitimacy:             'national',
+  international_legitimacy:        'international',
+  procedural_legal_legitimacy:     'procedural',
+};
+
+const conceptLabels: Record<string, string> = {
+  legitimacy:               'Legitimität',
+  state:                    'Staat',
+  civil_state:              'Ziviler Staat',
+  security:                 'Sicherheit',
+  citizenship:              'Bürgerschaft',
+  international_recognition:'Int. Anerkennung',
+  "shari'a":                'Scharia',
+};
+
+const actorLabels: Record<string, string> = {
+  jabhat_al_nusra:       'Jabhat al-Nusra',
+  jabhat_fath_al_sham:   'Jabhat Fath al-Sham',
+  hayat_tahrir_al_sham:  'HTS',
+  transitional_authority:'Übergangsautorität',
+  context_source:        'Kontextquelle',
+  international_context: 'Int. Kontext',
+};
+
+const transcriptLabels: Record<string, string> = {
+  transkript_verfügbar_extern:  'Verfügbar (extern)',
+  transkript_ausstehend:        'Ausstehend',
+  kein_transkript_erforderlich: 'Nicht erforderlich',
+};
+
+const sourceTypeLabels: Record<string, string> = {
+  primary:    'Primärquelle',
+  contextual: 'Kontextquelle',
+};
+
+const PLACEHOLDER_TERMS = ['QUELLE EINFÜGEN', 'ZITAT', 'NOCH ZU VERIFIZIEREN', 'VERIFIZIEREN', 'EINFÜGEN'];
+
+function containsPlaceholder(s: string | null | undefined): boolean {
+  if (!s) return false;
+  return PLACEHOLDER_TERMS.some(t => s.includes(t));
+}
+
+function isRealUrl(url: string | null | undefined): boolean {
+  if (!url) return false;
+  if (containsPlaceholder(url)) return false;
+  return url.startsWith('http');
+}
+
+function flagSourceMissing(e: CorpusEntry): boolean {
+  return containsPlaceholder(e.source_url) || containsPlaceholder(e.source_title);
+}
+
+function flagTranscriptPending(e: CorpusEntry): boolean {
+  return e.transcript_status === 'transkript_ausstehend';
+}
+
+function flagVerificationNeeded(e: CorpusEntry): boolean {
+  return containsPlaceholder(e.reliability_note) || containsPlaceholder(e.duration);
+}
+
+function splitActorName(nameUsed: string): { ar: string | null; de: string } {
+  if (nameUsed.includes(' / ')) {
+    const idx = nameUsed.indexOf(' / ');
+    const ar = nameUsed.slice(0, idx).trim();
+    const de = nameUsed.slice(idx + 3).trim();
+    return /[؀-ۿ]/.test(ar) ? { ar, de } : { ar: null, de: nameUsed };
+  }
+  if (nameUsed.includes(' – ')) {
+    const idx = nameUsed.indexOf(' – ');
+    const first = nameUsed.slice(0, idx).trim();
+    const rest  = nameUsed.slice(idx + 3).trim();
+    if (/[؀-ۿ]/.test(first)) return { ar: first, de: rest };
+  }
+  return { ar: null, de: nameUsed };
+}
+
+function truncate(s: string, n: number): string {
+  return s.length <= n ? s : s.slice(0, n) + '…';
+}
+
+function buildSearchStr(e: CorpusEntry): string {
+  return [
+    e.actor_name_used,
+    e.source_title,
+    e.main_concept,
+    conceptLabels[e.main_concept] ?? '',
+    actorLabels[e.actor] ?? '',
+    ...(e.keywords_de ?? []),
+    e.analytical_note_de,
+  ].join(' ').toLowerCase();
+}
+
+// Statistics
+const totalEntries     = entries.length;
+const primaryCount     = entries.filter(e => e.source_type_primary_or_contextual === 'primary').length;
+const contextualCount  = entries.filter(e => e.source_type_primary_or_contextual === 'contextual').length;
+const audiovisualCount = entries.filter(e => e.source_category === 'audiovisuelle_quellen').length;
+const transcriptAvail  = entries.filter(e => e.transcript_status === 'transkript_verfügbar_extern').length;
+const placeholderCount = entries.filter(e => flagSourceMissing(e) || flagTranscriptPending(e) || flagVerificationNeeded(e)).length;
+
+// Unique filter dropdown values (derived from data)
+const phases           = [...new Set(entries.map(e => e.phase))].sort() as number[];
+const categories       = [...new Set(entries.map(e => e.source_category))];
+const sourceTypes      = [...new Set(entries.map(e => e.source_type_primary_or_contextual))];
+const transcriptStates = [...new Set(entries.map(e => e.transcript_status))];
+const concepts         = [...new Set(entries.map(e => e.main_concept))];
+const actors           = [...new Set(entries.map(e => e.actor))];
+const legitTypes       = [...new Set(entries.map(e => e.legitimacy_type))];
+---
+
+<BaseLayout
+  title="Corpus & Quellen"
+  description="Das kuratierte Quellenkorpus zur Analyse von Legitimitäts- und Staatsdiskursen im syrischen Islamismus nach 2011."
+>
+
+  <!-- ================================================================
+       1. PAGE HEADER
+  ================================================================ -->
+  <section class="section section--hero" aria-labelledby="corpus-title">
+    <div class="container">
+      <p class="page-kicker">Quellengrundlage &middot; Schritt 7</p>
+      <h1 class="page-title" id="corpus-title">Corpus &amp; Quellen</h1>
+      <p class="corpus-title-ar ar-display" lang="ar" dir="rtl">المتن والمصادر</p>
+      <p class="page-subtitle">
+        Das Corpus sammelt schriftliche, audiovisuelle und kontextualisierende Quellen,
+        die für die Analyse von Legitimitäts- und Staatsdiskursen relevant sind.
+        Es handelt sich um ein kuratiertes Arbeitskorpus in Prototyp-Phase — Einträge
+        mit Platzhaltern sind noch nicht analytisch verwendbar.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       2. METHODISCHER HINWEIS
+  ================================================================ -->
+  <section class="section section--method" aria-label="Methodischer Hinweis zum Corpus">
+    <div class="container">
+      <div class="corpus-method-box">
+        <p class="label label--section">Methodischer Hinweis</p>
+        <h2 class="section-title" style="margin-top: var(--space-sm); margin-bottom: var(--space-lg);">
+          Zur Arbeit mit diesem Corpus
+        </h2>
+        <ul class="corpus-method-list">
+          <li>Das Corpus ist kuratiert und methodisch begründet — es erhebt keinen Anspruch auf Vollständigkeit.</li>
+          <li>Audiovisuelle Quellen (Interviews, Reden, Presseerklärungen) gelten als Primärquellen und werden erst nach Transkription, Prüfung und Annotation analytisch verwendet.</li>
+          <li>Kontextquellen (institutionelle Berichte, wissenschaftliche Publikationen) dienen nicht als Primärmaterial, sondern zur methodischen Einbettung.</li>
+          <li>
+            Einträge mit
+            <span class="placeholder-badge">Quelle fehlt</span>&thinsp;
+            <span class="placeholder-badge placeholder-badge--transcript">Transkription fehlt</span>&thinsp;
+            <span class="placeholder-badge placeholder-badge--verify">Zu verifizieren</span>
+            sind noch nicht endgültig belegt.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       3. STATISTIK
+  ================================================================ -->
+  <section class="section" aria-label="Corpus-Überblick">
+    <div class="container">
+      <p class="section-overline">Überblick</p>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <span class="stat-card__number">{totalEntries}</span>
+          <span class="stat-card__label">Einträge gesamt</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number">{primaryCount}</span>
+          <span class="stat-card__label">Primärquellen</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number">{contextualCount}</span>
+          <span class="stat-card__label">Kontextquellen</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number">{audiovisualCount}</span>
+          <span class="stat-card__label">Audiovisuelle Quellen</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number">{transcriptAvail}</span>
+          <span class="stat-card__label">Transkripte verfügbar</span>
+        </div>
+        <div class="stat-card stat-card--warn">
+          <span class="stat-card__number">{placeholderCount}</span>
+          <span class="stat-card__label">Einträge mit Platzhaltern</span>
+          <span class="stat-card__note">Prototyp-Phase</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       4. FILTER-BAR + SUCHE
+  ================================================================ -->
+  <section class="section section--filter" aria-label="Corpus filtern">
+    <div class="container">
+
+      <div class="filter-bar" role="search" aria-label="Corpus nach Kriterien filtern">
+        <span class="filter-bar__label">Filter:</span>
+
+        <select class="filter-select" id="filter-phase" aria-label="Nach Phase filtern">
+          <option value="">Alle Phasen</option>
+          {phases.map(p => (
+            <option value={String(p)}>Phase {p}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-category" aria-label="Nach Quellentyp filtern">
+          <option value="">Alle Quellentypen</option>
+          {categories.map(c => (
+            <option value={c}>{categoryLabels[c] ?? c}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-source-type" aria-label="Primär oder Kontext">
+          <option value="">Primär &amp; Kontext</option>
+          {sourceTypes.map(t => (
+            <option value={t}>{sourceTypeLabels[t] ?? t}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-transcript" aria-label="Nach Transkriptstatus filtern">
+          <option value="">Alle Transkriptstatus</option>
+          {transcriptStates.map(t => (
+            <option value={t}>{transcriptLabels[t] ?? t}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-concept" aria-label="Nach Konzept filtern">
+          <option value="">Alle Konzepte</option>
+          {concepts.map(c => (
+            <option value={c}>{conceptLabels[c] ?? c}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-actor" aria-label="Nach Akteur filtern">
+          <option value="">Alle Akteure</option>
+          {actors.map(a => (
+            <option value={a}>{actorLabels[a] ?? a}</option>
+          ))}
+        </select>
+
+        <select class="filter-select" id="filter-legit-type" aria-label="Nach Legitimationstyp filtern">
+          <option value="">Alle Legitimationstypen</option>
+          {legitTypes.map(t => (
+            <option value={t}>{legitLabels[t] ?? t}</option>
+          ))}
+        </select>
+
+        <span class="filter-count" id="corpus-count" aria-live="polite">
+          {totalEntries} von {totalEntries} Einträgen
+        </span>
+        <button class="filter-reset" id="filter-reset" type="button">
+          Filter zurücksetzen
+        </button>
+      </div>
+
+      <div class="corpus-search-wrap">
+        <label for="corpus-search" class="corpus-search-label">Suche</label>
+        <input
+          type="search"
+          id="corpus-search"
+          class="corpus-search-input"
+          placeholder="Akteur, Quelltitel, Konzept, Schlagwort …"
+          aria-label="Freie Suche im Corpus"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       5. TABELLE
+  ================================================================ -->
+  <section class="section" aria-label="Corpus-Tabelle">
+    <div class="container">
+
+      <div id="no-results" class="no-results" hidden aria-live="polite">
+        Keine Einträge entsprechen den gewählten Filtern.
+      </div>
+
+      <div class="corpus-table-wrap">
+        <table class="corpus-table" aria-label="Kuratiertes Quellenkorpus">
+          <thead>
+            <tr>
+              <th scope="col">Jahr</th>
+              <th scope="col">Phase</th>
+              <th scope="col">Akteur</th>
+              <th scope="col">Quellentyp</th>
+              <th scope="col">Konzept</th>
+              <th scope="col">Legitimationsstrategie</th>
+              <th scope="col">Legitimationstyp</th>
+              <th scope="col">Transkript</th>
+              <th scope="col">Quelle &amp; Status</th>
+              <th scope="col">Analytische Notiz</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map(entry => {
+              const parts       = splitActorName(entry.actor_name_used);
+              const legitSuffix = legitTagSuffix[entry.legitimacy_type] ?? 'national';
+              const srcMissing  = flagSourceMissing(entry);
+              const txPending   = flagTranscriptPending(entry);
+              const needsVerify = flagVerificationNeeded(entry);
+              const anyFlag     = srcMissing || txPending || needsVerify;
+              const realUrl     = isRealUrl(entry.source_url) ? (entry.source_url ?? null) : null;
+              const searchStr   = buildSearchStr(entry);
+              const txClass     = entry.transcript_status === 'transkript_verfügbar_extern'
+                ? 'transcript-status transcript-status--available'
+                : entry.transcript_status === 'transkript_ausstehend'
+                  ? 'transcript-status transcript-status--pending'
+                  : 'transcript-status';
+
+              return (
+                <tr
+                  id={entry.id}
+                  data-corpus-row=""
+                  data-phase={String(entry.phase)}
+                  data-category={entry.source_category}
+                  data-source-type={entry.source_type_primary_or_contextual}
+                  data-transcript={entry.transcript_status}
+                  data-concept={entry.main_concept}
+                  data-actor={entry.actor}
+                  data-legit-type={entry.legitimacy_type}
+                  data-search={searchStr}
+                  class={anyFlag ? 'corpus-row--placeholder' : undefined}
+                >
+                  <td class="col-year"><strong>{entry.year}</strong></td>
+
+                  <td class="col-phase">
+                    <span class={`phase-badge phase-badge--${entry.phase}`}>{entry.phase}</span>
+                  </td>
+
+                  <td class="col-actor">
+                    {parts.ar && (
+                      <span class="actor-ar ar" lang="ar" dir="rtl">{parts.ar}</span>
+                    )}
+                    <span class="actor-de">{parts.de}</span>
+                    {entry.source_type_primary_or_contextual === 'contextual' && (
+                      <span class="corpus-table__source-type">(Kontext)</span>
+                    )}
+                  </td>
+
+                  <td class="col-category">
+                    <span class="category-label">
+                      {categoryLabels[entry.source_category] ?? entry.source_category}
+                    </span>
+                  </td>
+
+                  <td class="col-concept">
+                    <span class="concept-tag">
+                      {conceptLabels[entry.main_concept] ?? entry.main_concept}
+                    </span>
+                  </td>
+
+                  <td class="col-strategy">
+                    {strategyLabels[entry.legitimation_strategy] ?? entry.legitimation_strategy}
+                  </td>
+
+                  <td class="col-legit">
+                    <span class={`legit-tag legit-tag--${legitSuffix}`}>
+                      {legitLabels[entry.legitimacy_type] ?? entry.legitimacy_type}
+                    </span>
+                  </td>
+
+                  <td class="col-transcript">
+                    <span class={txClass}>
+                      {transcriptLabels[entry.transcript_status] ?? entry.transcript_status}
+                    </span>
+                  </td>
+
+                  <td class="col-source">
+                    {realUrl ? (
+                      <a href={realUrl} class="source-link" target="_blank" rel="noopener noreferrer">
+                        {truncate(entry.source_title, 72)}
+                      </a>
+                    ) : (
+                      <span class="source-title-text">{truncate(entry.source_title, 72)}</span>
+                    )}
+                    {anyFlag && (
+                      <div class="placeholder-badges">
+                        {srcMissing  && <span class="placeholder-badge">Quelle fehlt</span>}
+                        {txPending   && <span class="placeholder-badge placeholder-badge--transcript">Transkription fehlt</span>}
+                        {needsVerify && <span class="placeholder-badge placeholder-badge--verify">Zu verifizieren</span>}
+                      </div>
+                    )}
+                  </td>
+
+                  <td class="col-note">
+                    {entry.analytical_note_de.length > 110 ? (
+                      <details class="note-details">
+                        <summary class="note-summary">
+                          {truncate(entry.analytical_note_de, 110)}
+                        </summary>
+                        <p class="note-full">{entry.analytical_note_de}</p>
+                      </details>
+                    ) : (
+                      <p class="note-short">{entry.analytical_note_de}</p>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       6. METHODISCHE FUSSNOTIZ
+  ================================================================ -->
+  <section class="section" aria-label="Methodische Hinweise">
+    <div class="container">
+      <div class="analytical-note">
+        <p class="label">Methodische Hinweise zum Corpus</p>
+        <p>
+          Das Corpus umfasst in dieser Version {totalEntries} prototypische Einträge, nach analytischen
+          Kriterien kuratiert. Primärquellen sind Dokumente, Reden und Interviews, die direkt von den
+          untersuchten Akteuren stammen. Audiovisuelle Primärquellen werden erst nach Transkription,
+          Prüfung und Annotation in die Analyse einbezogen.
+        </p>
+        <p>
+          Kontextquellen dienen ausschließlich der methodischen Einbettung. Einträge mit dem Hinweis
+          <em>QUELLE EINFÜGEN</em> sind noch nicht endgültig belegt und methodisch nicht verwendbar.
+        </p>
+        <p>
+          Das Projekt analysiert Diskurse und legitimiert oder delegitimiert politische Akteure nicht.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<script>
+  (function () {
+    const rows        = document.querySelectorAll<HTMLTableRowElement>('[data-corpus-row]');
+    const countEl     = document.getElementById('corpus-count');
+    const noResultsEl = document.getElementById('no-results') as HTMLElement | null;
+    const resetBtn    = document.getElementById('filter-reset');
+    const searchInput = document.getElementById('corpus-search') as HTMLInputElement | null;
+
+    const filterConfig: Array<{ id: string; dataKey: string }> = [
+      { id: 'filter-phase',       dataKey: 'phase'      },
+      { id: 'filter-category',    dataKey: 'category'   },
+      { id: 'filter-source-type', dataKey: 'sourceType' },
+      { id: 'filter-transcript',  dataKey: 'transcript' },
+      { id: 'filter-concept',     dataKey: 'concept'    },
+      { id: 'filter-actor',       dataKey: 'actor'      },
+      { id: 'filter-legit-type',  dataKey: 'legitType'  },
+    ];
+
+    function applyFilters(): void {
+      const vals: Record<string, string> = {};
+      for (const { id, dataKey } of filterConfig) {
+        vals[dataKey] = (document.getElementById(id) as HTMLSelectElement | null)?.value ?? '';
+      }
+      const search = searchInput?.value.trim().toLowerCase() ?? '';
+
+      let visible = 0;
+      rows.forEach(row => {
+        const ds = row.dataset;
+        const ok =
+          filterConfig.every(({ dataKey }) => !vals[dataKey] || ds[dataKey] === vals[dataKey]) &&
+          (!search || (ds.search ?? '').includes(search));
+        row.hidden = !ok;
+        if (ok) visible++;
+      });
+
+      if (countEl) countEl.textContent = `${visible} von ${rows.length} Einträgen`;
+      if (noResultsEl) noResultsEl.hidden = visible > 0;
+    }
+
+    for (const { id } of filterConfig) {
+      document.getElementById(id)?.addEventListener('change', applyFilters);
+    }
+    searchInput?.addEventListener('input', applyFilters);
+
+    resetBtn?.addEventListener('click', () => {
+      for (const { id } of filterConfig) {
+        const el = document.getElementById(id) as HTMLSelectElement | null;
+        if (el) el.value = '';
+      }
+      if (searchInput) searchInput.value = '';
+      applyFilters();
+    });
+  })();
+</script>
+
+<style>
+  .corpus-title-ar {
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .section--method {
+    background: var(--clr-bg-alt);
+    border-block: 1px solid var(--clr-border-light);
+  }
+
+  .section--filter {
+    background: var(--clr-bg-alt);
+    border-block: 1px solid var(--clr-border-light);
+    padding-block: var(--space-xl);
+  }
+
+  /* Method box */
+  .corpus-method-box {
+    border-left: 4px solid var(--clr-olive);
+    padding: var(--space-xl) var(--space-2xl);
+    background: var(--clr-card);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    max-width: 54rem;
+  }
+
+  .corpus-method-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .corpus-method-list li {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--clr-text-mid);
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.65;
+  }
+
+  .corpus-method-list li::before {
+    content: '\2014';
+    position: absolute;
+    left: 0;
+    color: var(--clr-olive);
+    font-weight: 600;
+  }
+
+  /* Stat cards */
+  .stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: var(--space-md);
+    margin-block: var(--space-xl);
+  }
+
+  .stat-card {
+    background: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .stat-card--warn { background: var(--clr-bg-alt); }
+
+  .stat-card__number {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--clr-olive);
+    line-height: 1;
+  }
+
+  .stat-card--warn .stat-card__number { color: var(--clr-text-muted); }
+
+  .stat-card__label {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--clr-text-muted);
+    line-height: 1.4;
+  }
+
+  .stat-card__note {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    color: var(--clr-text-muted);
+    font-style: italic;
+    margin-top: auto;
+  }
+
+  /* Search */
+  .corpus-search-wrap {
+    margin-top: var(--space-md);
+  }
+
+  .corpus-search-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--clr-text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  .corpus-search-input {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    color: var(--clr-text);
+    background-color: var(--clr-bg);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-lg);
+    width: 100%;
+    max-width: 36rem;
+    transition: border-color var(--transition-fast);
+  }
+
+  .corpus-search-input:focus {
+    outline: 2px solid var(--clr-olive);
+    outline-offset: 2px;
+    border-color: var(--clr-olive);
+  }
+
+  .corpus-search-input::placeholder {
+    color: var(--clr-text-muted);
+    font-style: italic;
+  }
+
+  /* Placeholder row */
+  .corpus-row--placeholder { background-color: var(--clr-bg-alt); }
+
+  /* Placeholder badges */
+  .placeholder-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 5px;
+  }
+
+  .placeholder-badge {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: rgba(109,109,109,0.1);
+    color: var(--clr-text-muted);
+    border: 1px solid rgba(109,109,109,0.2);
+    white-space: nowrap;
+  }
+
+  .placeholder-badge--transcript {
+    background: rgba(92,99,71,0.1);
+    color: #3d4a2e;
+    border-color: rgba(92,99,71,0.25);
+  }
+
+  .placeholder-badge--verify {
+    background: rgba(92,73,42,0.1);
+    color: #5c4a2a;
+    border-color: rgba(92,73,42,0.25);
+  }
+
+  /* No results */
+  .no-results {
+    padding: var(--space-2xl);
+    text-align: center;
+    color: var(--clr-text-muted);
+    font-style: italic;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    border: 1px dashed var(--clr-border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Column widths */
+  .col-year     { min-width: 3.5rem;  white-space: nowrap; }
+  .col-phase    { min-width: 4rem;    white-space: nowrap; }
+  .col-actor    { min-width: 10rem; }
+  .col-category { min-width: 6.5rem; }
+  .col-concept  { min-width: 7.5rem; }
+  .col-strategy { min-width: 9rem;    font-size: 0.8rem; color: var(--clr-text-mid); }
+  .col-legit    { min-width: 9rem; }
+  .col-transcript { min-width: 8.5rem; }
+  .col-source   { min-width: 13rem;   max-width: 18rem; }
+  .col-note     { min-width: 16rem;   max-width: 24rem; }
+
+  [data-corpus-row] { scroll-margin-top: 5rem; }
+
+  /* Actor names */
+  .actor-ar {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .actor-de {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--clr-text-muted);
+    line-height: 1.4;
+  }
+
+  /* Category / concept */
+  .category-label {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--clr-text-mid);
+  }
+
+  .concept-tag {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    background: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border-light);
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: var(--clr-text-mid);
+    white-space: nowrap;
+  }
+
+  /* Transcript status */
+  .transcript-status {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--clr-text-muted);
+    line-height: 1.4;
+  }
+
+  .transcript-status--available {
+    color: #3d4a2e;
+    font-weight: 600;
+  }
+
+  .transcript-status--pending { font-style: italic; }
+
+  /* Source */
+  .source-link {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--clr-olive);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+    line-height: 1.45;
+  }
+
+  .source-link:hover { color: var(--clr-red); }
+
+  .source-title-text {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    color: var(--clr-text-mid);
+    word-break: break-word;
+    line-height: 1.45;
+  }
+
+  /* Analytical note: details/summary */
+  .note-details { font-size: 0.8rem; }
+
+  .note-summary {
+    cursor: pointer;
+    color: var(--clr-text-mid);
+    line-height: 1.5;
+    list-style: none;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+  }
+
+  .note-summary::marker,
+  .note-summary::-webkit-details-marker { display: none; }
+
+  .note-summary::after {
+    content: '\00a0[+]';
+    font-size: 0.7rem;
+    color: var(--clr-olive);
+  }
+
+  details[open] .note-summary::after { content: '\00a0[\2212]'; }
+
+  .note-full {
+    margin: var(--space-sm) 0 0;
+    color: var(--clr-text-mid);
+    line-height: 1.6;
+    font-size: 0.8rem;
+    border-top: 1px solid var(--clr-border-light);
+    padding-top: var(--space-sm);
+    font-family: var(--font-sans);
+  }
+
+  .note-short {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--clr-text-mid);
+    line-height: 1.5;
+    font-family: var(--font-sans);
+  }
+
+  @media (max-width: 640px) {
+    .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    .corpus-method-box { padding: var(--space-lg); }
+  }
+</style>

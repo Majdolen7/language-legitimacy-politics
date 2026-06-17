@@ -1,0 +1,369 @@
+/* ==========================================================================
+   TYPOGRAPHY.CSS
+   Font hierarchy, headings, body text, quotes, labels, bilingual text
+   Legitimacy Museum — Von al-Jolani zu al-Sharaa
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   HEADINGS
+   All headings use the serif font (Crimson Pro) for academic register.
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--clr-text);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2rem,   4.5vw, 3rem);   }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem);  }
+h4 { font-size: clamp(1.1rem, 2vw,   1.3rem);  }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; font-weight: 600; font-family: var(--font-sans); }
+
+/* --------------------------------------------------------------------------
+   PAGE HEADER ELEMENTS
+   -------------------------------------------------------------------------- */
+
+/* Very large display title — homepage hero */
+.display-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.08;
+  color: var(--clr-text);
+  letter-spacing: -0.03em;
+}
+
+/* The large page-level title (used in page heroes) */
+.page-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.12;
+  color: var(--clr-text);
+  letter-spacing: -0.025em;
+}
+
+/* A smaller page-level label that sits above the title */
+.page-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-olive);
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+/* Subtitle below a page title */
+.page-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 350;
+  color: var(--clr-text-mid);
+  line-height: 1.7;
+  max-width: 58ch;
+  margin-top: var(--space-lg);
+}
+
+/* --------------------------------------------------------------------------
+   BILINGUAL TITLE TREATMENT
+   Arabic title displayed alongside or below German title.
+   -------------------------------------------------------------------------- */
+.title-bilingual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+/* Arabic counterpart title — smaller, muted, RTL */
+.title-ar {
+  font-family: var(--font-arabic);
+  font-size: 0.95em;
+  line-height: 1.5;
+  direction: rtl;
+  text-align: right;
+  color: var(--clr-text-muted);
+  font-weight: 400;
+}
+
+/* --------------------------------------------------------------------------
+   SECTION TITLES
+   -------------------------------------------------------------------------- */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 400;
+  color: var(--clr-text);
+  margin-bottom: var(--space-xl);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+}
+
+.section-title--center {
+  text-align: center;
+}
+
+.section-title--ruled {
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+/* Editorial intro text — serif body, used for section openings */
+.editorial-intro {
+  font-family: var(--font-serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  font-weight: 400;
+  color: var(--clr-text-mid);
+  line-height: 1.65;
+  max-width: 60ch;
+}
+
+/* Overline label above a section title */
+.section-overline {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-olive);
+  display: block;
+  margin-bottom: var(--space-md);
+}
+
+/* --------------------------------------------------------------------------
+   BODY TEXT
+   -------------------------------------------------------------------------- */
+p {
+  margin-bottom: var(--space-md);
+  max-width: 68ch;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+/* Long-form prose container */
+.prose {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.78;
+  color: var(--clr-text);
+}
+
+.prose h2 {
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+}
+
+.prose h3 {
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.prose p {
+  max-width: 68ch;
+  margin-bottom: var(--space-md);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+
+.prose li {
+  margin-bottom: var(--space-xs);
+  max-width: 65ch;
+}
+
+.prose strong { font-weight: 600; color: var(--clr-text); }
+.prose em     { font-style: italic; }
+
+.prose a {
+  color: var(--clr-olive);
+  border-bottom: 1px solid var(--clr-olive-pale);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.prose a:hover {
+  color: var(--clr-red);
+  border-color: var(--clr-red);
+}
+
+/* --------------------------------------------------------------------------
+   RESEARCH QUESTION — editorial pull-quote style
+   -------------------------------------------------------------------------- */
+.research-question {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--clr-text);
+  line-height: 1.5;
+  border-left: 3px solid var(--clr-red);
+  padding: var(--space-lg) var(--space-2xl);
+  margin-block: var(--space-2xl);
+  background-color: rgba(122, 31, 31, 0.04);
+  max-width: 72ch;
+}
+
+/* Full-width editorial pull-quote (no max-width) */
+.pull-quote {
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--clr-text);
+  line-height: 1.45;
+  padding-block: var(--space-2xl);
+  border-block: 1px solid var(--clr-border);
+  text-align: center;
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------------------
+   LABELS & METADATA
+   -------------------------------------------------------------------------- */
+
+/* Small uppercase label (category label, tag header) */
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+}
+
+/* Label that sits above a section as a divider */
+.label--section {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  color: var(--clr-olive);
+  border-bottom: 1px solid var(--clr-olive-pale);
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+
+/* Metadata row (e.g. "Jahr · Phase · Quelle") */
+.meta-row {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.meta-separator {
+  color: var(--clr-border);
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   QUOTES & SOURCES
+   -------------------------------------------------------------------------- */
+
+/* German blockquote */
+blockquote {
+  border-left: 3px solid var(--clr-red);
+  padding: var(--space-sm) var(--space-lg);
+  margin: var(--space-xl) 0;
+  color: var(--clr-text-mid);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 60ch;
+}
+
+blockquote footer,
+.quote-attribution {
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--clr-text-muted);
+  margin-top: var(--space-sm);
+  display: block;
+}
+
+blockquote footer::before {
+  content: '— ';
+}
+
+/* Corpus quote — placeholder style */
+.quote-placeholder {
+  background-color: var(--clr-bg-alt);
+  border: 1px dashed var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  font-size: 0.85rem;
+  color: var(--clr-text-muted);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   TRANSLITERATION
+   -------------------------------------------------------------------------- */
+.transliteration {
+  font-style: italic;
+  color: var(--clr-text-muted);
+  font-size: 0.9em;
+  font-family: var(--font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   NOTES & ANNOTATIONS
+   -------------------------------------------------------------------------- */
+.note {
+  font-size: 0.83rem;
+  color: var(--clr-text-muted);
+  font-style: italic;
+  margin-top: var(--space-sm);
+  line-height: 1.5;
+}
+
+.note--placeholder {
+  color: var(--clr-text-subtle);
+  background-color: var(--clr-bg-alt);
+  border-left: 2px solid var(--clr-border);
+  padding: var(--space-xs) var(--space-sm);
+  font-style: normal;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.note--warning {
+  color: var(--clr-red);
+  font-style: normal;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+}
+
+/* Analytical note block */
+.analytical-note {
+  background-color: var(--clr-card);
+  border: 1px solid var(--clr-border-light);
+  border-left: 3px solid var(--clr-olive);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-md) var(--space-lg);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--clr-text-mid);
+  margin-block: var(--space-lg);
+}
+
+.analytical-note .label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  color: var(--clr-olive);
+}

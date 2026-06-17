@@ -1,17 +1,949 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import timelineData from '../data/timeline.json';
+import conceptsData from '../data/concepts.json';
 
+// Homepage shows first 5 concepts as preview
+const previewConcepts = conceptsData.slice(0, 5);
+
+// Trim analytical notes to a readable length for the phase preview cards
+function preview(text: string, max = 200): string {
+  if (text.length <= max) return text;
+  const cut = text.lastIndexOf(' ', max);
+  return text.substring(0, cut > 0 ? cut : max) + ' …';
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Von al-Jolani zu al-Sharaa"
+  description="Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011."
+>
+
+  <!-- ============================================================
+       1. HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+
+        <p class="page-kicker">
+          Von der bewaffneten Gruppierung zur Übergangsautorität
+        </p>
+
+        <h1 class="hero__title">Von al-Jolani zu al-Sharaa</h1>
+
+        <p class="hero__title-ar" lang="ar" dir="rtl">
+          من الجولاني إلى الشرع
+        </p>
+
+        <div class="hero__divider" aria-hidden="true"></div>
+
+        <p class="hero__subtitle">
+          Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen
+          in Syrien nach 2011
+        </p>
+        <p class="hero__subtitle-en">
+          A Digital Museum of Legitimacy Discourses in Post-2011 Syria
+        </p>
+
+        <p class="hero__intro">
+          Das Projekt untersucht, wie politische Legitimität im Diskurs von
+          Hayʾat Taḥrīr al-Shām /
+          <span lang="ar" dir="rtl">هيئة تحرير الشام</span>
+          und Ahmad al-Sharaa zwischen 2011 und 2025 sprachlich, symbolisch und
+          institutionell neu konstruiert wird. Im Mittelpunkt steht nicht die
+          Biografie eines Akteurs, sondern die Frage, wie Legitimität im Diskurs
+          produziert wird.
+        </p>
+
+        <div class="hero__actions">
+          <a href="/research-question" class="btn btn--primary">
+            Forschungsfrage ansehen
+          </a>
+          <a href="/corpus" class="btn btn--outline">Corpus erkunden</a>
+          <a href="/concepts" class="btn btn--outline">Konzepte ansehen</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       2. FORSCHUNGSFRAGE PREVIEW
+       ============================================================ -->
+  <section class="section rq-section">
+    <div class="container">
+      <div class="rq-inner">
+
+        <div class="rq-label">
+          <span class="section-overline">Zentrale Forschungsfrage</span>
+        </div>
+
+        <blockquote class="rq-quote">
+          Wie wird politische Legitimität im Diskurs von
+          Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa zwischen 2011 und 2025
+          neu konstruiert, und welche Rolle spielen dabei Konzepte wie
+          <span lang="ar" dir="rtl">الدولة</span> (Staat),
+          <span lang="ar" dir="rtl">الأمن</span> (Sicherheit),
+          <span lang="ar" dir="rtl">المواطنة</span> (Bürgerschaft),
+          <span lang="ar" dir="rtl">الدولة المدنية</span> (ziviler Staat) und
+          <span lang="ar" dir="rtl">الاعتراف الدولي</span> (internationale Anerkennung)?
+        </blockquote>
+
+        <a href="/research-question" class="rq-link">
+          Zu den Unterfragen und dem theoretischen Rahmen →
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       3. DREI FORSCHUNGSPHASEN PREVIEW
+       ============================================================ -->
+  <section class="section section--alt phases-section">
+    <div class="container">
+
+      <span class="section-overline">Drei Forschungsphasen</span>
+      <h2 class="section-title">Phasen des Akteurswandels</h2>
+
+      <div class="grid-3 phases-grid">
+        {timelineData.map((phase) => (
+          <article
+            class="phase-card"
+            style={`--phase-clr: var(--clr-phase-${phase.phase_number})`}
+          >
+            <div class="phase-card__header">
+              <span class="phase-card__years">{phase.year_range}</span>
+              <span class={`phase-badge phase-badge--${phase.phase_number}`}>
+                Phase {phase.phase_number}
+              </span>
+            </div>
+
+            <h3 class="phase-card__title">{phase.phase_title_de}</h3>
+
+            <p class="phase-card__title-ar" lang="ar" dir="rtl">
+              {phase.phase_title_ar}
+            </p>
+
+            <p class="phase-card__note">
+              {preview(phase.analytical_note_de)}
+            </p>
+
+            <div class="phase-card__actors">
+              <span class="label">Benennung des Akteurs</span>
+              <div class="phase-card__actor-list">
+                {phase.actor_naming_de.slice(0, 2).map((name) => (
+                  <span class="phase-card__actor-tag">{name}</span>
+                ))}
+              </div>
+            </div>
+
+            <div class="phase-card__footer">
+              <a href="/timeline" class="btn btn--ghost btn--sm">
+                Phase ansehen →
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-xl">
+        <a href="/timeline" class="btn btn--outline">
+          Vollständige Timeline ansehen
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4. CONCEPT PREVIEW
+       ============================================================ -->
+  <section class="section concepts-section">
+    <div class="container">
+
+      <span class="section-overline">Kernkonzepte / المفاهيم الأساسية</span>
+      <h2 class="section-title">Concept Gallery — Auswahl</h2>
+
+      <div class="concepts-preview-grid">
+        {previewConcepts.map((concept) => (
+          <article
+            class="concept-preview-card"
+            style={`--concept-color: ${concept.color_accent}`}
+          >
+            <span class="concept-preview-card__ar" lang="ar" dir="rtl">
+              {concept.arabic}
+            </span>
+            <span class="concept-preview-card__translit">
+              {concept.transliteration}
+            </span>
+            <h3 class="concept-preview-card__de">{concept.german}</h3>
+            <p class="concept-preview-card__question">
+              {concept.analysis_question_de}
+            </p>
+            <div class="concept-preview-card__phases">
+              {Object.entries(concept.phase_relevance).map(([key, val]) => (
+                <div class="concept-preview-card__phase-row">
+                  <span class="concept-preview-card__phase-label">
+                    {key === 'phase_1' ? '2011–16'
+                      : key === 'phase_2' ? '2017–24'
+                      : '2025'}
+                  </span>
+                  <span class="concept-preview-card__phase-text">
+                    {preview(String(val), 90)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="mt-2xl">
+        <a href="/concepts" class="btn btn--outline">
+          Alle 7 Konzepte in der Concept Gallery ansehen
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5. CORPUS & QUELLEN PREVIEW
+       ============================================================ -->
+  <section class="section section--alt corpus-section">
+    <div class="container">
+
+      <div class="corpus-preview-inner">
+
+        <div class="corpus-preview-text">
+          <span class="section-overline">Corpus &amp; Quellen</span>
+          <h2 class="section-title" style="border-bottom: none; margin-bottom: var(--space-md);">
+            Kuratiertes Quellenkorpus
+          </h2>
+          <p>
+            Das Projekt arbeitet mit einem kleinen, manuell kuratierten Corpus
+            von 10–15 Einträgen für den Kursprototyp und 30–50 für ein
+            weiterführendes Masterprojekt. Jede Quelle ist analytisch kodiert:
+            nach Phase, Konzept, Legitimationsstrategie und Legitimationstyp.
+          </p>
+          <p>
+            Audiovisuelle Quellen — Reden, Interviews, Pressekonferenzen auf
+            YouTube — werden als vollwertige Primärquellen behandelt. Sie fließen
+            erst nach Transkription und Verifikation in die Analyse ein und sind
+            entsprechend im Corpus gekennzeichnet.
+          </p>
+          <a href="/corpus" class="btn btn--outline mt-lg">
+            Corpus &amp; Quellen ansehen
+          </a>
+        </div>
+
+        <div class="corpus-preview-types">
+          <p class="label label--section">Quellentypen</p>
+
+          <div class="source-type-list">
+            <div class="source-type-item">
+              <span class="source-type-item__icon" aria-hidden="true">I</span>
+              <div>
+                <strong class="source-type-item__title">Schriftliche Quellen</strong>
+                <p class="source-type-item__desc">
+                  Statements, Dokumente, Regierungserklärungen, Programme
+                </p>
+              </div>
+            </div>
+
+            <div class="source-type-item">
+              <span class="source-type-item__icon" aria-hidden="true">II</span>
+              <div>
+                <strong class="source-type-item__title">Audiovisuelle Quellen</strong>
+                <p class="source-type-item__desc">
+                  YouTube, Interviews, Reden, Pressekonferenzen —
+                  als Primärquellen
+                </p>
+              </div>
+            </div>
+
+            <div class="source-type-item">
+              <span class="source-type-item__icon" aria-hidden="true">III</span>
+              <div>
+                <strong class="source-type-item__title">Transkripte</strong>
+                <p class="source-type-item__desc">
+                  Vom Projekt erstellte, geprüfte und als solche
+                  gekennzeichnete Transkripte
+                </p>
+              </div>
+            </div>
+
+            <div class="source-type-item">
+              <span class="source-type-item__icon" aria-hidden="true">IV</span>
+              <div>
+                <strong class="source-type-item__title">Kontextquellen</strong>
+                <p class="source-type-item__desc">
+                  EUAA, Reuters, ICG, Carnegie, wissenschaftliche Publikationen
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       6. METHODOLOGICAL NOTE
+       ============================================================ -->
+  <section class="section method-section">
+    <div class="container">
+      <div class="method-inner">
+
+        <div class="method-statement">
+          <span class="section-overline">Analytische Grundhaltung</span>
+          <p class="method-statement__text">
+            Das Projekt analysiert Legitimitätsdiskurse und Legitimationsstrategien.
+            Es legitimiert oder delegitimiert politische Akteure nicht im Voraus.
+            Alle Quellenangaben sind transparent gekennzeichnet. Fehlende oder
+            unverifizierte Stellen sind deutlich als Platzhalter markiert.
+          </p>
+        </div>
+
+        <div class="method-tags">
+          <p class="label label--section">Theoretischer &amp; methodischer Rahmen</p>
+          <div class="method-tag-list">
+            <span class="method-tag">Max Weber — Legitime Herrschaft</span>
+            <span class="method-tag">Theo van Leeuwen — Legitimation in Discourse</span>
+            <span class="method-tag">Politische Diskursanalyse</span>
+            <span class="method-tag">Begriffsgeschichte / Konzeptanalyse</span>
+            <span class="method-tag">JSON / CSV — kuratiertes Corpus</span>
+            <span class="method-tag">Astro · GitHub Pages · Zenodo</span>
+          </div>
+          <p class="mt-lg">
+            <a href="/methodology" class="btn btn--ghost btn--sm">
+              Zur vollständigen Methodologie →
+            </a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       7. FOOTER TEASER
+       ============================================================ -->
+  <section class="section section--alt teaser-section">
+    <div class="container">
+
+      <h2 class="section-title">Weiter erkunden</h2>
+
+      <div class="grid-3 teaser-grid">
+
+        <a href="/timeline" class="teaser-card">
+          <span class="teaser-card__label">Forschungsphasen</span>
+          <h3 class="teaser-card__title">Timeline</h3>
+          <p class="teaser-card__desc">
+            Drei Phasen des Akteurswandels von 2011 bis 2025 — mit
+            Schlüsselbegriffen, Legitimationstypen und analytischen Notizen.
+          </p>
+          <span class="teaser-card__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="/methodology" class="teaser-card">
+          <span class="teaser-card__label">Forschungsdesign</span>
+          <h3 class="teaser-card__title">Methodologie</h3>
+          <p class="teaser-card__desc">
+            Corpus-Auswahl, Kodierung, theoretischer Rahmen, Grenzen
+            des Projekts und ethische Reflexion.
+          </p>
+          <span class="teaser-card__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a href="/data-sustainability" class="teaser-card">
+          <span class="teaser-card__label">Offene Daten</span>
+          <h3 class="teaser-card__title">Daten &amp; Nachhaltigkeit</h3>
+          <p class="teaser-card__desc">
+            Warum JSON/CSV ausreicht, wie der statische Astro-Ansatz
+            Reproduzierbarkeit sichert und welche Archivierungsoptionen bestehen.
+          </p>
+          <span class="teaser-card__arrow" aria-hidden="true">→</span>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+
+<!-- ================================================================
+     PAGE-SPECIFIC STYLES (scoped to this page by Astro)
+     These complement — not override — the global CSS system.
+     ================================================================ -->
+<style>
+
+  /* ------------------------------------------------------------------
+     HERO
+     ------------------------------------------------------------------ */
+  .hero {
+    background-color: var(--clr-bg-alt);
+    padding-block: var(--space-4xl) var(--space-3xl);
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .hero__inner {
+    max-width: 780px;
+  }
+
+  .hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero__title-ar {
+    font-family: var(--font-arabic);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: var(--space-lg);
+    display: block;
+  }
+
+  .hero__divider {
+    width: 3rem;
+    height: 2px;
+    background-color: var(--clr-olive);
+    margin-bottom: var(--space-lg);
+    border-radius: 1px;
+  }
+
+  .hero__subtitle {
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    line-height: 1.5;
+    margin-bottom: var(--space-xs);
+    max-width: none;
+  }
+
+  .hero__subtitle-en {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--clr-text-muted);
+    font-style: italic;
+    margin-bottom: var(--space-xl);
+    max-width: none;
+  }
+
+  .hero__intro {
+    font-size: 0.975rem;
+    line-height: 1.72;
+    color: var(--clr-text-mid);
+    max-width: 65ch;
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  /* ------------------------------------------------------------------
+     RESEARCH QUESTION SECTION
+     ------------------------------------------------------------------ */
+  .rq-section {
+    background-color: var(--clr-card);
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .rq-inner {
+    max-width: 800px;
+  }
+
+  .rq-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--clr-text);
+    line-height: 1.6;
+    border-left: 4px solid var(--clr-red);
+    padding: var(--space-md) var(--space-lg);
+    margin-block: var(--space-lg) var(--space-md);
+    background-color: rgba(139, 35, 35, 0.03);
+    max-width: none;
+  }
+
+  .rq-link {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--clr-olive);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .rq-link:hover {
+    color: var(--clr-red);
+  }
+
+  /* ------------------------------------------------------------------
+     PHASE CARDS
+     ------------------------------------------------------------------ */
+  .phases-section {
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .phases-grid {
+    align-items: stretch;
+  }
+
+  .phase-card {
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    border-top: 4px solid var(--phase-clr, var(--clr-olive));
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    transition: box-shadow var(--transition-mid);
+  }
+
+  .phase-card:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .phase-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .phase-card__years {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    color: var(--phase-clr, var(--clr-olive));
+  }
+
+  .phase-card__title {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--clr-text);
+    line-height: 1.3;
+  }
+
+  .phase-card__title-ar {
+    font-family: var(--font-arabic);
+    font-size: 1rem;
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text-muted);
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+  }
+
+  .phase-card__note {
+    font-size: 0.875rem;
+    color: var(--clr-text-mid);
+    line-height: 1.65;
+    flex: 1;
+    max-width: none;
+    margin: 0;
+  }
+
+  .phase-card__actors {
+    border-top: 1px solid var(--clr-border-light);
+    padding-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .phase-card__actor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .phase-card__actor-tag {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    background-color: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-sm);
+    padding: 2px var(--space-sm);
+    color: var(--clr-text-muted);
+    white-space: nowrap;
+  }
+
+  .phase-card__footer {
+    margin-top: auto;
+    padding-top: var(--space-sm);
+  }
+
+  /* ------------------------------------------------------------------
+     CONCEPT PREVIEW
+     ------------------------------------------------------------------ */
+  .concepts-section {
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .concepts-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .concept-preview-card {
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    transition: box-shadow var(--transition-mid), transform var(--transition-mid);
+  }
+
+  .concept-preview-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Left accent stripe using concept color */
+  .concept-preview-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--concept-color, var(--clr-olive));
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+
+  .concept-preview-card__ar {
+    font-family: var(--font-arabic);
+    font-size: 1.6rem;
+    direction: rtl;
+    text-align: right;
+    color: var(--clr-text);
+    line-height: 1.3;
+    display: block;
+  }
+
+  .concept-preview-card__translit {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--clr-text-muted);
+    text-align: right;
+    display: block;
+  }
+
+  .concept-preview-card__de {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--clr-text);
+    border-top: 1px solid var(--clr-border-light);
+    padding-top: var(--space-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .concept-preview-card__question {
+    font-size: 0.8rem;
+    color: var(--clr-text-mid);
+    font-style: italic;
+    line-height: 1.55;
+    flex: 1;
+    max-width: none;
+    margin: 0;
+  }
+
+  .concept-preview-card__phases {
+    border-top: 1px solid var(--clr-border-light);
+    padding-top: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-top: auto;
+  }
+
+  .concept-preview-card__phase-row {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--space-xs);
+    align-items: baseline;
+  }
+
+  .concept-preview-card__phase-label {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--clr-olive);
+    white-space: nowrap;
+  }
+
+  .concept-preview-card__phase-text {
+    font-size: 0.72rem;
+    color: var(--clr-text-muted);
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------------
+     CORPUS PREVIEW
+     ------------------------------------------------------------------ */
+  .corpus-preview-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .corpus-preview-text p {
+    font-size: 0.95rem;
+    line-height: 1.72;
+    color: var(--clr-text-mid);
+    max-width: none;
+  }
+
+  .corpus-preview-text p + p {
+    margin-top: var(--space-md);
+  }
+
+  .source-type-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .source-type-item {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-md);
+    align-items: start;
+  }
+
+  .source-type-item__icon {
+    font-family: var(--font-serif);
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--clr-text-subtle);
+    background-color: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-sm);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-style: normal;
+    letter-spacing: 0;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: var(--font-sans);
+  }
+
+  .source-type-item__title {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--clr-text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .source-type-item__desc {
+    font-size: 0.8rem;
+    color: var(--clr-text-muted);
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* ------------------------------------------------------------------
+     METHODOLOGICAL NOTE
+     ------------------------------------------------------------------ */
+  .method-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .method-statement__text {
+    font-size: 0.975rem;
+    line-height: 1.72;
+    color: var(--clr-text-mid);
+    border-left: 3px solid var(--clr-olive);
+    padding-left: var(--space-lg);
+    max-width: none;
+    margin-top: var(--space-md);
+  }
+
+  .method-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+  }
+
+  .method-tag {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--clr-text-mid);
+    background-color: var(--clr-bg-alt);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: 3px var(--space-sm);
+    line-height: 1.5;
+  }
+
+  /* ------------------------------------------------------------------
+     FOOTER TEASER CARDS
+     ------------------------------------------------------------------ */
+  .teaser-section {
+    border-top: 1px solid var(--clr-border);
+  }
+
+  .teaser-grid {
+    align-items: stretch;
+  }
+
+  .teaser-card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--transition-mid), transform var(--transition-mid), border-color var(--transition-mid);
+    gap: var(--space-sm);
+  }
+
+  .teaser-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    border-color: var(--clr-olive);
+  }
+
+  .teaser-card__label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--clr-olive);
+  }
+
+  .teaser-card__title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--clr-text);
+    line-height: 1.25;
+  }
+
+  .teaser-card__desc {
+    font-size: 0.875rem;
+    color: var(--clr-text-mid);
+    line-height: 1.6;
+    flex: 1;
+    max-width: none;
+    margin: 0;
+  }
+
+  .teaser-card__arrow {
+    font-size: 1.2rem;
+    color: var(--clr-olive);
+    margin-top: var(--space-sm);
+    transition: transform var(--transition-fast), color var(--transition-fast);
+    align-self: flex-start;
+  }
+
+  .teaser-card:hover .teaser-card__arrow {
+    transform: translateX(4px);
+    color: var(--clr-red);
+  }
+
+  /* ------------------------------------------------------------------
+     RESPONSIVE
+     ------------------------------------------------------------------ */
+  @media (max-width: 1100px) {
+    .concepts-preview-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .corpus-preview-inner,
+    .method-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .hero {
+      padding-block: var(--space-2xl) var(--space-xl);
+    }
+
+    .concepts-preview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero__actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero__actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .concepts-preview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+</style>

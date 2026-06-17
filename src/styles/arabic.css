@@ -1,0 +1,185 @@
+/* ==========================================================================
+   ARABIC.CSS
+   RTL support, Arabic typography, bidirectional text handling
+   Legitimacy Museum — Von al-Jolani zu al-Sharaa
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ARABIC INLINE ELEMENTS
+   Use for Arabic words or short phrases embedded in German text.
+   Always set font, direction and language explicitly.
+   -------------------------------------------------------------------------- */
+[lang="ar"],
+.ar {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  unicode-bidi: embed;
+  font-feature-settings: "kern" 1;
+  word-spacing: 0.05em;
+}
+
+/* Arabic inline in German prose — slightly larger for visual balance */
+p [lang="ar"],
+p .ar,
+li [lang="ar"],
+li .ar {
+  font-size: 1.1em;
+  line-height: 1;
+  vertical-align: baseline;
+}
+
+/* --------------------------------------------------------------------------
+   ARABIC BLOCK ELEMENTS
+   Containers where all text is Arabic.
+   -------------------------------------------------------------------------- */
+.ar-block {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: bidi-override;
+  line-height: 1.8;
+  word-spacing: 0.08em;
+  letter-spacing: 0;
+}
+
+/* Large Arabic display text (e.g. concept cards, headings) */
+.ar-display {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.8rem;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--clr-text);
+}
+
+/* Arabic subtitle / secondary text */
+.ar-subtitle {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+  font-weight: 400;
+}
+
+/* Arabic body text */
+.ar-body {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--clr-text);
+}
+
+/* Arabic small / metadata */
+.ar-small {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   BILINGUAL CONCEPT PAIR
+   Arabic term + German translation displayed as a unit.
+   -------------------------------------------------------------------------- */
+.concept-pair {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.concept-pair__ar {
+  font-family: var(--font-arabic);
+  font-size: 1.2rem;
+  direction: rtl;
+  color: var(--clr-text);
+  font-weight: 500;
+}
+
+.concept-pair__sep {
+  color: var(--clr-text-subtle);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.concept-pair__de {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--clr-text-mid);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   ARABIC BLOCKQUOTE
+   RTL variant of blockquote (border on right side).
+   -------------------------------------------------------------------------- */
+blockquote.ar-block,
+.blockquote-ar {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  border-left: none;
+  border-right: 3px solid var(--clr-red);
+  padding-left: 0;
+  padding-right: var(--space-lg);
+  font-style: normal;
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--clr-text-mid);
+}
+
+/* --------------------------------------------------------------------------
+   MIXED-DIRECTION CONTAINERS
+   For sections containing both German (LTR) and Arabic (RTL) text.
+   -------------------------------------------------------------------------- */
+.bidi-container {
+  unicode-bidi: isolate;
+}
+
+/* The overall HTML/body direction stays LTR (German as base).
+   Arabic elements use dir="rtl" or class .ar-block explicitly.
+   This file does NOT set direction: rtl on body. */
+
+/* --------------------------------------------------------------------------
+   KEYWORD TAGS (Arabic)
+   -------------------------------------------------------------------------- */
+.keyword-ar {
+  display: inline-block;
+  font-family: var(--font-arabic);
+  font-size: 0.9rem;
+  direction: rtl;
+  background-color: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-sm);
+  color: var(--clr-text-mid);
+  margin: 2px;
+  line-height: 1.6;
+}
+
+.keyword-de {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  background-color: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border-light);
+  border-radius: var(--radius-sm);
+  padding: 1px var(--space-sm);
+  color: var(--clr-text-muted);
+  margin: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   FONT-SIZE ADJUSTMENTS FOR ARABIC
+   Noto Naskh Arabic renders slightly smaller than Latin at the same px.
+   These classes compensate per context.
+   -------------------------------------------------------------------------- */
+.ar-size-match-body   { font-size: 1.05rem; }  /* matches 1rem Latin body */
+.ar-size-match-sm     { font-size: 0.95rem; }  /* matches 0.85rem Latin */
+.ar-size-match-label  { font-size: 0.85rem; }  /* matches 0.72rem Latin label */

@@ -1,0 +1,230 @@
+---
+import '../styles/global.css';
+import '../styles/typography.css';
+import '../styles/components.css';
+import '../styles/arabic.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: string;
+}
+
+const {
+  title,
+  description = 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.',
+  lang = 'de',
+} = Astro.props;
+
+const siteTitle = 'Von al-Jolani zu al-Sharaa';
+const fullTitle  = title === siteTitle ? title : `${title} | ${siteTitle}`;
+
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { href: '/',                    label: 'Startseite'       },
+  { href: '/research-question',   label: 'Forschungsfrage'  },
+  { href: '/timeline',            label: 'Timeline'         },
+  { href: '/concepts',            label: 'Konzepte'         },
+  { href: '/actor-transformation',label: 'Akteurswandel'    },
+  { href: '/cabinet',             label: 'Regierung'        },
+  { href: '/corpus',              label: 'Corpus'           },
+  { href: '/methodology',         label: 'Methodologie'     },
+  { href: '/data-sustainability', label: 'Daten'            },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="generator" content={Astro.generator} />
+
+  <meta property="og:title"       content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type"        content="website" />
+
+  <title>{fullTitle}</title>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!--
+    Crimson Pro  — serif display and headings
+    Source Sans 3 — interface and body (variable font)
+    Noto Naskh Arabic — all Arabic text
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600&family=Noto+Naskh+Arabic:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+  <!-- ================================================================
+       SITE MASTHEAD — project identity, scrolls away
+  ================================================================ -->
+  <div class="site-masthead" role="banner">
+    <div class="container">
+      <a href="/" class="site-masthead__link" aria-label="Von al-Jolani zu al-Sharaa — Startseite">
+        <img
+          src="/assets/logo/lp-logo-final.svg"
+          alt="Language, Legitimacy &amp; Politics logo"
+          class="site-masthead__logo"
+          width="56"
+          height="56"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="site-masthead__title">Von al-Jolani zu al-Sharaa</span>
+        <span class="site-masthead__subtitle-de">
+          Legitimitäts- und Staatsdiskurse in Syrien nach 2011
+        </span>
+      </a>
+      <span class="site-masthead__title-ar" lang="ar" dir="rtl" aria-hidden="true">
+        من الجولاني إلى الشرع
+      </span>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SITE NAV-BAR — sticky navigation
+  ================================================================ -->
+  <div class="site-nav-bar">
+    <div class="container">
+
+      <nav
+        class="site-nav"
+        id="main-nav"
+        aria-label="Hauptnavigation"
+        role="navigation"
+      >
+        <ul class="site-nav__list" role="list">
+          {navItems.map((item) => (
+            <li class="site-nav__item">
+              <a
+                href={item.href}
+                class={`site-nav__link${isActive(item.href) ? ' is-active' : ''}`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <button
+        class="nav-toggle"
+        id="nav-toggle"
+        aria-controls="main-nav"
+        aria-expanded="false"
+        aria-label="Navigation öffnen"
+      >
+        <span class="nav-toggle__icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        Menü
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MAIN CONTENT
+  ================================================================ -->
+  <main id="main-content" tabindex="-1">
+    <slot />
+  </main>
+
+  <!-- ================================================================
+       SITE FOOTER
+  ================================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="site-footer__inner">
+
+        <div class="site-footer__project">
+          <span class="site-footer__name">Von al-Jolani zu al-Sharaa</span>
+          <span class="site-footer__name-ar" lang="ar" dir="rtl">
+            من الجولاني إلى الشرع: تحولات خطاب الشرعية والدولة في سوريا بعد 2011
+          </span>
+          <p>
+            Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen
+            im syrischen Islamismus nach 2011.
+            Das Projekt analysiert Diskurse und legitimiert oder delegitimiert
+            politische Akteure nicht.
+          </p>
+        </div>
+
+        <nav class="site-footer__links" aria-label="Footer-Navigation">
+          <a href="/methodology"         class="site-footer__link">Methodologie</a>
+          <a href="/data-sustainability"  class="site-footer__link">Daten &amp; Nachhaltigkeit</a>
+          <a href="/corpus"              class="site-footer__link">Corpus</a>
+          <a href="/about"               class="site-footer__link">Über das Projekt</a>
+        </nav>
+
+      </div>
+
+      <div class="site-footer__bottom">
+        <span>
+          Digital Humanities Projekt &middot;
+          <span lang="ar" dir="rtl" style="font-family: var(--font-arabic);">
+            مشروع إنسانيات رقمية
+          </span>
+        </span>
+        <span>Alle Quellen sind gekennzeichnet. Keine echten Zitate ohne Quellenbeleg.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       JAVASCRIPT — Mobile Navigation Toggle
+  ================================================================ -->
+  <script>
+    const toggle = document.getElementById('nav-toggle');
+    const nav    = document.getElementById('main-nav');
+
+    if (toggle && nav) {
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        toggle.setAttribute(
+          'aria-label',
+          isOpen ? 'Navigation öffnen' : 'Navigation schließen'
+        );
+        nav.classList.toggle('nav--open');
+      });
+
+      nav.querySelectorAll('.site-nav__link').forEach((link) => {
+        link.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Navigation öffnen');
+          nav.classList.remove('nav--open');
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+          toggle.setAttribute('aria-expanded', 'false');
+          nav.classList.remove('nav--open');
+          toggle.focus();
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
