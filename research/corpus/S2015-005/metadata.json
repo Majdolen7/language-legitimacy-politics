@@ -1,0 +1,60 @@
+{
+  "speech_id": "S2015-005",
+  "provisional_title": "Al Jazeera 'Bila Hudud' interview with Ahmad Mansour - Part 1",
+  "programme_title": {
+    "arabic": "بلا حدود",
+    "transliteration": "Bila Hudud",
+    "english": "Without Bounds (also rendered 'Without Limits')"
+  },
+  "broadcaster": "Al Jazeera (Arabic) - قناة الجزيرة",
+  "interviewer": "Ahmad Mansour (أحمد منصور)",
+  "speaker_name_used_in_programme": "أبو محمد الجولاني (Abu Muhammad al-Jolani)",
+  "event_type": "Television interview (programme episode)",
+  "language": "Arabic",
+  "broadcast_date": "2015-05-27",
+  "broadcast_date_part": "Part 1 (Part 2 broadcast 2015-06-03, logged separately as S2015-006)",
+  "recording_date": "Unknown (filmed before broadcast; exact date not disclosed)",
+  "recording_location": {
+    "city": "Unknown",
+    "exact_location": "Unknown",
+    "disclosed_in_source": false,
+    "note": "Filming location is NOT disclosed by Al Jazeera. Not inferred from visual setting, reporting context, or references to Idlib."
+  },
+  "primary_recording": {
+    "platform": "YouTube",
+    "url": "https://www.youtube.com/watch?v=7bzoUVx_B2k",
+    "label": "أبو محمد الجولاني يكشف استراتيجية جبهة النصرة القتالية ... وموقفها من العلويين والدروز (1)",
+    "corresponds_to_same_interview": true,
+    "part": "Part 1",
+    "language": "Arabic"
+  },
+  "internet_archive_item": {
+    "url": "https://archive.org/details/aljoulani-interview-aljazeera-27may2015",
+    "media_type": "text (PDF) - English translation, NOT an audio/video recording",
+    "translator": "@Polder_Mujahid0 (Twitter) - unofficial community translation",
+    "added_date": "2015-05-31",
+    "item_size": "19.2M",
+    "language": "English",
+    "access": "Access-restricted (access-restricted-item: true); requires Internet Archive login to view",
+    "completeness": "Not independently verified"
+  },
+  "arabic_transcript_status": "No complete Arabic transcript located",
+  "english_translation_status": "Exists (IA PDF) but unofficial, access-restricted, completeness unverified",
+  "source_classification": "Primary research material = Arabic video recording (YouTube Part 1 / original Al Jazeera broadcast). The IA English-translation PDF is a derivative/secondary aid, access-restricted.",
+  "verification_decision": "Partially verified",
+  "verified_fields": [
+    "programme_title",
+    "broadcaster",
+    "interviewer",
+    "broadcast_date",
+    "language",
+    "speaker_name_used"
+  ],
+  "open_fields": [
+    "complete_arabic_transcript",
+    "official_english_translation",
+    "recording_location",
+    "full_interview_recording_access"
+  ],
+  "access_date": "2026-06-17"
+}
