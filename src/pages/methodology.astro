@@ -87,7 +87,7 @@ const locale = 'de';
           von Ahmad al-Sharaa aus dem Zeitraum 2013–2026. Die Auswahl folgt drei Kriterien:
         </p>
         <ol class="method-list">
-          <li><strong>Phasenübergreifende Repräsentativität:</strong> Alle vier analytischen Phasen sind durch mindestens ein verifizierbares Primärquellendokument vertreten.</li>
+          <li><strong>Phasenübergreifende Repräsentativität:</strong> Alle drei analytischen Phasen sind durch mindestens ein verifizierbares Primärquellendokument vertreten.</li>
           <li><strong>Diskursive Signifikanz:</strong> Das Dokument enthält erkennbare Legitimationsstrategien oder Schlüsselbegriffe des Projekts.</li>
           <li><strong>Quellenverifizierbarkeit:</strong> Die Primärquelle ist abrufbar oder in gesicherten Archiven zugänglich (YouTube, Wayback Machine, Mediendatenbanken).</li>
         </ol>
@@ -165,7 +165,7 @@ const locale = 'de';
       </div>
       <div class="method-sidebar-card">
         <p class="method-sidebar-card__label">Corpus-Umfang</p>
-        <p class="method-sidebar-card__val">10–15 Einträge (Kursprototyp)<br/>30–50 Einträge (Masterprojekt)</p>
+        <p class="method-sidebar-card__val">10–15 Einträge (aktueller Prototyp)<br/>30–50 Einträge (Masterprojekt)</p>
       </div>
       <div class="method-sidebar-card">
         <p class="method-sidebar-card__label">Technischer Stack</p>
@@ -190,7 +190,7 @@ const locale = 'de';
 </BaseLayout>
 
 <style>
-.method-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.method-hero { background: #FFFFFF; border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
 .method-body { display: grid; grid-template-columns: 1fr 16rem; gap: var(--space-3xl); align-items: start; }
 .method-main { display: flex; flex-direction: column; gap: var(--space-3xl); }
 .method-block { padding-bottom: var(--space-2xl); border-bottom: 1px solid var(--clr-border-light); }
@@ -198,20 +198,20 @@ const locale = 'de';
 .method-block__title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--clr-text); margin-bottom: var(--space-lg); }
 .method-block p { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; margin-bottom: var(--space-md); }
 .method-block p:last-child { margin-bottom: 0; }
-.method-statement-box { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); margin-bottom: var(--space-lg); }
+.method-statement-box { padding: var(--space-md) var(--space-xl); margin-bottom: var(--space-lg); }
 .method-statement-box:last-child { margin-bottom: 0; }
-.method-statement-box--primary { border-left: 4px solid var(--clr-red); }
-.method-statement-box--neutral { border-left: 4px solid #B28757; }
-.method-statement-box--map { border-left: 4px solid #4A2E22; }
+.method-statement-box--primary { border-left: 3px solid var(--clr-red); }
+.method-statement-box--neutral { border-left: 3px solid #B28757; }
+.method-statement-box--map { border-left: 3px solid #4A2E22; }
 .method-statement__label { font-family: var(--font-sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin: 0 0 var(--space-sm); display: block; }
 .method-statement__text { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; padding-left: var(--space-lg); margin: 0; }
 .method-list { font-family: var(--font-sans); font-size: 0.9rem; color: var(--clr-text-mid); line-height: 1.75; padding-left: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-md) 0; }
 .method-schema-grid { display: flex; flex-direction: column; gap: var(--space-sm); margin-block: var(--space-lg); }
-.method-schema-item { display: grid; grid-template-columns: 11rem 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-sm) var(--space-md); background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); }
+.method-schema-item { display: grid; grid-template-columns: 11rem 1fr; gap: var(--space-md); align-items: baseline; padding: var(--space-sm) var(--space-md); background: transparent; border-bottom: 1px solid var(--clr-border-light); }
 .method-schema-item__key { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 600; color: var(--clr-olive); }
 .method-schema-item__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.5; }
 .method-sidebar { display: flex; flex-direction: column; gap: var(--space-xl); position: sticky; top: calc(3.5rem + var(--space-xl)); }
-.method-sidebar-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.method-sidebar-card { background: var(--clr-bg-alt); border: 1px solid var(--clr-border-light); border-radius: var(--radius-md); padding: var(--space-lg); }
 .method-sidebar-card__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-text-muted); margin-bottom: var(--space-sm); }
 .method-sidebar-card__val { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); line-height: 1.6; }
 .method-ref-list, .method-tech-list { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.65; padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 4px; margin: 0; }

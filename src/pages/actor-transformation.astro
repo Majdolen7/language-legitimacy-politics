@@ -60,14 +60,10 @@ const PHASE_COLORS: Record<number, string> = {
             Phase {phase.phase_number} · {phase.year_range}
           </div>
           <h3 class="at-name-card__title">{phase.phase_title_de}</h3>
-          <p class="at-name-card__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
           <div class="at-name-card__names">
-            {phase.actor_naming_de.map((name, i) => (
+            {phase.actor_naming_de.map((name) => (
               <div class="at-name-item">
                 <span class="at-name-item__de">{name}</span>
-                {phase.actor_naming_ar[i] && (
-                  <span class="at-name-item__ar" lang="ar" dir="rtl">{phase.actor_naming_ar[i]}</span>
-                )}
               </div>
             ))}
           </div>
@@ -118,7 +114,6 @@ const PHASE_COLORS: Record<number, string> = {
               <div class="at-concepts-list">
                 {phase.dominant_concepts.map(c => (
                   <div class="at-concept-item">
-                    <span class="at-concept-item__ar" lang="ar" dir="rtl">{c.arabic}</span>
                     <span class="at-concept-item__de">{c.german}</span>
                   </div>
                 ))}
@@ -167,8 +162,8 @@ const PHASE_COLORS: Record<number, string> = {
 </BaseLayout>
 
 <style>
-.at-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
-.at-framing-note { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-left: 3px solid var(--clr-red); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-lg) var(--space-xl); margin-bottom: var(--space-xl); }
+.at-hero { background: #FFFFFF; border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.at-framing-note { border-left: 3px solid var(--clr-red); padding: var(--space-md) var(--space-xl); margin-bottom: var(--space-xl); }
 .at-framing-note p { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.7; margin: 0 0 var(--space-sm); }
 .at-framing-note p:last-child { margin-bottom: 0; }
 .at-intro { font-family: var(--font-sans); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.75; max-width: 65ch; margin-bottom: var(--space-2xl); }
@@ -182,7 +177,7 @@ const PHASE_COLORS: Record<number, string> = {
 .at-name-item__de { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text); font-weight: 500; }
 .at-name-item__ar { font-family: var(--font-arabic); font-size: 0.88rem; color: var(--clr-text-muted); display: block; text-align: right; }
 .at-phases-section { border-top: 1px solid var(--clr-border); }
-.at-phase-block { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-lg); padding: var(--space-2xl); margin-bottom: var(--space-xl); }
+.at-phase-block { border-top: 1px solid var(--clr-border-light); padding-block: var(--space-2xl); margin-bottom: 0; }
 .at-phase-block__header { display: flex; gap: var(--space-xl); align-items: flex-start; margin-bottom: var(--space-xl); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--clr-border-light); }
 .at-phase-block__num { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 50%; color: white; font-family: var(--font-sans); font-size: 1rem; font-weight: 700; flex-shrink: 0; }
 .at-phase-block__years { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 4px; }
@@ -196,15 +191,14 @@ const PHASE_COLORS: Record<number, string> = {
 .at-concepts-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
 .at-concepts-block__label, .at-events-block__label { font-family: var(--font-sans); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--clr-text-subtle); margin-bottom: var(--space-sm); }
 .at-concepts-list { display: flex; flex-direction: column; gap: var(--space-xs); }
-.at-concept-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: 3px var(--space-sm); background: var(--clr-bg-alt); border-radius: var(--radius-sm); }
-.at-concept-item__ar { font-family: var(--font-arabic); font-size: 0.9rem; color: var(--clr-text); }
-.at-concept-item__de { font-family: var(--font-sans); font-size: 0.72rem; color: var(--clr-text-muted); }
+.at-concept-item { display: flex; align-items: center; gap: var(--space-sm); padding: 3px var(--space-sm); background: var(--clr-bg-alt); border-radius: var(--radius-sm); }
+.at-concept-item__de { font-family: var(--font-sans); font-size: 0.82rem; color: var(--clr-text-mid); }
 .at-events-block { margin-top: var(--space-lg); padding-top: var(--space-lg); border-top: 1px solid var(--clr-border-light); }
 .at-events-list { display: flex; flex-direction: column; gap: var(--space-xs); list-style: none; padding: 0; margin: 0; }
 .at-event-item { display: grid; grid-template-columns: 3rem 1fr; gap: var(--space-sm); align-items: baseline; }
 .at-event-item__year { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700; color: var(--clr-olive); }
 .at-event-item__desc { font-family: var(--font-sans); font-size: 0.8rem; color: var(--clr-text-mid); line-height: 1.5; }
-.at-method-note { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-radius: var(--radius-lg); padding: var(--space-xl); }
+.at-method-note { padding: 0; }
 .at-method-note__text { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-muted); line-height: 1.75; border-left: 3px solid var(--clr-olive); padding-left: var(--space-lg); margin: 0; font-style: italic; }
 @media (max-width: 1100px) { .at-names-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 760px) { .at-names-grid { grid-template-columns: 1fr; } .at-phase-block__body { grid-template-columns: 1fr; } .at-phase-block__header { flex-direction: column; gap: var(--space-md); } }

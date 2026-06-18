@@ -28,7 +28,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'nav.toggle-label': 'Menü',
     'nav.main-label': 'Hauptnavigation',
 
-    'footer.description': 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen im syrischen Islamismus nach 2011. Das Projekt analysiert Diskurse und legitimiert oder delegitimiert politische Akteure nicht.',
+    'footer.description': 'Ein digitales Forschungsprojekt zur diskursiven Konstruktion politischer Legitimität im syrischen Kontext nach 2011. Das Projekt analysiert Diskurse und legitimiert oder delegitimiert politische Akteure nicht.',
     'footer.methodology': 'Methodologie',
     'footer.data': 'Daten & Nachhaltigkeit',
     'footer.corpus': 'Corpus',

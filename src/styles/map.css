@@ -52,10 +52,8 @@
   font-size: 0.82rem;
   color: var(--clr-text-muted);
   line-height: 1.6;
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-lg);
   border-left: 3px solid var(--clr-red);
-  background-color: var(--clr-card);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   margin-bottom: var(--space-md);
   max-width: var(--max-width-text);
   margin-inline: auto;

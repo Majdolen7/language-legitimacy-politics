@@ -10,9 +10,9 @@
 :root {
   /* --- Colors — white, dark brown, burgundy, gold palette --- */
   --clr-bg:          #FFFFFF;   /* white: main background */
-  --clr-bg-alt:      #F7F4F0;   /* warm off-white: alternate sections */
-  --clr-card:        #FCFBF9;   /* near-white surface: card backgrounds */
-  --clr-card-hover:  #F2EDE8;   /* card hover */
+  --clr-bg-alt:      #FAF8F5;   /* very subtle warm-white: alternate sections */
+  --clr-card:        #FFFFFF;   /* white: card backgrounds */
+  --clr-card-hover:  #F5F2EE;   /* card hover */
   --clr-white:       #ffffff;
 
   --clr-text:        #241C18;   /* dark brown: primary text */

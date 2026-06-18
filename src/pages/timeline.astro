@@ -142,14 +142,9 @@ function formatAudience(s: string): string {
             <div class="phase-meta-block">
               <p class="label label--section">Akteursbenennungen</p>
               <ul class="phase-actor-list">
-                {phase.actor_naming_de.map((name, i) => (
+                {phase.actor_naming_de.map((name) => (
                   <li class="phase-actor-item">
                     <span class="phase-actor-de">{name}</span>
-                    {phase.actor_naming_ar[i] && (
-                      <span class="phase-actor-ar" lang="ar" dir="rtl">
-                        {phase.actor_naming_ar[i]}
-                      </span>
-                    )}
                   </li>
                 ))}
               </ul>
@@ -183,9 +178,6 @@ function formatAudience(s: string): string {
               {phase.dominant_concepts.map((concept) => (
                 <div class={`phase-concept-pill phase-concept-pill--${phase.phase_number}`}>
                   <span class="phase-concept-pill__de">{concept.german}</span>
-                  <span class="phase-concept-pill__ar" lang="ar" dir="rtl">
-                    {concept.arabic}
-                  </span>
                 </div>
               ))}
             </div>
@@ -293,7 +285,6 @@ function formatAudience(s: string): string {
                     {phase.dominant_concepts.slice(0, 3).map((c) => (
                       <span class="comparison-concept">
                         {c.german}
-                        <span class="comparison-concept__ar" lang="ar" dir="rtl"> ({c.arabic})</span>
                       </span>
                     ))}
                   </div>
@@ -366,7 +357,7 @@ function formatAudience(s: string): string {
      HERO
      ------------------------------------------------------------------ */
   .tl-hero {
-    background-color: var(--clr-bg-alt);
+    background-color: #FFFFFF;
     padding-block: var(--space-3xl) var(--space-2xl);
     border-bottom: 1px solid var(--clr-border);
   }
@@ -396,11 +387,8 @@ function formatAudience(s: string): string {
   }
 
   .tl-hero__method-note {
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border-light);
     border-left: 3px solid var(--clr-gold);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--space-sm) var(--space-lg);
     margin-top: var(--space-md);
   }
 
@@ -487,9 +475,9 @@ function formatAudience(s: string): string {
   }
 
   /* Alternate backgrounds for visual separation */
-  .phase-section--1 { background-color: var(--clr-bg);     }
-  .phase-section--2 { background-color: var(--clr-bg-alt); }
-  .phase-section--3 { background-color: var(--clr-bg);     }
+  .phase-section--1 { background-color: var(--clr-bg); }
+  .phase-section--2 { background-color: var(--clr-bg); }
+  .phase-section--3 { background-color: var(--clr-bg); }
 
   /* Phase header row: badge + years (left) | legit-tag (right) */
   .phase-header {
@@ -547,11 +535,9 @@ function formatAudience(s: string): string {
     grid-template-columns: 1fr 1.5fr;
     gap: var(--space-2xl);
     margin-bottom: var(--space-2xl);
-    padding: var(--space-xl);
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
+    padding: var(--space-xl) 0;
+    background-color: transparent;
+    border-top: 1px solid var(--clr-border-light);
   }
 
   .phase-meta-block {
@@ -625,7 +611,7 @@ function formatAudience(s: string): string {
   .phase-concept-pill {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 2px;
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--radius-sm);
@@ -691,9 +677,7 @@ function formatAudience(s: string): string {
     flex-direction: column;
     gap: 0;
     margin-top: var(--space-sm);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
+    border-top: 1px solid var(--clr-border-light);
   }
 
   .phase-event-item {
@@ -701,18 +685,13 @@ function formatAudience(s: string): string {
     grid-template-columns: 4rem 1fr;
     gap: var(--space-md);
     align-items: start;
-    padding: var(--space-md) var(--space-lg);
+    padding: var(--space-md) 0;
     border-bottom: 1px solid var(--clr-border-light);
-    background-color: var(--clr-card);
-    transition: background-color var(--transition-fast);
+    background-color: transparent;
   }
 
   .phase-event-item:last-child {
     border-bottom: none;
-  }
-
-  .phase-event-item:hover {
-    background-color: var(--clr-card-hover);
   }
 
   .phase-event-year {
