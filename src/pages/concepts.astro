@@ -3,78 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import conceptsData from '../data/concepts.json';
 import { withBase } from '../i18n/utils';
 
-/* ------------------------------------------------------------------
-   Build lookup: concept ID → object (for related-concept links)
-   ------------------------------------------------------------------ */
-const conceptMap = Object.fromEntries(conceptsData.map(c => [c.id, c]));
+const coreConceptIndex = conceptsData.findIndex(c => c.id === 'concept_01');
+const coreConcept = coreConceptIndex >= 0 ? conceptsData[coreConceptIndex] : null;
 
-/* ------------------------------------------------------------------
-   Display helpers
-   ------------------------------------------------------------------ */
-const legitimacyLabels: Record<string, string> = {
-  religious_militant_legitimacy:   'Religiös-militärische Legitimität',
-  revolutionary_legitimacy:        'Revolutionäre Legitimität',
-  administrative_legitimacy:       'Administrative Legitimität',
-  security_performance_legitimacy: 'Sicherheitsperformanz-Legitimität',
-  national_legitimacy:             'Nationale Legitimität',
-  international_legitimacy:        'Internationale Legitimität',
-  procedural_legal_legitimacy:     'Prozedural-rechtliche Legitimität',
-};
+const indicators = conceptsData.filter(c => c.id !== 'concept_01');
 
-const legitTagSuffix: Record<string, string> = {
-  religious_militant_legitimacy:   'religious',
-  revolutionary_legitimacy:        'revolutionary',
-  administrative_legitimacy:       'administrative',
-  security_performance_legitimacy: 'security',
-  national_legitimacy:             'national',
-  international_legitimacy:        'international',
-  procedural_legal_legitimacy:     'procedural',
-};
+const phase1Indicators = ['concept_07'];
+const phase2Indicators = ['concept_04'];
+const phase3Indicators = ['concept_02', 'concept_03', 'concept_05', 'concept_06'];
 
-/* ------------------------------------------------------------------
-   Analytically derived: which phase is most central for each concept.
-   These are analytical judgments from the project framework,
-   not invented facts.
-   ------------------------------------------------------------------ */
-const strongestPhase: Record<string, string> = {
-  concept_01: 'Alle drei Phasen (Hauptkonzept)',
-  concept_02: 'Phase 3 — 2025',
-  concept_03: 'Phase 3 — 2025',
-  concept_04: 'Phase 2 — 2017–2024',
-  concept_05: 'Phase 3 — 2025',
-  concept_06: 'Phase 3 — 2025',
-  concept_07: 'Phase 1 — 2011–2016',
-};
-
-function truncate(text: string, max: number): string {
-  if (!text || text.length <= max) return text;
-  const cut = text.lastIndexOf(' ', max);
-  return text.substring(0, cut > 0 ? cut : max) + ' …';
-}
-
-/* Helper: first 1–2 legit-type labels for matrix column */
-function matrixLegitimation(concept: (typeof conceptsData)[number]): string {
-  return concept.legitimacy_types
-    .slice(0, 2)
-    .map(t => legitimacyLabels[t] || t)
-    .join('; ');
-}
-
-/* Helper: first 2 related concept names for matrix column */
-function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
-  return concept.related_concepts
-    .slice(0, 2)
-    .map(id => {
-      const c = conceptMap[id];
-      return c ? `${c.arabic} / ${c.german}` : id;
-    })
-    .join(' · ');
+function getIndicatorsByPhase(ids: string[]) {
+  return ids.map(id => indicators.find(c => c.id === id)).filter(Boolean);
 }
 ---
 
 <BaseLayout
-  title="Concept Gallery"
-  description="Sieben analytische Kernkonzepte: Legitimität, Staat, ziviler Staat, Sicherheit, Bürgerschaft, internationale Anerkennung und Scharia — als Analyseinstrumente für den syrischen Islamismus nach 2011."
+  title="Begrifflicher Rahmen: Politische Legitimität"
+  description="Begrifflicher Rahmen des Projekts: Politische Legitimität als Kernkonzept, diskursiv hergestellt. Sprachliche Indikatoren geordnet nach drei analytischen Dimensionen."
 >
 
   <!-- ============================================================
@@ -84,83 +29,24 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
     <div class="container">
       <div class="cg-hero__inner">
 
-        <span class="page-kicker">Begriffe als Analyseinstrumente</span>
+        <span class="page-kicker">Analytischer Rahmen</span>
 
-        <div class="cg-hero__title-block">
-          <h1 class="cg-hero__title">Concept Gallery</h1>
-          <p class="cg-hero__title-ar" lang="ar" dir="rtl">معرض المفاهيم</p>
-        </div>
+        <h1 class="cg-hero__title">Begrifflicher Rahmen: Politische Legitimität</h1>
 
         <p class="cg-hero__intro">
-          Die Concept Gallery sammelt zentrale Begriffe, durch die Legitimität,
-          Staatlichkeit und politische Zugehörigkeit im syrischen Islamismus
-          nach 2011 diskursiv konstruiert werden. Die Begriffe sind keine
-          neutralen Wörter — sie sind analytische Kategorien, deren Bedeutung
-          sich je nach Phase, Publikum und politischem Kontext verschiebt.
+          Das Projekt untersucht politische Legitimität nicht als feste Eigenschaft eines Akteurs,
+          sondern als sprachlich und diskursiv hergestellte Ordnung, die sich über verschiedene Phasen
+          hinweg verschiebt. Die Begriffe auf dieser Seite sind keine gleichwertigen Hauptkonzepte —
+          sie sind diskursive Indikatoren, Corpus-Signale für unterschiedliche Legitimitätsansprüche.
         </p>
 
-        <!-- Quick-jump anchors -->
-        <nav class="cg-hero__anchors" aria-label="Zu einem Konzept springen">
-          {conceptsData.map(c => (
-            <a href={`#${c.id}`} class="cg-anchor-link">
-              <span class="cg-anchor-link__ar" lang="ar" dir="rtl">{c.arabic}</span>
-              <span class="cg-anchor-link__de">{c.german}</span>
-            </a>
-          ))}
-        </nav>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       METHODISCHE EINLEITUNG
-       ============================================================ -->
-  <section class="section section--card cg-method-intro">
-    <div class="container">
-      <div class="cg-method-inner">
-
-        <div>
-          <span class="section-overline">Konzeptanalyse als Methode</span>
-          <h2 class="cg-method-title">Wie werden Konzepte hier verstanden?</h2>
-        </div>
-
-        <div class="cg-method-grid">
-          <div class="cg-method-point">
-            <span class="cg-method-point__num">I</span>
-            <p>
-              Konzepte werden nicht als feste Wörter mit stabiler Bedeutung
-              verstanden. Entscheidend ist, <em>wie</em> sie verwendet werden:
-              in welchem Kontext, mit welchen Nachbarbegriffen, an welches
-              Publikum gerichtet.
-            </p>
-          </div>
-          <div class="cg-method-point">
-            <span class="cg-method-point__num">II</span>
-            <p>
-              Analysiert werden semantische Felder, Benennungsstrategien,
-              Pronomen (wir, das Volk, die Syrer) und die Verschiebung
-              von religiöser zu staatlicher Sprache.
-            </p>
-          </div>
-          <div class="cg-method-point">
-            <span class="cg-method-point__num">III</span>
-            <p>
-              Die Begriffe dienen als Brücke zwischen Corpus, Timeline und
-              Forschungsfrage. Jede Karte ist durch Corpus-Einträge
-              überprüfbar und durch theoretische Bezugspunkte verankert
-              (Weber, van Leeuwen, Diskursanalyse).
-            </p>
-          </div>
-          <div class="cg-method-point">
-            <span class="cg-method-point__num">IV</span>
-            <p>
-              Das Erscheinen eines Begriffs im Diskurs bedeutet nicht, dass
-              er als Realität behandelt wird. Analysiert wird die diskursive
-              Funktion, nicht die normative Gültigkeit.
-            </p>
-          </div>
+        <div class="cg-hero__method-note">
+          <p>
+            <strong>Methodischer Hinweis:</strong> Diese Indikatoren sind keine eigenständigen Konzepte.
+            Sie sind Corpus-Signale, die dazu dienen, Verschiebungen in Legitimitätsansprüchen zu
+            verfolgen. Ihr Vorkommen im Diskurs bedeutet nicht, dass sie als politische Realität
+            behandelt werden — analysiert wird ihre diskursive Funktion.
+          </p>
         </div>
 
       </div>
@@ -169,185 +55,210 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
 
 
   <!-- ============================================================
-       KONZEPTKARTEN GRID
-       Concept 01 spans full width (primary concept).
-       Concepts 02–07 in 2-column grid.
+       CORE CONCEPT — POLITISCHE LEGITIMITÄT
        ============================================================ -->
-  <section class="section cg-cards-section">
-    <div class="container">
+  {coreConcept && (
+    <section class="section core-concept-section">
+      <div class="container">
 
-      <span class="section-overline">Sieben Konzepte · سبعة مفاهيم</span>
-      <h2 class="section-title">Die Kernkonzepte im Überblick</h2>
+        <div class="core-concept-header">
+          <span class="section-overline">Kernkonzept</span>
+          <h2 class="core-concept-title">Politische Legitimität</h2>
+          <p class="core-concept-ar" lang="ar" dir="rtl">
+            {coreConcept.arabic} — <span class="core-concept-translit">{coreConcept.transliteration}</span>
+          </p>
+        </div>
 
-      <div class="gallery-grid">
-        {conceptsData.map((concept, idx) => (
-          <article
-            id={concept.id}
-            class={`gallery-card${idx === 0 ? ' gallery-card--primary' : ''}`}
-            style={`--card-accent: ${concept.color_accent}`}
-          >
+        <div class="core-concept-body">
 
-            <!-- Card header: number, Arabic, transliteration, German -->
-            <header class="gallery-card__header">
-              <span class="gallery-card__num" aria-hidden="true">
-                {String(concept.sort_order).padStart(2, '0')}
-              </span>
-              <div class="gallery-card__identity">
-                <span class="gallery-card__ar" lang="ar" dir="rtl">
-                  {concept.arabic}
-                </span>
-                <span class="gallery-card__translit">
-                  {concept.transliteration}
-                </span>
-                <h3 class="gallery-card__de">{concept.german}</h3>
-              </div>
-            </header>
-
-            <!-- Analysefrage -->
-            <div class="gallery-card__section">
+          <div class="core-concept-main">
+            <div class="core-concept-block">
               <p class="label label--section">Analysefrage</p>
-              <p class="gallery-card__question">{concept.analysis_question_de}</p>
+              <p class="core-concept-question">{coreConcept.analysis_question_de}</p>
             </div>
-
-            <!-- Beschreibung -->
-            <div class="gallery-card__section">
-              <p class="label label--section">Beschreibung</p>
-              <p class="gallery-card__desc">{concept.description_de}</p>
+            <div class="core-concept-block">
+              <p class="label label--section">Analytischer Ansatz</p>
+              <p class="core-concept-approach">
+                Politische Legitimität wird hier nicht als Eigenschaft behandelt, die ein Akteur
+                besitzt oder nicht besitzt. Sie wird als diskursiv hergestellte Ordnung verstanden —
+                konstruiert, aufrechterhalten und verschoben durch Sprache, Benennung, Publikumswahl
+                und Legitimationsstrategien.
+              </p>
             </div>
-
-            <!-- Phasenrelevanz -->
-            <div class="gallery-card__section">
-              <p class="label label--section">Phasenrelevanz</p>
-              <div class="gallery-phase-table">
-                <div class="gallery-phase-row">
-                  <span class="phase-badge phase-badge--1 gallery-phase-badge">
-                    2011–16
-                  </span>
-                  <p class="gallery-phase-text">{concept.phase_relevance.phase_1}</p>
+            <div class="core-concept-block">
+              <p class="label label--section">Theoretische Bezugspunkte</p>
+              <div class="core-theory-grid">
+                <div class="core-theory-item">
+                  <span class="core-theory-label">Weber</span>
+                  <p class="core-theory-text">{coreConcept.weber_reference}</p>
                 </div>
-                <div class="gallery-phase-row">
-                  <span class="phase-badge phase-badge--2 gallery-phase-badge">
-                    2017–24
-                  </span>
-                  <p class="gallery-phase-text">{concept.phase_relevance.phase_2}</p>
-                </div>
-                <div class="gallery-phase-row">
-                  <span class="phase-badge phase-badge--3 gallery-phase-badge">
-                    2025
-                  </span>
-                  <p class="gallery-phase-text">{concept.phase_relevance.phase_3}</p>
+                <div class="core-theory-item">
+                  <span class="core-theory-label">van Leeuwen</span>
+                  <p class="core-theory-text">{coreConcept.van_leeuwen_reference}</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Theoretischer Rahmen (compact) -->
-            <div class="gallery-card__section">
-              <p class="label label--section">Theoretischer Rahmen</p>
-              <div class="gallery-theory-block">
-                <div class="gallery-theory-row">
-                  <span class="gallery-theory-label">Weber</span>
-                  <p class="gallery-theory-text">{concept.weber_reference}</p>
+          <div class="core-concept-phases">
+            <p class="label label--section">Drei Dimensionen</p>
+            <div class="core-phase-list">
+              <div class="core-phase-item core-phase-item--1">
+                <div class="core-phase-item__header">
+                  <span class="core-phase-badge">2011–2016</span>
+                  <strong>Religiös-militärische Legitimität</strong>
                 </div>
-                <div class="gallery-theory-row">
-                  <span class="gallery-theory-label">van Leeuwen</span>
-                  <p class="gallery-theory-text">{concept.van_leeuwen_reference}</p>
+                <p>{coreConcept.phase_relevance.phase_1}</p>
+              </div>
+              <div class="core-phase-item core-phase-item--2">
+                <div class="core-phase-item__header">
+                  <span class="core-phase-badge">2017–2024</span>
+                  <strong>Administrative / Governance-Legitimität</strong>
                 </div>
+                <p>{coreConcept.phase_relevance.phase_2}</p>
+              </div>
+              <div class="core-phase-item core-phase-item--3">
+                <div class="core-phase-item__header">
+                  <span class="core-phase-badge">2025–2026</span>
+                  <strong>Institutionelle / staatsorientierte Legitimität</strong>
+                </div>
+                <p>{coreConcept.phase_relevance.phase_3}</p>
               </div>
             </div>
+          </div>
 
-            <!-- Footer: legit types + related concepts + corpus link -->
-            <footer class="gallery-card__footer">
+        </div>
 
-              <div class="gallery-card__legit-types">
-                <span class="label" style="display:block; margin-bottom: var(--space-xs);">
-                  Legitimationstypen
-                </span>
-                <div class="gallery-legit-tags">
-                  {concept.legitimacy_types.map(type => (
-                    <span class={`legit-tag legit-tag--${legitTagSuffix[type] ?? 'national'}`}>
-                      {legitimacyLabels[type] ?? type}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {concept.related_concepts.length > 0 && (
-                <div class="gallery-card__related">
-                  <span class="label">Verwandte Konzepte</span>
-                  <div class="gallery-related-links">
-                    {concept.related_concepts.map(id => {
-                      const rel = conceptMap[id];
-                      return rel ? (
-                        <a href={`#${id}`} class="gallery-related-tag">
-                          <span lang="ar" dir="rtl">{rel.arabic}</span>
-                          {' / '}
-                          {rel.german}
-                        </a>
-                      ) : null;
-                    })}
-                  </div>
-                </div>
-              )}
-
-              <a href={withBase('/corpus')} class="btn btn--ghost btn--sm gallery-corpus-link">
-                Im Corpus suchen →
-              </a>
-
-            </footer>
-
-          </article>
-        ))}
       </div>
-
-    </div>
-  </section>
+    </section>
+  )}
 
 
   <!-- ============================================================
-       VERGLEICHENDE MINI-MATRIX
+       THREE DIMENSIONS WITH INDICATORS
        ============================================================ -->
-  <section class="section section--alt cg-matrix-section">
+  <section class="section section--alt indicators-section">
     <div class="container">
 
-      <span class="section-overline">Analytischer Vergleich</span>
-      <h2 class="section-title">Vergleichende Mini-Matrix der Konzepte</h2>
+      <div class="indicators-header">
+        <span class="section-overline">Sprachliche Indikatoren</span>
+        <h2 class="indicators-title">Corpus-Signale nach analytischer Dimension</h2>
+        <p class="indicators-intro">
+          Die folgenden Begriffe werden im Corpus als sprachliche Indikatoren untersucht.
+          Sie sind den drei analytischen Dimensionen zugeordnet — nicht als getrennte
+          Hauptkonzepte, sondern als Signale für Verschiebungen in Legitimitätsansprüchen.
+        </p>
+      </div>
 
-      <div class="corpus-table-wrap">
-        <table class="corpus-table cg-matrix-table">
-          <thead>
-            <tr>
-              <th scope="col">Konzept</th>
-              <th scope="col">Analysefrage (Kurzform)</th>
-              <th scope="col">Stärkste Phase</th>
-              <th scope="col">Zentrale Nachbarbegriffe</th>
-              <th scope="col">Mögliche Legitimationsfunktion</th>
-            </tr>
-          </thead>
-          <tbody>
-            {conceptsData.map(concept => (
-              <tr>
-                <td>
-                  <a href={`#${concept.id}`} class="cg-matrix-concept-link">
-                    <span class="cg-matrix-ar" lang="ar" dir="rtl">{concept.arabic}</span>
-                    <span class="cg-matrix-de">{concept.german}</span>
-                  </a>
-                </td>
-                <td class="cg-matrix-question">
-                  {truncate(concept.analysis_question_de, 80)}
-                </td>
-                <td>
-                  <span class="cg-matrix-phase">{strongestPhase[concept.id]}</span>
-                </td>
-                <td class="cg-matrix-neighbors">
-                  {matrixNeighbors(concept)}
-                </td>
-                <td class="cg-matrix-legit">
-                  {matrixLegitimation(concept)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <!-- Dimension 1 -->
+      <div class="dimension-block dimension-block--1">
+        <div class="dimension-block__header">
+          <span class="dimension-block__years">2011–2016</span>
+          <h3 class="dimension-block__title">Religiös-militärische Legitimität</h3>
+          <p class="dimension-block__desc">
+            Faktionale Autorität, Jihad-Netzwerke, religiöse Autorisierung und
+            Treueschwur (Bay&#x02BF;a) als Legitimationsquellen.
+          </p>
+        </div>
+        <div class="indicator-cards">
+          {getIndicatorsByPhase(phase1Indicators).map(concept => concept && (
+            <div class="indicator-card" id={concept.id}>
+              <div class="indicator-card__identity">
+                <h4 class="indicator-card__de">{concept.german}</h4>
+                <span class="indicator-card__ar" lang="ar" dir="rtl">{concept.arabic}</span>
+                <span class="indicator-card__translit">{concept.transliteration}</span>
+              </div>
+              <p class="indicator-card__question">{concept.analysis_question_de}</p>
+              <p class="indicator-card__desc">{concept.description_de}</p>
+              <a href={withBase('/corpus')} class="indicator-card__link">Im Corpus suchen →</a>
+            </div>
+          ))}
+          <!-- Phase 1 additional indicators (from corpus, not structured as concepts) -->
+          <div class="indicator-inline-list">
+            <p class="label label--section">Weitere Indikatoren dieser Phase</p>
+            <div class="inline-indicator-tags">
+              <span class="inline-tag">Jihad</span>
+              <span class="inline-tag">Umma</span>
+              <span class="inline-tag">Bay&#x02BF;a</span>
+              <span class="inline-tag">Front</span>
+              <span class="inline-tag">Bewaffneter Kampf</span>
+              <span class="inline-tag">Religiöse Autorisierung</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension 2 -->
+      <div class="dimension-block dimension-block--2">
+        <div class="dimension-block__header">
+          <span class="dimension-block__years">2017–2024</span>
+          <h3 class="dimension-block__title">Administrative / Governance-Legitimität</h3>
+          <p class="dimension-block__desc">
+            Idlib als Governance-Zentrum, Verwaltungsperformanz, Dienstleistungen,
+            Sicherheit und Ordnung als diskursive Legitimationsquellen.
+          </p>
+        </div>
+        <div class="indicator-cards">
+          {getIndicatorsByPhase(phase2Indicators).map(concept => concept && (
+            <div class="indicator-card" id={concept.id}>
+              <div class="indicator-card__identity">
+                <h4 class="indicator-card__de">{concept.german}</h4>
+                <span class="indicator-card__ar" lang="ar" dir="rtl">{concept.arabic}</span>
+                <span class="indicator-card__translit">{concept.transliteration}</span>
+              </div>
+              <p class="indicator-card__question">{concept.analysis_question_de}</p>
+              <p class="indicator-card__desc">{concept.description_de}</p>
+              <a href={withBase('/corpus')} class="indicator-card__link">Im Corpus suchen →</a>
+            </div>
+          ))}
+          <div class="indicator-inline-list">
+            <p class="label label--section">Weitere Indikatoren dieser Phase</p>
+            <div class="inline-indicator-tags">
+              <span class="inline-tag">Verwaltung</span>
+              <span class="inline-tag">Dienstleistungen</span>
+              <span class="inline-tag">Ordnung</span>
+              <span class="inline-tag">Stabilität</span>
+              <span class="inline-tag">Institutionen vor Ort</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension 3 -->
+      <div class="dimension-block dimension-block--3">
+        <div class="dimension-block__header">
+          <span class="dimension-block__years">2025–2026</span>
+          <h3 class="dimension-block__title">Institutionelle / staatsorientierte Legitimität</h3>
+          <p class="dimension-block__desc">
+            Staatliche Sprache, nationale Einheit, Bürgerschaft und internationale
+            Anerkennung als Legitimationsrahmen der Übergangsautorität.
+          </p>
+        </div>
+        <div class="indicator-cards indicator-cards--grid">
+          {getIndicatorsByPhase(phase3Indicators).map(concept => concept && (
+            <div class="indicator-card" id={concept.id}>
+              <div class="indicator-card__identity">
+                <h4 class="indicator-card__de">{concept.german}</h4>
+                <span class="indicator-card__ar" lang="ar" dir="rtl">{concept.arabic}</span>
+                <span class="indicator-card__translit">{concept.transliteration}</span>
+              </div>
+              <p class="indicator-card__question">{concept.analysis_question_de}</p>
+              <p class="indicator-card__desc">{concept.description_de}</p>
+              <a href={withBase('/corpus')} class="indicator-card__link">Im Corpus suchen →</a>
+            </div>
+          ))}
+          <div class="indicator-inline-list indicator-inline-list--full">
+            <p class="label label--section">Weitere Indikatoren dieser Phase</p>
+            <div class="inline-indicator-tags">
+              <span class="inline-tag">Staat</span>
+              <span class="inline-tag">Institutionen</span>
+              <span class="inline-tag">Nationale Einheit</span>
+              <span class="inline-tag">Übergangsregierung</span>
+              <span class="inline-tag">Verfassung</span>
+              <span class="inline-tag">Diplomatische Sprache</span>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -365,20 +276,18 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
 
         <div class="cg-note-box__content">
           <h3 class="cg-note-box__title">
-            Methodischer Hinweis zur Concept Gallery
+            Methodischer Hinweis zur Begriffsverwendung
           </h3>
           <p>
-            Diese Begriffe sind keine neutralen Wörter, sondern analytische
-            Kategorien. Sie werden im Projekt durch Corpus-Belege überprüft
-            und dürfen nicht ohne Quellengrundlage als feste Bedeutungen
-            behandelt werden. Das Vorkommen eines Begriffs im Diskurs
-            bedeutet nicht, dass er als politische Realität gilt.
+            Diese Begriffe sind keine neutralen Wörter, sondern analytische Kategorien.
+            Sie werden im Projekt durch Corpus-Belege überprüft und dürfen nicht ohne
+            Quellengrundlage als feste Bedeutungen behandelt werden. Das Vorkommen eines
+            Begriffs im Diskurs bedeutet nicht, dass er als politische Realität gilt.
           </p>
           <p>
-            Fehlende Belege sind als Platzhalter markiert
-            (<em>ZITAT NACH TRANSKRIPTION EINFÜGEN / QUELLE EINFÜGEN</em>).
-            Analytische Einordnungen ohne Corpus-Grundlage sind ausdrücklich
-            als vorläufig gekennzeichnet.
+            Alle Einordnungen sind als vorläufige analytische Rahmungen zu verstehen,
+            die im Laufe der Materialauswertung überprüft, angepasst und revidiert werden.
+            Fehlende Belege sind als Platzhalter markiert.
           </p>
           <div class="cg-note-box__actions">
             <a href={withBase('/methodology')} class="btn btn--outline btn--sm">
@@ -388,7 +297,7 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
               Corpus &amp; Quellen
             </a>
             <a href={withBase('/timeline')} class="btn btn--ghost btn--sm">
-              Zur Timeline →
+              Zur analytischen Timeline →
             </a>
           </div>
         </div>
@@ -401,7 +310,7 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
 
 
 <!-- ================================================================
-     PAGE-SPECIFIC STYLES (scoped by Astro)
+     PAGE-SPECIFIC STYLES
      ================================================================ -->
 <style>
 
@@ -415,33 +324,18 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
   }
 
   .cg-hero__inner {
-    max-width: 900px;
-  }
-
-  .cg-hero__title-block {
-    margin-bottom: var(--space-xl);
+    max-width: 800px;
   }
 
   .cg-hero__title {
     font-family: var(--font-serif);
-    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
     font-weight: 400;
     color: var(--clr-text);
     letter-spacing: -0.02em;
     line-height: 1.1;
-    margin-bottom: var(--space-xs);
-  }
-
-  .cg-hero__title-ar {
-    font-family: var(--font-arabic);
-    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text-muted);
-    display: block;
-    line-height: 1.5;
-    max-width: none;
-    margin: 0;
+    margin-bottom: var(--space-lg);
+    margin-top: var(--space-xs);
   }
 
   .cg-hero__intro {
@@ -452,323 +346,118 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
     margin-bottom: var(--space-xl);
   }
 
-  /* Quick-jump anchor nav */
-  .cg-hero__anchors {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-  }
-
-  .cg-anchor-link {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-decoration: none;
-    padding: var(--space-xs) var(--space-sm);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
+  .cg-hero__method-note {
     background-color: var(--clr-card);
-    gap: 1px;
-    transition: border-color var(--transition-fast), background-color var(--transition-fast);
-    min-width: 7rem;
+    border: 1px solid var(--clr-border-light);
+    border-left: 3px solid var(--clr-olive);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: var(--space-md) var(--space-lg);
   }
 
-  .cg-anchor-link:hover {
-    border-color: var(--clr-olive);
-    background-color: var(--clr-bg-alt);
-  }
-
-  .cg-anchor-link__ar {
-    font-family: var(--font-arabic);
-    font-size: 1rem;
-    direction: rtl;
-    color: var(--clr-text);
-    line-height: 1.4;
-  }
-
-  .cg-anchor-link__de {
+  .cg-hero__method-note p {
     font-family: var(--font-sans);
-    font-size: 0.68rem;
-    color: var(--clr-text-muted);
-    font-style: italic;
-  }
-
-  /* ------------------------------------------------------------------
-     METHODISCHE EINLEITUNG
-     ------------------------------------------------------------------ */
-  .cg-method-intro {
-    border-bottom: 1px solid var(--clr-border);
-  }
-
-  .cg-method-inner {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-  }
-
-  .cg-method-title {
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
-    font-weight: 400;
-    color: var(--clr-text);
-    margin-top: var(--space-xs);
-  }
-
-  .cg-method-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg) var(--space-2xl);
-  }
-
-  .cg-method-point {
-    display: grid;
-    grid-template-columns: 2rem 1fr;
-    gap: var(--space-md);
-    align-items: start;
-  }
-
-  .cg-method-point__num {
-    font-family: var(--font-serif);
     font-size: 0.85rem;
-    font-style: italic;
-    color: var(--clr-text-subtle);
-    background-color: var(--clr-bg-alt);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    width: 1.8rem;
-    height: 1.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-style: normal;
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .cg-method-point p {
-    font-size: 0.875rem;
     color: var(--clr-text-mid);
-    line-height: 1.7;
+    line-height: 1.65;
     margin: 0;
-    max-width: none;
+    max-width: 68ch;
   }
 
   /* ------------------------------------------------------------------
-     GALLERY GRID
+     CORE CONCEPT
      ------------------------------------------------------------------ */
-  .cg-cards-section {
+  .core-concept-section {
     border-bottom: 1px solid var(--clr-border);
   }
 
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xl);
-  }
-
-  /* Primary concept (الشرعية) spans full width */
-  .gallery-card--primary {
-    grid-column: 1 / -1;
-  }
-
-  /* ------------------------------------------------------------------
-     GALLERY CARD
-     ------------------------------------------------------------------ */
-  .gallery-card {
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow var(--transition-mid);
-    scroll-margin-top: 5rem; /* for anchor navigation */
-  }
-
-  .gallery-card:hover {
-    box-shadow: var(--shadow-card-hover);
-  }
-
-  /* Left accent stripe — uses --card-accent CSS variable */
-  .gallery-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 5px;
-    background-color: var(--card-accent, var(--clr-olive));
-  }
-
-  /* Internal padding, offset by the left stripe */
-  .gallery-card > * {
-    padding-inline: var(--space-xl) var(--space-xl);
-  }
-
-  .gallery-card > *:first-child {
-    padding-top: var(--space-xl);
-  }
-
-  .gallery-card > *:last-child {
+  .core-concept-header {
+    margin-bottom: var(--space-2xl);
     padding-bottom: var(--space-xl);
-  }
-
-  /* Card header */
-  .gallery-card__header {
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    gap: var(--space-md);
-    align-items: start;
     border-bottom: 1px solid var(--clr-border-light);
-    padding-bottom: var(--space-lg);
-    margin-bottom: 0;
   }
 
-  .gallery-card__num {
+  .core-concept-title {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
-    color: var(--clr-text-subtle);
-    font-style: italic;
-    padding-top: var(--space-xs);
-    line-height: 1;
-  }
-
-  .gallery-card__identity {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .gallery-card__ar {
-    font-family: var(--font-arabic);
-    font-size: 2rem;
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text);
-    line-height: 1.25;
-    font-weight: 500;
-    display: block;
-  }
-
-  .gallery-card__translit {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-style: italic;
-    color: var(--clr-text-muted);
-    text-align: right;
-    display: block;
-  }
-
-  .gallery-card__de {
-    font-family: var(--font-serif);
-    font-size: 1.35rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
     font-weight: 400;
     color: var(--clr-text);
     margin-top: var(--space-xs);
-    padding-top: var(--space-xs);
-    border-top: 1px solid var(--clr-border-light);
+    margin-bottom: var(--space-sm);
+    letter-spacing: -0.02em;
   }
 
-  /* For the primary (full-width) card: larger Arabic term */
-  .gallery-card--primary .gallery-card__ar  { font-size: 2.5rem; }
-  .gallery-card--primary .gallery-card__de  { font-size: 1.65rem; }
+  .core-concept-ar {
+    font-family: var(--font-arabic);
+    font-size: 1.2rem;
+    direction: rtl;
+    color: var(--clr-text-muted);
+    display: block;
+    text-align: left;
+    margin: 0;
+    line-height: 1.5;
+  }
 
-  /* Generic section inside card */
-  .gallery-card__section {
-    padding-block: var(--space-lg);
+  .core-concept-translit {
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-size: 0.85rem;
+    direction: ltr;
+    display: inline;
+    color: var(--clr-text-subtle);
+  }
+
+  .core-concept-body {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .core-concept-block {
+    margin-bottom: var(--space-2xl);
+    padding-bottom: var(--space-xl);
     border-bottom: 1px solid var(--clr-border-light);
   }
 
-  .gallery-card__section:last-of-type {
+  .core-concept-block:last-child {
     border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 
-  .gallery-card__question {
+  .core-concept-question {
     font-family: var(--font-serif);
     font-size: 1.05rem;
     font-style: italic;
     color: var(--clr-text);
     line-height: 1.55;
-    margin-top: var(--space-xs);
+    margin-top: var(--space-sm);
     max-width: 60ch;
   }
 
-  .gallery-card--primary .gallery-card__question {
-    font-size: 1.15rem;
-    max-width: 70ch;
-  }
-
-  .gallery-card__desc {
-    font-size: 0.875rem;
+  .core-concept-approach {
+    font-size: 0.9rem;
     color: var(--clr-text-mid);
-    line-height: 1.72;
-    margin-top: var(--space-xs);
+    line-height: 1.75;
+    margin-top: var(--space-sm);
     max-width: none;
   }
 
-  /* Phase relevance table */
-  .gallery-phase-table {
+  .core-theory-grid {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    margin-top: var(--space-sm);
-    border: 1px solid var(--clr-border-light);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-
-  .gallery-phase-row {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr;
     gap: var(--space-md);
-    align-items: start;
-    padding: var(--space-sm) var(--space-md);
-    border-bottom: 1px solid var(--clr-border-light);
-    background-color: var(--clr-bg);
-  }
-
-  .gallery-phase-row:last-child {
-    border-bottom: none;
-  }
-
-  .gallery-phase-badge {
-    /* Override default phase-badge margin */
-    margin: 0;
-    font-size: 0.65rem;
-    align-self: start;
-    margin-top: 2px;
-  }
-
-  .gallery-phase-text {
-    font-size: 0.82rem;
-    color: var(--clr-text-mid);
-    line-height: 1.55;
-    margin: 0;
-    max-width: none;
-  }
-
-  /* Theory block */
-  .gallery-theory-block {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
     margin-top: var(--space-sm);
   }
 
-  .gallery-theory-row {
+  .core-theory-item {
     display: grid;
-    grid-template-columns: 6rem 1fr;
+    grid-template-columns: 6.5rem 1fr;
     gap: var(--space-sm);
     align-items: start;
   }
 
-  .gallery-theory-label {
+  .core-theory-label {
     font-family: var(--font-sans);
     font-size: 0.72rem;
     font-weight: 600;
@@ -776,150 +465,277 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
     color: var(--clr-olive);
     text-transform: uppercase;
     padding-top: 2px;
-    white-space: nowrap;
   }
 
-  .gallery-theory-text {
+  .core-theory-text {
     font-size: 0.82rem;
     color: var(--clr-text-mid);
-    line-height: 1.55;
+    line-height: 1.6;
     margin: 0;
     max-width: none;
   }
 
-  /* Card footer */
-  .gallery-card__footer {
+  /* Phase list in core concept */
+  .core-phase-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+  }
+
+  .core-phase-item {
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--clr-bg);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+  }
+
+  .core-phase-item--1 { border-left: 3px solid var(--clr-phase-1); }
+  .core-phase-item--2 { border-left: 3px solid var(--clr-primary); }
+  .core-phase-item--3 { border-left: 3px solid var(--clr-text-mid); }
+
+  .core-phase-item__header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+  }
+
+  .core-phase-badge {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--clr-text-muted);
+    text-transform: uppercase;
     background-color: var(--clr-bg-alt);
-    border-top: 1px solid var(--clr-border-light);
-    padding-block: var(--space-lg);
+    border: 1px solid var(--clr-border);
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+
+  .core-phase-item strong {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--clr-text);
+  }
+
+  .core-phase-item p {
+    font-size: 0.82rem;
+    color: var(--clr-text-mid);
+    line-height: 1.6;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* ------------------------------------------------------------------
+     INDICATORS SECTION
+     ------------------------------------------------------------------ */
+  .indicators-section {
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .indicators-header {
+    margin-bottom: var(--space-3xl);
+    max-width: 700px;
+  }
+
+  .indicators-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    margin: var(--space-xs) 0 var(--space-md);
+    letter-spacing: -0.015em;
+  }
+
+  .indicators-intro {
+    font-size: 0.9rem;
+    color: var(--clr-text-mid);
+    line-height: 1.72;
+    margin: 0;
+    max-width: none;
+  }
+
+  /* Dimension block */
+  .dimension-block {
+    margin-bottom: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .dimension-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .dimension-block__header {
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--clr-border);
+    background-color: var(--clr-bg);
+  }
+
+  .dimension-block--1 .dimension-block__header { border-top: 4px solid var(--clr-phase-1); }
+  .dimension-block--2 .dimension-block__header { border-top: 4px solid var(--clr-primary); }
+  .dimension-block--3 .dimension-block__header { border-top: 4px solid var(--clr-text-mid); }
+
+  .dimension-block__years {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--clr-text-muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .dimension-block__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    margin: 0 0 var(--space-sm);
+    line-height: 1.25;
+  }
+
+  .dimension-block__desc {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--clr-text-mid);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 70ch;
+  }
+
+  /* Indicator cards */
+  .indicator-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .indicator-cards--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .indicator-card {
+    background-color: var(--clr-card);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
   }
 
-  .gallery-legit-tags {
+  .indicator-card__identity {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-top: var(--space-xs);
+    align-items: baseline;
+    gap: var(--space-sm);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--clr-border-light);
   }
 
-  .gallery-card__related {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .gallery-card__related .label {
-    display: block;
-  }
-
-  .gallery-related-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-  }
-
-  .gallery-related-tag {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    color: var(--clr-text-mid);
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    padding: 2px var(--space-sm);
-    text-decoration: none;
-    transition: color var(--transition-fast), border-color var(--transition-fast);
-    white-space: nowrap;
-  }
-
-  .gallery-related-tag [lang="ar"] {
-    font-family: var(--font-arabic);
-    font-size: 0.9em;
-  }
-
-  .gallery-related-tag:hover {
-    color: var(--clr-olive);
-    border-color: var(--clr-olive);
-  }
-
-  .gallery-corpus-link {
-    align-self: flex-start;
-  }
-
-  /* ------------------------------------------------------------------
-     COMPARISON MATRIX
-     ------------------------------------------------------------------ */
-  .cg-matrix-section {
-    border-top: 1px solid var(--clr-border);
-  }
-
-  .cg-matrix-table th {
-    white-space: normal;
-    min-width: 8rem;
-  }
-
-  .cg-matrix-concept-link {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .cg-matrix-ar {
-    font-family: var(--font-arabic);
-    font-size: 1.05rem;
-    direction: rtl;
+  .indicator-card__de {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 400;
     color: var(--clr-text);
+    margin: 0;
+  }
+
+  .indicator-card__ar {
+    font-family: var(--font-arabic);
+    font-size: 1rem;
+    direction: rtl;
+    color: var(--clr-text-muted);
     line-height: 1.4;
-    display: block;
   }
 
-  .cg-matrix-de {
+  .indicator-card__translit {
     font-family: var(--font-sans);
-    font-size: 0.75rem;
-    color: var(--clr-text-muted);
+    font-size: 0.78rem;
     font-style: italic;
-    display: block;
+    color: var(--clr-text-subtle);
   }
 
-  .cg-matrix-concept-link:hover .cg-matrix-de {
-    color: var(--clr-olive);
-  }
-
-  .cg-matrix-question {
-    font-size: 0.8rem;
+  .indicator-card__question {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
     font-style: italic;
-    color: var(--clr-text-muted);
-    max-width: 22ch;
+    color: var(--clr-text);
+    line-height: 1.55;
+    margin: 0;
+    max-width: 60ch;
   }
 
-  .cg-matrix-phase {
+  .indicator-card__desc {
+    font-size: 0.85rem;
+    color: var(--clr-text-mid);
+    line-height: 1.7;
+    flex: 1;
+    margin: 0;
+    max-width: none;
+  }
+
+  .indicator-card__link {
     font-family: var(--font-sans);
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--clr-text-mid);
-    white-space: nowrap;
+    color: var(--clr-red);
+    text-decoration: none;
+    margin-top: auto;
+    transition: color var(--transition-fast);
+    align-self: flex-start;
   }
 
-  .cg-matrix-neighbors {
-    font-size: 0.8rem;
-    color: var(--clr-text-mid);
-    max-width: 20ch;
+  .indicator-card__link:hover {
+    color: var(--clr-red-hover);
   }
 
-  .cg-matrix-neighbors [lang="ar"] {
-    font-family: var(--font-arabic);
-    font-size: 0.95em;
+  /* Inline additional indicators list */
+  .indicator-inline-list {
+    background-color: var(--clr-bg-alt);
+    border: 1px dashed var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
   }
 
-  .cg-matrix-legit {
+  .indicator-inline-list--full {
+    grid-column: 1 / -1;
+  }
+
+  .indicator-inline-list .label {
+    margin-bottom: var(--space-sm);
+    display: block;
+  }
+
+  .inline-indicator-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .inline-tag {
+    font-family: var(--font-sans);
     font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    background-color: var(--clr-bg);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-sm);
     color: var(--clr-text-muted);
-    font-style: italic;
-    max-width: 22ch;
-    line-height: 1.5;
+    white-space: nowrap;
   }
 
   /* ------------------------------------------------------------------
@@ -979,60 +795,28 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
   /* ------------------------------------------------------------------
      RESPONSIVE
      ------------------------------------------------------------------ */
-  @media (max-width: 900px) {
-    .cg-method-grid {
+  @media (max-width: 960px) {
+    .core-concept-body {
       grid-template-columns: 1fr;
     }
-
-    /* Primary card loses its internal two-column on tablet */
-    .gallery-card--primary .gallery-card__question {
-      max-width: none;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .gallery-grid {
+    .indicator-cards--grid {
       grid-template-columns: 1fr;
     }
-
-    /* Primary card no longer needs full-span since we're in 1-col */
-    .gallery-card--primary {
+    .indicator-inline-list--full {
       grid-column: 1;
-    }
-
-    .gallery-card__header {
-      grid-template-columns: 2rem 1fr;
-    }
-
-    .gallery-card__ar {
-      font-size: 1.6rem;
-    }
-
-    .gallery-card--primary .gallery-card__ar {
-      font-size: 1.8rem;
-    }
-
-    .gallery-phase-row {
-      grid-template-columns: 4.5rem 1fr;
-    }
-
-    .gallery-theory-row {
-      grid-template-columns: 1fr;
-      gap: var(--space-xs);
     }
   }
 
   @media (max-width: 600px) {
-    .cg-hero__anchors {
-      display: none; /* hidden on small screens; navigation via header */
-    }
-
     .cg-note-box {
       grid-template-columns: 1fr;
     }
-
     .cg-note-box__icon {
       display: none;
+    }
+    .core-theory-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
     }
   }
 

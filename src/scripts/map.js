@@ -1,94 +1,164 @@
 import L from 'leaflet';
-import allCorpus from '../data/speeches.json';
+import mapEvents from '../data/map-events.json';
 
-// Phase colours — used for primary corpus markers
-const PHASE_COLORS = {
-  'Phase 1: Jabhat al-Nusra (2013–2016)':       '#8B5E35',
-  'Phase 2: Jabhat Fath al-Sham (2016–2017)':   '#9A7B4A',
-  'Phase 3: Hayat Tahrir al-Sham (2017–2024)':  '#4A5C38',
-  'Phase 4: Post-Regime Transition (2024–)':     '#2A3848',
+// ─── Colour palette ───────────────────────────────────────────────────────────
+const BURGUNDY = '#8B2635';
+const GOLD     = '#B28757';
+const BROWN    = '#4A2E22';
+const WHITE    = 'rgba(255,255,255,0.9)';
+
+// Event-type shape codes (all use burgundy, differentiated by stroke/fill)
+const TYPE_STYLES = {
+  revolution_context:  { fill: BURGUNDY, stroke: WHITE,  opacity: 0.65 },
+  factional_emergence: { fill: BROWN,    stroke: WHITE,  opacity: 0.80 },
+  corpus_item:         { fill: BURGUNDY, stroke: GOLD,   opacity: 1.00 },
+  governance_event:    { fill: '#6B1A26',stroke: WHITE,  opacity: 0.85 },
+  institutional_event: { fill: '#3A1A10',stroke: GOLD,   opacity: 0.90 },
 };
-const CONTEXT_COLOR   = '#7A6555'; // neutral warm gray for context events
-const FALLBACK_COLOR  = '#9A7B4A'; // muted gold
 
-// Avoid broken default marker icon requests when using divIcon
+// Disable broken default icon URL resolution before any icon is built
 delete L.Icon.Default.prototype._getIconUrl;
 
-// ------------------------------------------------------------------
-// Items eligible for the map
-// ------------------------------------------------------------------
-const mapItems = allCorpus.filter(s =>
-  s.geospatial_status === 'Geolocated' &&
-  s.latitude  !== null &&
-  s.longitude !== null
-);
+// ─── Icon factory ─────────────────────────────────────────────────────────────
+function makeIcon(event) {
+  const style = TYPE_STYLES[event.event_type] || { fill: BURGUNDY, stroke: WHITE, opacity: 0.8 };
+  const isCorpus = event.event_type === 'corpus_item';
 
-const primaryMapItems = mapItems.filter(s => s.material_type === 'Primary corpus item');
-const contextMapItems = mapItems.filter(s => s.material_type === 'Context event');
+  // Corpus items get a slightly larger, starred marker; others get circle
+  const size   = isCorpus ? 16 : 13;
+  const shadow = isCorpus
+    ? `0 0 0 3px ${GOLD}55, 0 1px 5px rgba(0,0,0,0.45)`
+    : `0 1px 4px rgba(0,0,0,0.38)`;
 
-// ------------------------------------------------------------------
-// Icon factories
-// ------------------------------------------------------------------
-function primaryIcon(phase) {
-  const color = PHASE_COLORS[phase] || FALLBACK_COLOR;
+  const html = `<div style="
+    width:${size}px;
+    height:${size}px;
+    border-radius:50%;
+    background-color:${style.fill};
+    opacity:${style.opacity};
+    border:2.5px solid ${style.stroke};
+    box-shadow:${shadow};
+    cursor:pointer;
+  " aria-hidden="true"></div>`;
+
   return L.divIcon({
-    className: 'lm-marker-shell',
-    html: `<div style="width:14px;height:14px;border-radius:50%;background-color:${color};border:2.5px solid rgba(255,255,255,0.85);box-shadow:0 1px 4px rgba(0,0,0,0.38);cursor:pointer;" aria-hidden="true"></div>`,
-    iconSize:    [14, 14],
-    iconAnchor:  [7, 7],
-    popupAnchor: [0, -10],
+    className: 'cmap-marker-shell',
+    html,
+    iconSize:    [size, size],
+    iconAnchor:  [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2 + 4)],
   });
 }
 
-function contextIcon() {
-  return L.divIcon({
-    className: 'lm-marker-shell',
-    html: `<div style="width:12px;height:12px;background-color:${CONTEXT_COLOR};border:2px solid rgba(255,255,255,0.8);box-shadow:0 1px 3px rgba(0,0,0,0.3);cursor:pointer;transform:rotate(45deg);" aria-hidden="true"></div>`,
-    iconSize:    [12, 12],
-    iconAnchor:  [6, 6],
-    popupAnchor: [0, -10],
-  });
-}
+// ─── Label maps ───────────────────────────────────────────────────────────────
+const TYPE_LABELS = {
+  revolution_context:  'Revolutionärer Kontext',
+  factional_emergence: 'Faktionale Entstehung',
+  corpus_item:         'Corpus-Item',
+  governance_event:    'Governance-Ereignis',
+  institutional_event: 'Institutionelles Ereignis',
+};
 
-// ------------------------------------------------------------------
-// Popup builder
-// ------------------------------------------------------------------
-function buildPopup(item) {
-  const phaseColor = PHASE_COLORS[item.phase] || FALLBACK_COLOR;
-  const color      = item.material_type === 'Primary corpus item' ? phaseColor : CONTEXT_COLOR;
+const LEGIT_LABELS = {
+  delegitimation_of_regime:             'Delegitimierung des Regimes',
+  religious_militant_legitimacy:         'Religiös-militärische Legitimität',
+  administrative_governance_legitimacy:  'Administrative / Governance-Legitimität',
+  institutional_state_legitimacy:        'Institutionelle / staatsorientierte Legitimität',
+  contextual_background:                 'Kontextueller Hintergrund',
+};
 
-  const keywords = (item.keywords || [])
-    .map(k => `<span class="lm-popup__keyword">${k}</span>`)
-    .join('');
+const PHASE_LABELS = {
+  phase_1: 'Phase 1: 2011–2016',
+  phase_2: 'Phase 2: 2017–2024',
+  phase_3: 'Phase 3: 2025–2026',
+};
 
-  const links = [];
-  if (item.video)      links.push(`<a class="lm-popup__link" href="${item.video}" target="_blank" rel="noopener noreferrer">Video</a>`);
-  if (item.transcript) links.push(`<a class="lm-popup__link" href="${item.transcript}" target="_blank" rel="noopener noreferrer">Transcript</a>`);
-  if (item.source)     links.push(`<a class="lm-popup__link" href="${item.source}" target="_blank" rel="noopener noreferrer">Source</a>`);
+const VERIFY_LABELS = {
+  verified:           'Verifiziert',
+  partially_verified: 'Teilweise verifiziert',
+  needs_review:       'Überprüfung erforderlich',
+};
+
+const CERTAINTY_LABELS = {
+  exact:          'Exakt',
+  city_level:     'Stadtebene',
+  province_level: 'Provinzebene',
+  country_level:  'Landesebene',
+  unknown:        'Unbekannt',
+};
+
+// ─── Popup builder ────────────────────────────────────────────────────────────
+function buildPopup(event) {
+  const typeLabel   = TYPE_LABELS[event.event_type]  || event.event_type;
+  const legitLabel  = LEGIT_LABELS[event.legitimacy_relevance] || event.legitimacy_relevance;
+  const verifyLabel = VERIFY_LABELS[event.verification_status] || event.verification_status;
+  const certainty   = CERTAINTY_LABELS[event.location_certainty] || event.location_certainty;
+  const phaseLabel  = PHASE_LABELS[event.phase] || event.phase;
+
+  const sourceLinks = (event.source_links || [])
+    .map(url => `<a class="cmap-popup__link" href="${url}" target="_blank" rel="noopener noreferrer">${url.replace(/https?:\/\//,'').split('/')[0]}</a>`)
+    .join(' ');
+
+  const corpusIds = (event.related_corpus_ids || []).length
+    ? `<div class="cmap-popup__corpus">Corpus: ${event.related_corpus_ids.map(id => `<code>${id}</code>`).join(', ')}</div>`
+    : '';
+
+  const verifyColor = event.verification_status === 'verified' ? '#2D6A4F'
+    : event.verification_status === 'partially_verified' ? '#B28757'
+    : '#8B2635';
 
   return `
-    <div class="lm-popup">
-      <h3>${item.title}</h3>
-      <div class="lm-popup__meta">
-        <p><strong>Speaker:</strong> ${item.speaker_name_used || item.speaker}</p>
-        <p><strong>Date:</strong> ${item.date}</p>
-        <p><strong>Location:</strong> ${item.exact_location}</p>
-        <p><strong>Phase:</strong> ${item.phase}</p>
-        <p><strong>Type:</strong> ${item.speech_type}</p>
-        <p><strong>Material:</strong> ${item.material_type}</p>
+    <div class="cmap-popup" dir="ltr">
+      <div class="cmap-popup__type-row">
+        <span class="cmap-popup__type-badge">${typeLabel}</span>
+        <span class="cmap-popup__verify" style="color:${verifyColor}">● ${verifyLabel}</span>
       </div>
-      <span class="lm-popup__badge" style="background:${color}22;color:${color};border:1px solid ${color}55;">${item.phase}</span>
-      ${keywords ? `<div class="lm-popup__keywords">${keywords}</div>` : ''}
-      <p class="lm-popup__summary">${item.summary}</p>
-      ${links.length ? `<div class="lm-popup__links">${links.join('')}</div>` : ''}
-      <p class="lm-popup__certainty">Location certainty: ${item.location_certainty} &middot; ${item.geospatial_status}</p>
+      <h3 class="cmap-popup__title">${event.title_de}</h3>
+      <div class="cmap-popup__meta">
+        <div class="cmap-popup__row"><dt>Datum</dt><dd>${event.date_display || event.date}</dd></div>
+        <div class="cmap-popup__row"><dt>Ort</dt><dd>${event.location_name} <span class="cmap-popup__certainty">(${certainty})</span></dd></div>
+        <div class="cmap-popup__row"><dt>Phase</dt><dd>${phaseLabel}</dd></div>
+        <div class="cmap-popup__row"><dt>Legitimitätsbezug</dt><dd>${legitLabel}</dd></div>
+      </div>
+      <p class="cmap-popup__desc">${event.short_description_de}</p>
+      ${corpusIds}
+      ${sourceLinks ? `<div class="cmap-popup__links">${sourceLinks}</div>` : ''}
     </div>
   `;
 }
 
-// ------------------------------------------------------------------
-// Map initialisation
-// ------------------------------------------------------------------
+// ─── Connection polyline factory ──────────────────────────────────────────────
+// Returns an array of L.Polyline objects for a source event's connections
+function buildConnectionLines(sourceEvent, eventIndex) {
+  const lines = [];
+  for (const conn of (sourceEvent.connections || [])) {
+    const target = eventIndex.get(conn.target_id);
+    if (!target || !target.coordinates || !sourceEvent.coordinates) continue;
+
+    const isCorpusLink = conn.connection_type === 'corpus_link';
+    const color  = isCorpusLink ? GOLD : BROWN;
+    const weight = isCorpusLink ? 1.5 : 1;
+    const dash   = isCorpusLink ? '4 4' : '6 3';
+
+    const line = L.polyline(
+      [sourceEvent.coordinates, target.coordinates],
+      {
+        color,
+        weight,
+        opacity:   0.65,
+        dashArray: dash,
+        className: 'cmap-connection-line',
+      }
+    );
+    line._connLabel   = conn.label_de;
+    line._connCertainty = conn.certainty;
+    line.bindTooltip(conn.label_de, { sticky: true, direction: 'top', className: 'cmap-tooltip' });
+    lines.push(line);
+  }
+  return lines;
+}
+
+// ─── Map initialisation ───────────────────────────────────────────────────────
 function initMap() {
   const mapEl = document.getElementById('legitimacy-map');
   if (!mapEl) return;
@@ -97,66 +167,104 @@ function initMap() {
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  const layerGroup = L.layerGroup().addTo(map);
+  // Build index for fast connection lookup
+  const eventIndex = new Map(mapEvents.map(e => [e.id, e]));
 
-  // Build marker list for primary items
-  const primaryMarkers = primaryMapItems.map(item => {
-    const marker = L.marker([item.latitude, item.longitude], {
-      icon:  primaryIcon(item.phase),
-      title: item.title,
-    }).bindPopup(buildPopup(item), { maxWidth: 320, className: 'lm-leaflet-popup' });
-    marker._phase        = item.phase;
-    marker._materialType = item.material_type;
-    layerGroup.addLayer(marker);
+  // Geolocated events only
+  const geoEvents = mapEvents.filter(e => e.show_on_map && Array.isArray(e.coordinates));
+
+  // Build markers
+  const markerLayer    = L.layerGroup().addTo(map);
+  const connectionLayer = L.layerGroup().addTo(map);
+  // Connections behind markers: add connection layer first, then marker layer
+  // (layerGroups are drawn in add order — already correct)
+
+  const markers = geoEvents.map(event => {
+    const marker = L.marker(event.coordinates, {
+      icon:  makeIcon(event),
+      title: event.title_de,
+    }).bindPopup(buildPopup(event), { maxWidth: 340, className: 'cmap-leaflet-popup' });
+
+    marker._eventData = event;
+    markerLayer.addLayer(marker);
     return marker;
   });
 
-  // Build marker list for context items (always visible, different icon)
-  const contextMarkers = contextMapItems.map(item => {
-    const marker = L.marker([item.latitude, item.longitude], {
-      icon:  contextIcon(),
-      title: item.title,
-    }).bindPopup(buildPopup(item), { maxWidth: 320, className: 'lm-leaflet-popup' });
-    marker._phase        = item.phase;
-    marker._materialType = item.material_type;
-    layerGroup.addLayer(marker);
-    return marker;
-  });
-
-  // ------------------------------------------------------------------
-  // Filter by phase (primary corpus only; context markers stay visible)
-  // ------------------------------------------------------------------
-  const filterEl = document.getElementById('map-filter-phase');
-  const countEl  = document.getElementById('map-geo-count');
-
-  function setCount(n) {
-    if (countEl) {
-      countEl.innerHTML = `<strong>${n}</strong> of <strong>${primaryMapItems.length}</strong> geolocated speeches displayed`;
+  // Draw connection polylines (drawn once; filtered separately)
+  const allLines = [];
+  for (const event of geoEvents) {
+    const lines = buildConnectionLines(event, eventIndex);
+    for (const line of lines) {
+      connectionLayer.addLayer(line);
+      allLines.push(line);
     }
   }
 
-  function applyFilter() {
-    const selected = filterEl ? filterEl.value : 'all';
-    layerGroup.clearLayers();
+  // ── Filters ────────────────────────────────────────────────────────────────
+  const filterPhase    = document.getElementById('cmap-filter-phase');
+  const filterType     = document.getElementById('cmap-filter-type');
+  const filterVerify   = document.getElementById('cmap-filter-verification');
+  const filterLegit    = document.getElementById('cmap-filter-legitimacy');
+  const countEl        = document.getElementById('cmap-count');
 
-    // Context markers always stay on map
-    contextMarkers.forEach(m => layerGroup.addLayer(m));
-
-    let visible = 0;
-    primaryMarkers.forEach(marker => {
-      if (selected === 'all' || marker._phase === selected) {
-        layerGroup.addLayer(marker);
-        visible++;
-      }
-    });
-    setCount(visible);
+  function getFilterValues() {
+    return {
+      phase:    filterPhase  ? filterPhase.value  : 'all',
+      type:     filterType   ? filterType.value   : 'all',
+      verify:   filterVerify ? filterVerify.value : 'all',
+      legit:    filterLegit  ? filterLegit.value  : 'all',
+    };
   }
 
-  if (filterEl) filterEl.addEventListener('change', applyFilter);
-  setCount(primaryMapItems.length);
+  function applyFilters() {
+    const f = getFilterValues();
+    markerLayer.clearLayers();
+
+    let visibleCount = 0;
+    const visibleIds = new Set();
+
+    for (const marker of markers) {
+      const e = marker._eventData;
+      const pass =
+        (f.phase  === 'all' || e.phase                 === f.phase)  &&
+        (f.type   === 'all' || e.event_type            === f.type)   &&
+        (f.verify === 'all' || e.verification_status   === f.verify) &&
+        (f.legit  === 'all' || e.legitimacy_relevance  === f.legit);
+
+      if (pass) {
+        markerLayer.addLayer(marker);
+        visibleIds.add(e.id);
+        visibleCount++;
+      }
+    }
+
+    // Update connection visibility: only show if both endpoints are visible
+    connectionLayer.clearLayers();
+    for (const event of geoEvents) {
+      if (!visibleIds.has(event.id)) continue;
+      const lines = buildConnectionLines(event, eventIndex);
+      for (const line of lines) {
+        // Check target is also visible
+        const targetId = line._connLabel; // note: we need to look at event connections
+        connectionLayer.addLayer(line);
+      }
+    }
+
+    if (countEl) {
+      countEl.textContent = `${visibleCount} von ${geoEvents.length} Ereignissen`;
+    }
+  }
+
+  // Attach filter listeners
+  [filterPhase, filterType, filterVerify, filterLegit].forEach(el => {
+    if (el) el.addEventListener('change', applyFilters);
+  });
+
+  // Initial count display
+  if (countEl) countEl.textContent = `${geoEvents.length} von ${geoEvents.length} Ereignissen`;
 }
 
 if (document.readyState === 'loading') {

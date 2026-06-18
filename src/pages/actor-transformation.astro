@@ -14,17 +14,18 @@ const PHASE_COLORS: Record<number, string> = {
 ---
 
 <BaseLayout
-  title="Akteurswandel"
-  description="Der diskursive Wandel Ahmad al-Sharaas von der bewaffneten Gruppe Jabhat al-Nusra (2013) zur syrischen Übergangsregierung (2024): vier Phasen, Benennungen, Legitimationstypen."
+  title="Akteursbenennung als Indikator diskursiver Legitimitätsverschiebung"
+  description="Die systematische Veränderung der Selbstbezeichnung Ahmad al-Sharaas und der Gruppe als sprachlicher Indikator diskursiver Legitimitätsverschiebung — ein Teilaspekt der Legitimationsanalyse."
   locale={locale}
 >
 
 <section class="section at-hero">
   <div class="container">
-    <span class="page-kicker">Von der bewaffneten Gruppierung zur Übergangsautorität</span>
-    <h1 class="page-title">Akteurswandel</h1>
+    <span class="page-kicker">Diskursiver Indikator — kein separates Forschungsthema</span>
+    <h1 class="page-title">Akteursbenennung als Indikator diskursiver Legitimitätsverschiebung</h1>
     <p class="page-subtitle">
-      Diskursiver Wandel des Akteurs Ahmad al-Sharaa / Hayʾat Taḥrīr al-Shām, 2011–2026
+      Die systematische Veränderung der Selbstbezeichnung als sprachlicher Indikator
+      der drei Legitimitätsphasen, 2011–2026
     </p>
   </div>
 </section>
@@ -34,10 +35,22 @@ const PHASE_COLORS: Record<number, string> = {
   <div class="container">
     <span class="section-overline">Selbstbezeichnungen im Wandel</span>
     <h2 class="section-title">Akteurs- und Gruppenbezeichnungen nach Phase</h2>
+    <div class="at-framing-note">
+      <p>
+        Diese Seite ist dem Kern-Forschungskonzept des Projekts untergeordnet:
+        <strong>Politische Legitimität als diskursiv konstruierte Kategorie</strong>.
+        Die Akteursbenennung ist kein eigenständiges Thema — sie ist ein <em>diskursiver Indikator</em>,
+        der zeigt, wie Legitimitätsansprüche über Benennungsstrategien konstruiert und verschoben werden.
+      </p>
+      <p>
+        Jede Umbenennung des Akteurs oder der Gruppe markiert einen Strategiewechsel innerhalb einer
+        der drei analytischen Legitimitätsphasen des Projekts (religiös-militärisch / administrativ-Governance / institutionell-staatsorientiert).
+      </p>
+    </div>
     <p class="at-intro">
-      Ein zentrales Merkmal des diskursiven Wandels ist die systematische Veränderung
-      der Selbstbezeichnung des Akteurs und der Gruppe. Jede Umbenennung markiert einen
-      Strategiewechsel in der Konstruktion politischer Legitimität.
+      Die systematische Veränderung der Selbstbezeichnung des Akteurs und der Gruppe ist
+      ein zentraler sprachlicher Indikator diskursiver Legitimitätsverschiebung. Jede Umbenennung
+      markiert einen Strategiewechsel in der Konstruktion politischer Legitimität.
     </p>
 
     <div class="at-names-grid">
@@ -137,14 +150,16 @@ const PHASE_COLORS: Record<number, string> = {
     <div class="at-method-note">
       <p class="at-method-note__text">
         Die Bezeichnungen und Phasengrenzen in dieser Übersicht sind analytische Konstruktionen
-        des Projekts und keine offiziellen Kategorien. Die dargestellten Legitimationsstrategien
-        werden im Diskurs des Akteurs selbst identifiziert — das Projekt nimmt keine normative
-        Bewertung vor.
+        des Projekts und keine offiziellen Kategorien. Die Akteursbenennung wird als
+        <em>diskursiver Indikator politischer Legitimitätsverschiebung</em> untersucht —
+        nicht als historische Klassifikation. Das Projekt legitimiert oder delegitimiert
+        keine politischen Akteure: Es untersucht, wie Legitimitätsansprüche sprachlich
+        konstruiert, aufrechterhalten und transformiert werden.
       </p>
     </div>
     <p class="mt-xl">
-      <a href={withBase('/timeline')} class="btn btn--outline">Vollständige Timeline ansehen →</a>
-      <a href={withBase('/concepts')} class="btn btn--ghost btn--sm" style="margin-left: 1rem;">Zur Concept Gallery →</a>
+      <a href={withBase('/methodology')} class="btn btn--outline">Zur Methodologie →</a>
+      <a href={withBase('/timeline')} class="btn btn--ghost btn--sm" style="margin-left: 1rem;">Vollständige Timeline →</a>
     </p>
   </div>
 </section>
@@ -153,6 +168,9 @@ const PHASE_COLORS: Record<number, string> = {
 
 <style>
 .at-hero { background: var(--clr-bg-alt); border-bottom: 1px solid var(--clr-border); padding-bottom: var(--space-2xl); }
+.at-framing-note { background: var(--clr-card); border: 1px solid var(--clr-border-light); border-left: 3px solid var(--clr-red); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-lg) var(--space-xl); margin-bottom: var(--space-xl); }
+.at-framing-note p { font-family: var(--font-sans); font-size: 0.88rem; color: var(--clr-text-mid); line-height: 1.7; margin: 0 0 var(--space-sm); }
+.at-framing-note p:last-child { margin-bottom: 0; }
 .at-intro { font-family: var(--font-sans); font-size: 0.95rem; color: var(--clr-text-mid); line-height: 1.75; max-width: 65ch; margin-bottom: var(--space-2xl); }
 .at-names-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
 .at-name-card { background: var(--clr-card); border: 1px solid var(--clr-border); border-radius: var(--radius-md); border-top: 4px solid var(--clr-olive); padding: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-md); }

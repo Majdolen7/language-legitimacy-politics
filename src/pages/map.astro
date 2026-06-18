@@ -23,6 +23,24 @@ const locale = 'de';
     </div>
 
     <div class="container">
+
+      <!-- Methodology note 1: Spatial context, not speech locations -->
+      <div class="map-page__method-note" role="note" aria-label="Methodologische Hinweise">
+        <strong>Zur räumlichen Einordnung:</strong> Diese Karte visualisiert geografische Kontexte
+        politischer Legitimitätsverschiebungen — nicht die Standorte, von denen aus Reden gehalten wurden.
+        Für Corpus-Items wird der Kontext, nicht der Aufnahmeort, kartiert. Standortangaben sind mit
+        Genauigkeitsstufen versehen (exakt / Stadtebene / Provinz).
+      </div>
+
+      <!-- Methodology note 2: Context events vs corpus items -->
+      <div class="map-page__method-note" role="note">
+        <strong>Corpus-Items vs. Kontext-Ereignisse:</strong> Markierungen mit Corpus-IDs (z. B.
+        S2022-008) entsprechen Primärquellen im analytischen Forschungscorpus. Alle anderen Ereignisse
+        sind historische Kontextereignisse, die den analytischen Rahmen der drei Legitimitätsphasen
+        illustrieren. Das Projekt legitimiert oder delegitimiert keine politischen Akteure — es
+        untersucht, wie Legitimitätsansprüche sprachlich konstruiert und diskursiv verschoben wurden.
+      </div>
+
       <LegitimacyMap locale={locale} />
     </div>
   </section>

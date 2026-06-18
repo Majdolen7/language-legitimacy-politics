@@ -136,9 +136,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     'content.pending': 'Übersetzung in Bearbeitung',
     'content.original-label': 'Originaltext (Englisch):',
 
-    'map.title': 'Geographien politischer Legitimität',
-    'map.scope': 'Forschungscorpus',
-    'map.intro': 'Sprache und die Transformation politischer Legitimität in den Reden Ahmad al-Sharaas, 2013–2026. Geolokalisierte und nicht geolokalisierte Diskursereignisse, chronologisch eingeordnet.',
+    'map.title': 'Kontextkarte politischer Legitimität',
+    'map.scope': 'Analytisches Werkzeug',
+    'map.intro': 'Räumliche Stationen der syrischen Revolution und der diskursiven Verschiebungen politischer Legitimität, 2011–2026. Die Karte zeigt kontextuelle Ereignisse und Corpus-Items — sie ist kein militärischer Ereignisatlas des syrischen Krieges.',
     'map.stats.primary': 'Primäre Corpuseinträge',
     'map.stats.geolocated': 'Geolokalisiert',
     'map.stats.non-geolocated': 'Nicht geolokalisiert',

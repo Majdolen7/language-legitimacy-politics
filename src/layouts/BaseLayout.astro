@@ -46,17 +46,14 @@ const enPath = getLocalePath(currentPath, 'en');
 const prefix = locale === 'de' ? '' : `/${locale}`;
 
 // Nav items per locale — AR/EN omit pages that have no locale version
+// DE primary nav reduced to 6 items; Konzepte, Akteurswandel, Regierung, Corpus
+// remain accessible via contextual in-page links and footer — routes are not deleted.
 const navItemsDE = [
-  { href: '/',                          label: 'Startseite'        },
-  { href: '/research-question',         label: 'Forschungsfrage'   },
-  { href: '/timeline',                  label: 'Timeline'          },
-  { href: '/concepts',                  label: 'Konzepte'          },
-  { href: '/actor-transformation',      label: 'Akteurswandel'     },
-  { href: '/cabinet',                   label: 'Regierung'         },
-  { href: '/corpus',                    label: 'Corpus'            },
-  { href: '/map',                       label: 'Map'               },
-  { href: '/legitimacy-museum',         label: 'Legitimacy Museum' },
+  { href: '/research-question',         label: 'Projekt'           },
   { href: '/methodology',               label: 'Methodologie'      },
+  { href: '/timeline',                  label: 'Timeline'          },
+  { href: '/map',                       label: 'Karte'             },
+  { href: '/legitimacy-museum',         label: 'Legitimacy Museum' },
   { href: '/data-sustainability',       label: 'Daten'             },
 ];
 

@@ -1,7 +1,7 @@
 ---
 import 'leaflet/dist/leaflet.css';
 import '../styles/map.css';
-import allCorpusRaw from '../data/speeches.json';
+import mapEventsRaw from '../data/map-events.json';
 import { t, type Locale } from '../i18n/translations';
 
 interface Props {
@@ -10,318 +10,351 @@ interface Props {
 
 const { locale = 'de' } = Astro.props;
 
-interface CorpusItem {
+interface MapEvent {
   id: string;
-  title: string;
-  speaker: string;
-  speaker_name_used: string;
+  title_de: string;
+  title_en: string;
   date: string;
-  city: string;
-  exact_location: string;
-  latitude: number | null;
-  longitude: number | null;
-  political_actor: string;
-  speech_type: string;
-  audience: string;
-  language_variety: string;
-  legitimacy_type: string | null;
-  keywords: string[];
-  summary: string;
-  source: string;
-  video: string;
-  transcript: string;
-  location_certainty: string;
-  geospatial_status: string;
-  material_type: string;
+  date_display: string;
+  event_type: string;
   phase: string;
-  primary_source_status: string;
-  transcript_status: string;
-  corpus_status: string;
+  location_name: string;
+  coordinates: [number, number] | null;
+  location_certainty: string;
+  verification_status: string;
+  legitimacy_relevance: string;
+  short_description_de: string;
+  source_status: string;
+  source_links: string[];
+  related_corpus_ids: string[];
+  show_on_map: boolean;
+  connections: Array<{
+    target_id: string;
+    connection_type: string;
+    label_de: string;
+    certainty: string;
+  }>;
 }
 
-const allCorpus = allCorpusRaw as CorpusItem[];
+const mapEvents = mapEventsRaw as MapEvent[];
 
-// --- Partition -----------------------------------------------------------
-const primaryItems = allCorpus.filter(s => s.material_type === 'Primary corpus item');
+// Partition
+const geolocated = mapEvents.filter(e => e.show_on_map && e.coordinates !== null);
+const nonGeolocated = mapEvents.filter(e => !e.show_on_map || e.coordinates === null);
 
-const geolocatedPrimary = primaryItems.filter(
-  s => s.geospatial_status === 'Geolocated' && s.latitude !== null && s.longitude !== null
-);
+// Filter options
+const phases = [...new Set(mapEvents.map(e => e.phase))].sort();
+const eventTypes = [...new Set(mapEvents.map(e => e.event_type))].sort();
 
-const nonGeolocatedPrimary = primaryItems.filter(
-  s => s.geospatial_status !== 'Geolocated' || s.latitude === null || s.longitude === null
-);
-
-// --- Counts --------------------------------------------------------------
-const totalCount       = primaryItems.length;
-const geolocatedCount  = geolocatedPrimary.length;
-const nonGeoCount      = nonGeolocatedPrimary.length;
-const needsReviewCount = primaryItems.filter(
-  s => s.corpus_status.includes('Placeholder') || s.primary_source_status.toLowerCase().includes('pending')
-).length;
-
-// --- Phase filter options (only phases that have geolocated items) --------
-const geoPhases = [...new Set(geolocatedPrimary.map(s => s.phase))].sort();
-
-// --- Phase colour map (mirrors map.js constants) -------------------------
-const PHASE_COLORS: Record<string, string> = {
-  'Phase 1: Jabhat al-Nusra (2013–2016)':      '#8B5E35',
-  'Phase 2: Jabhat Fath al-Sham (2016–2017)':  '#9A7B4A',
-  'Phase 3: Hayat Tahrir al-Sham (2017–2024)': '#4A5C38',
-  'Phase 4: Post-Regime Transition (2024–)':    '#2A3848',
+const eventTypeLabels: Record<string, string> = {
+  revolution_context:    'Revolutionärer Kontext',
+  factional_emergence:   'Faktionale Entstehung',
+  corpus_item:           'Corpus-Item',
+  governance_event:      'Governance-Ereignis',
+  institutional_event:   'Institutionelles Ereignis',
 };
-const CONTEXT_COLOR = '#7A6555';
 
-function phaseColor(phase: string): string {
-  return PHASE_COLORS[phase] || '#9A7B4A';
-}
+const phaseLabels: Record<string, string> = {
+  phase_1: 'Phase 1: 2011–2016',
+  phase_2: 'Phase 2: 2017–2024',
+  phase_3: 'Phase 3: 2025–2026',
+};
 
-// --- Chronological list: all items sorted by date ------------------------
-function sortKey(dateStr: string): number {
-  if (!dateStr) return 0;
-  const d = new Date(dateStr);
-  return isNaN(d.getTime()) ? 0 : d.getTime();
-}
+const legitLabels: Record<string, string> = {
+  delegitimation_of_regime:         'Delegitimierung des Regimes',
+  religious_militant_legitimacy:    'Religiös-militärische Legitimität',
+  administrative_governance_legitimacy: 'Administrative / Governance-Legitimität',
+  institutional_state_legitimacy:   'Institutionelle / staatsorientierte Legitimität',
+  contextual_background:            'Kontextueller Hintergrund',
+};
 
-const chronological = [...allCorpus].sort((a, b) => sortKey(a.date) - sortKey(b.date));
+const verificationLabels: Record<string, string> = {
+  verified:           'Verifiziert',
+  partially_verified: 'Teilweise verifiziert',
+  needs_review:       'Überprüfung erforderlich',
+};
 
-// --- Date display (locale-aware month names) ----------------------------
-const MONTHS_STR = t(locale, 'map.months') || 'January,February,March,April,May,June,July,August,September,October,November,December';
-const MONTHS = MONTHS_STR.split(',');
+const certaintySuffix: Record<string, string> = {
+  exact:          'Exakt',
+  city_level:     'Stadtebene',
+  province_level: 'Provinzebene',
+  country_level:  'Landesebene',
+  unknown:        'Unbekannt',
+};
 
+// Stats
+const totalEvents = mapEvents.length;
+const geolocatedCount = geolocated.length;
+const nonGeoCount = nonGeolocated.length;
+const needsReviewCount = mapEvents.filter(e => e.verification_status === 'needs_review').length;
+
+// Date display helper
+const MONTHS_DE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 function displayDate(dateStr: string): string {
-  if (!dateStr) return t(locale, 'map.date-unknown');
+  if (!dateStr) return 'Datum unbekannt';
   if (/^\d{4}$/.test(dateStr)) return dateStr;
   if (/^\d{4}-\d{2}$/.test(dateStr)) {
     const [y, m] = dateStr.split('-');
-    return `${MONTHS[parseInt(m, 10) - 1] ?? m} ${y}`;
+    return `${MONTHS_DE[parseInt(m, 10) - 1] ?? m} ${y}`;
   }
   const d = new Date(dateStr + 'T12:00:00Z');
   if (isNaN(d.getTime())) return dateStr;
-  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+  return `${d.getUTCDate()}. ${MONTHS_DE[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
+
+// Chronological sort
+const chronological = [...mapEvents].sort((a, b) => {
+  const dateA = new Date(a.date + '-01').getTime();
+  const dateB = new Date(b.date + '-01').getTime();
+  return isNaN(dateA) ? 1 : isNaN(dateB) ? -1 : dateA - dateB;
+});
 ---
 
 <!-- ================================================================
-     CORPUS STATISTICS DASHBOARD
+     STATS DASHBOARD
 ================================================================ -->
-<div class="map-stats" role="region" aria-label={t(locale, 'map.stat.aria')}>
-  <div class="map-stat">
-    <span class="map-stat__number">{totalCount}</span>
-    <span class="map-stat__label">{t(locale, 'map.stats.primary')}</span>
+<div class="cmap-stats" role="region" aria-label="Kartenstatistiken">
+  <div class="cmap-stat">
+    <span class="cmap-stat__num">{totalEvents}</span>
+    <span class="cmap-stat__label">Ereignisse gesamt</span>
   </div>
-  <div class="map-stat map-stat--geo">
-    <span class="map-stat__number">{geolocatedCount}</span>
-    <span class="map-stat__label">{t(locale, 'map.stats.geolocated')}</span>
+  <div class="cmap-stat cmap-stat--geo">
+    <span class="cmap-stat__num">{geolocatedCount}</span>
+    <span class="cmap-stat__label">Geolokalisiert</span>
   </div>
-  <div class="map-stat">
-    <span class="map-stat__number">{nonGeoCount}</span>
-    <span class="map-stat__label">{t(locale, 'map.stats.non-geolocated')}</span>
+  <div class="cmap-stat">
+    <span class="cmap-stat__num">{nonGeoCount}</span>
+    <span class="cmap-stat__label">Nicht geolokalisiert</span>
   </div>
-  <div class="map-stat map-stat--warn">
-    <span class="map-stat__number">{needsReviewCount}</span>
-    <span class="map-stat__label">{t(locale, 'map.stats.needs-review')}</span>
+  <div class="cmap-stat cmap-stat--warn">
+    <span class="cmap-stat__num">{needsReviewCount}</span>
+    <span class="cmap-stat__label">Überprüfung erforderlich</span>
   </div>
 </div>
 
 <!-- ================================================================
-     SECTION A — INTERACTIVE MAP
+     FILTERS
 ================================================================ -->
-<section class="map-section" id="map-interactive" aria-labelledby="section-map-title">
-  <h2 class="map-section__title" id="section-map-title">
-    <span class="map-section__letter" aria-hidden="true"></span>
-    {t(locale, 'map.section-a.title')}
-  </h2>
-  <p class="map-section__desc">
-    {t(locale, 'map.section-a.desc')}
-  </p>
-
-  <!-- Phase filter — always LTR for select controls -->
-  <div class="map-controls" dir="ltr">
-    <label class="map-controls__label" for="map-filter-phase">
-      {t(locale, 'map.filter.phase')}
-    </label>
-    <select
-      class="map-filter"
-      id="map-filter-phase"
-      name="political-phase"
-      aria-label={t(locale, 'map.filter.aria')}
-      disabled={geolocatedCount === 0}
-    >
-      <option value="all">{t(locale, 'map.filter.all-phases')}</option>
-      {geoPhases.map(p => (
-        <option value={p}>{p}</option>
+<div class="cmap-filters" dir="ltr" aria-label="Kartenfilter">
+  <div class="cmap-filter-group">
+    <label class="cmap-filter-label" for="cmap-filter-phase">Phase</label>
+    <select class="cmap-filter-select" id="cmap-filter-phase" name="phase">
+      <option value="all">Alle Phasen</option>
+      {phases.map(p => (
+        <option value={p}>{phaseLabels[p] ?? p}</option>
       ))}
     </select>
-    <span class="map-count" id="map-geo-count" aria-live="polite"></span>
   </div>
-
-  <!-- Map or empty state — always LTR (Leaflet requirement) -->
-  {geolocatedCount === 0 ? (
-    <div class="map-empty" role="status">
-      <p>{t(locale, 'map.empty')}</p>
-    </div>
-  ) : (
-    <div
-      id="legitimacy-map"
-      dir="ltr"
-      role="region"
-      aria-label="Map of confirmed political speech locations in Syria"
-    ></div>
-  )}
-
-  <!-- Phase legend -->
-  {geolocatedCount > 0 && (
-    <div class="map-legend" role="list" aria-label={t(locale, 'map.legend.aria')}>
-      <span class="map-legend__title">{t(locale, 'map.legend.title')}</span>
-      {geoPhases.map(p => (
-        <div class="map-legend__item" role="listitem">
-          <span
-            class="map-legend__dot"
-            style={`background-color:${phaseColor(p)};`}
-            aria-hidden="true"
-          ></span>
-          {p}
-        </div>
+  <div class="cmap-filter-group">
+    <label class="cmap-filter-label" for="cmap-filter-type">Ereignistyp</label>
+    <select class="cmap-filter-select" id="cmap-filter-type" name="type">
+      <option value="all">Alle Typen</option>
+      {eventTypes.map(t => (
+        <option value={t}>{eventTypeLabels[t] ?? t}</option>
       ))}
-      <div class="map-legend__item" role="listitem">
-        <span class="map-legend__diamond" aria-hidden="true"></span>
-        {t(locale, 'map.legend.context')}
+    </select>
+  </div>
+  <div class="cmap-filter-group">
+    <label class="cmap-filter-label" for="cmap-filter-verification">Verifikation</label>
+    <select class="cmap-filter-select" id="cmap-filter-verification" name="verification">
+      <option value="all">Alle Status</option>
+      <option value="verified">Verifiziert</option>
+      <option value="partially_verified">Teilweise verifiziert</option>
+      <option value="needs_review">Überprüfung erforderlich</option>
+    </select>
+  </div>
+  <div class="cmap-filter-group">
+    <label class="cmap-filter-label" for="cmap-filter-legitimacy">Legitimitätsbezug</label>
+    <select class="cmap-filter-select" id="cmap-filter-legitimacy" name="legitimacy">
+      <option value="all">Alle Typen</option>
+      <option value="delegitimation_of_regime">Delegitimierung des Regimes</option>
+      <option value="religious_militant_legitimacy">Religiös-militärische Legitimität</option>
+      <option value="administrative_governance_legitimacy">Governance-Legitimität</option>
+      <option value="institutional_state_legitimacy">Institutionelle Legitimität</option>
+    </select>
+  </div>
+  <span class="cmap-count" id="cmap-count" aria-live="polite"></span>
+</div>
+
+<!-- ================================================================
+     MAIN MAP
+================================================================ -->
+<div
+  id="legitimacy-map"
+  dir="ltr"
+  role="region"
+  aria-label="Kontextkarte politischer Legitimität — interaktive Karte"
+></div>
+
+<!-- ================================================================
+     LEGEND
+================================================================ -->
+<div class="cmap-legend" role="region" aria-label="Kartenlegende">
+  <span class="cmap-legend__title">Legende</span>
+
+  <div class="cmap-legend__group">
+    <span class="cmap-legend__group-label">Ereignistypen</span>
+    <div class="cmap-legend__items">
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__pin cmap-legend__pin--revolution" aria-hidden="true"></span>
+        Revolutionärer Kontext
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__pin cmap-legend__pin--factional" aria-hidden="true"></span>
+        Faktionale Entstehung
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__pin cmap-legend__pin--corpus" aria-hidden="true"></span>
+        Corpus-Item
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__pin cmap-legend__pin--governance" aria-hidden="true"></span>
+        Governance-Ereignis
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__pin cmap-legend__pin--institutional" aria-hidden="true"></span>
+        Institutionelles Ereignis
       </div>
     </div>
-  )}
-</section>
+  </div>
 
-<!-- ================================================================
-     SECTION B — NON-GEOLOCATED DISCOURSE EVENTS
-================================================================ -->
-<section class="map-section map-section--alt" id="map-non-geolocated" aria-labelledby="section-ngeo-title">
-  <h2 class="map-section__title" id="section-ngeo-title">
-    <span class="map-section__letter" aria-hidden="true"></span>
-    {t(locale, 'map.section-b.title')}
-  </h2>
-  <p class="map-section__desc">
-    {t(locale, 'map.section-b.desc')}
-  </p>
-
-  <p class="map-disclaimer">
-    {t(locale, 'map.disclaimer')}
-  </p>
-
-  {nonGeolocatedPrimary.length === 0 ? (
-    <p class="map-section__empty">{t(locale, 'map.ngeo.empty')}</p>
-  ) : (
-    <div class="ngeo-grid">
-      {nonGeolocatedPrimary.map(item => (
-        <article class="ngeo-card" id={item.id}>
-          <header class="ngeo-card__head">
-            <code class="ngeo-card__id" dir="ltr">{item.id}</code>
-            <span class="ngeo-card__type">{item.speech_type}</span>
-          </header>
-
-          <h3 class="ngeo-card__title">{item.title}</h3>
-          <p class="ngeo-card__speaker">{item.speaker_name_used}</p>
-
-          <dl class="ngeo-card__meta">
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.date')}</dt>
-              <dd dir="ltr">{displayDate(item.date)}</dd>
-            </div>
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.phase')}</dt>
-              <dd>
-                <span
-                  class="ngeo-phase-badge"
-                  dir="ltr"
-                  style={`border-left-color:${phaseColor(item.phase)};`}
-                >{item.phase}</span>
-              </dd>
-            </div>
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.location')}</dt>
-              <dd>
-                <span class="ngeo-status ngeo-status--geo">{item.geospatial_status}</span>
-              </dd>
-            </div>
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.primary')}</dt>
-              <dd>
-                <span class="ngeo-status">{item.primary_source_status}</span>
-              </dd>
-            </div>
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.transcript')}</dt>
-              <dd>
-                <span class="ngeo-status">{item.transcript_status}</span>
-              </dd>
-            </div>
-            <div class="ngeo-card__row">
-              <dt>{t(locale, 'map.ngeo.corpus')}</dt>
-              <dd>
-                <span class="ngeo-status ngeo-status--corpus">{item.corpus_status}</span>
-              </dd>
-            </div>
-          </dl>
-
-          {item.source && item.source.startsWith('http') && (
-            <a
-              class="ngeo-card__link"
-              href={item.source}
-              dir="ltr"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t(locale, 'map.ngeo.source-link')}
-            </a>
-          )}
-        </article>
-      ))}
+  <div class="cmap-legend__group">
+    <span class="cmap-legend__group-label">Verifikation</span>
+    <div class="cmap-legend__items">
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__verify cmap-legend__verify--verified" aria-hidden="true"></span>
+        Verifiziert
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__verify cmap-legend__verify--partial" aria-hidden="true"></span>
+        Teilweise verifiziert
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__verify cmap-legend__verify--review" aria-hidden="true"></span>
+        Überprüfung erforderlich
+      </div>
     </div>
-  )}
-</section>
+  </div>
+
+  <div class="cmap-legend__group">
+    <span class="cmap-legend__group-label">Analytische Verbindungen</span>
+    <div class="cmap-legend__items">
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__line cmap-legend__line--gold" aria-hidden="true"></span>
+        Analytische Verschiebung (Kontext)
+      </div>
+      <div class="cmap-legend__item">
+        <span class="cmap-legend__line cmap-legend__line--brown" aria-hidden="true"></span>
+        Analytische Verschiebung (Corpus)
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 <!-- ================================================================
-     SECTION C — CHRONOLOGICAL CORPUS TIMELINE
+     NON-GEOLOCATED EVENTS PANEL
 ================================================================ -->
-<section class="map-section" id="map-timeline" aria-labelledby="section-timeline-title">
-  <h2 class="map-section__title" id="section-timeline-title">
-    <span class="map-section__letter" aria-hidden="true"></span>
-    {t(locale, 'map.section-c.title')}
+<section class="cmap-ngeo-section" id="cmap-ngeo" aria-labelledby="cmap-ngeo-title">
+  <h2 class="cmap-ngeo-title" id="cmap-ngeo-title">
+    Nicht exakt geolokalisierte Ereignisse
   </h2>
-  <p class="map-section__desc">
-    {t(locale, 'map.section-c.desc')}
+  <p class="cmap-ngeo-desc">
+    Die folgenden Ereignisse können keinem bestätigten geografischen Punkt zugeordnet werden.
+    Sie sind Teil des analytischen Rahmens, werden aber nicht als Kartenpunkte dargestellt,
+    um keine unverifizierten Ortsangaben zu implizieren. Unsicherheit ist hier bewusst sichtbar gemacht.
   </p>
 
-  <div class="ctimeline" role="list">
-    {chronological.map(item => {
-      const isPrimary = item.material_type === 'Primary corpus item';
-      const color     = isPrimary ? phaseColor(item.phase) : CONTEXT_COLOR;
-      return (
-        <div
-          class={`ctimeline__item ${isPrimary ? 'ctimeline__item--primary' : 'ctimeline__item--context'}`}
-          role="listitem"
-        >
-          <div class="ctimeline__spine" aria-hidden="true">
-            <span class="ctimeline__dot" style={`background-color:${color};`}></span>
-            <span class="ctimeline__line"></span>
-          </div>
-          <div class="ctimeline__body">
-            <div class="ctimeline__top">
-              <time class="ctimeline__date" dir="ltr" datetime={item.date}>{displayDate(item.date)}</time>
-              <span class={`ctimeline__type-badge ${isPrimary ? '' : 'ctimeline__type-badge--context'}`}>
-                {item.material_type}
-              </span>
-              {item.geospatial_status === 'Geolocated' && (
-                <span class="ctimeline__geo-badge">{t(locale, 'map.stats.geolocated')}</span>
-              )}
-            </div>
-            <p class="ctimeline__title">{item.title}</p>
-            <p class="ctimeline__actor">{item.speaker_name_used}</p>
-            <p class="ctimeline__phase" dir="ltr" style={`color:${color};`}>{item.phase}</p>
-          </div>
+  <div class="cmap-ngeo-grid">
+    {nonGeolocated.map(event => (
+      <article class="cmap-ngeo-card" data-event-id={event.id}>
+        <div class="cmap-ngeo-card__header">
+          <span class={`cmap-event-type-badge cmap-event-type-badge--${event.event_type.replace('_','-')}`}>
+            {eventTypeLabels[event.event_type] ?? event.event_type}
+          </span>
+          <span class={`cmap-verify-badge cmap-verify-badge--${event.verification_status}`}>
+            {verificationLabels[event.verification_status] ?? event.verification_status}
+          </span>
         </div>
-      );
-    })}
+        <h3 class="cmap-ngeo-card__title">{event.title_de}</h3>
+        <div class="cmap-ngeo-card__meta">
+          <div class="cmap-ngeo-card__row">
+            <dt>Datum</dt>
+            <dd>{event.date_display || event.date}</dd>
+          </div>
+          <div class="cmap-ngeo-card__row">
+            <dt>Ort</dt>
+            <dd>
+              <span class="cmap-uncertainty-badge">
+                {event.location_name}
+              </span>
+            </dd>
+          </div>
+          <div class="cmap-ngeo-card__row">
+            <dt>Ortsgewissheit</dt>
+            <dd>{certaintySuffix[event.location_certainty] ?? event.location_certainty}</dd>
+          </div>
+          <div class="cmap-ngeo-card__row">
+            <dt>Legitimitätsbezug</dt>
+            <dd>{legitLabels[event.legitimacy_relevance] ?? event.legitimacy_relevance}</dd>
+          </div>
+          {event.related_corpus_ids.length > 0 && (
+            <div class="cmap-ngeo-card__row">
+              <dt>Corpus-IDs</dt>
+              <dd class="cmap-ngeo-card__corpus-ids">
+                {event.related_corpus_ids.map(id => (
+                  <code class="cmap-corpus-id">{id}</code>
+                ))}
+              </dd>
+            </div>
+          )}
+        </div>
+        <p class="cmap-ngeo-card__desc">{event.short_description_de}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+
+<!-- ================================================================
+     CHRONOLOGICAL EVENT LIST
+================================================================ -->
+<section class="cmap-chrono-section" id="cmap-chrono" aria-labelledby="cmap-chrono-title">
+  <h2 class="cmap-chrono-title" id="cmap-chrono-title">
+    Chronologische Ereignisliste
+  </h2>
+  <p class="cmap-chrono-desc">
+    Alle Ereignisse chronologisch geordnet. Corpus-Items (primäre Forschungsquellen) sind
+    von Kontext-Ereignissen (historischer Rahmen) unterschieden.
+  </p>
+
+  <div class="cmap-chrono-list" role="list">
+    {chronological.map(event => (
+      <div class="cmap-chrono-item" role="listitem" data-event-id={event.id}>
+        <div class="cmap-chrono-item__spine" aria-hidden="true">
+          <span class={`cmap-chrono-dot cmap-chrono-dot--${event.event_type.replace('_','-')}`}></span>
+          <span class="cmap-chrono-line"></span>
+        </div>
+        <div class="cmap-chrono-item__body">
+          <div class="cmap-chrono-item__top">
+            <time class="cmap-chrono-date" dir="ltr" datetime={event.date}>{event.date_display || event.date}</time>
+            <span class={`cmap-event-type-badge cmap-event-type-badge--${event.event_type.replace('_','-')}`}>
+              {eventTypeLabels[event.event_type] ?? event.event_type}
+            </span>
+            {event.show_on_map && event.coordinates && (
+              <span class="cmap-geo-badge">Geolokalisiert</span>
+            )}
+            {(!event.show_on_map || !event.coordinates) && (
+              <span class="cmap-ngeo-badge">Nicht geolokalisiert</span>
+            )}
+            <span class={`cmap-verify-dot cmap-verify-dot--${event.verification_status}`} title={verificationLabels[event.verification_status] ?? ''} aria-label={verificationLabels[event.verification_status]}></span>
+          </div>
+          <p class="cmap-chrono-title">{event.title_de}</p>
+          <p class="cmap-chrono-location">{event.location_name}</p>
+        </div>
+      </div>
+    ))}
   </div>
 </section>
 
