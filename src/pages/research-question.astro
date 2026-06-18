@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../i18n/utils';
 
 const locale = 'de';
 ---
@@ -121,9 +122,9 @@ const locale = 'de';
       </div>
       <div class="rq-sidebar-card">
         <p class="rq-sidebar-card__label">Weiterführend</p>
-        <a href="/methodology" class="rq-sidebar-link">Zur Methodologie →</a>
-        <a href="/corpus" class="rq-sidebar-link">Zum Corpus →</a>
-        <a href="/concepts" class="rq-sidebar-link">Zur Concept Gallery →</a>
+        <a href={withBase('/methodology')} class="rq-sidebar-link">Zur Methodologie →</a>
+        <a href={withBase('/corpus')} class="rq-sidebar-link">Zum Corpus →</a>
+        <a href={withBase('/concepts')} class="rq-sidebar-link">Zur Concept Gallery →</a>
       </div>
     </aside>
 

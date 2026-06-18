@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import timelineData from '../../data/timeline.json';
 import { t } from '../../i18n/translations';
+import { withBase } from '../../i18n/utils';
 
 const locale = 'ar';
 
@@ -43,11 +44,11 @@ function preview(text: string, max = 200): string {
       </p>
 
       <div class="hero__actions">
-        <a href="/ar/research-question" class="btn btn--primary">
+        <a href={withBase('/ar/research-question')} class="btn btn--primary">
           سؤال البحث
         </a>
-        <a href="/ar/corpus" class="btn btn--outline">استكشاف المتن</a>
-        <a href="/ar/legitimacy-museum" class="btn btn--outline">Legitimacy Museum</a>
+        <a href={withBase('/ar/corpus')} class="btn btn--outline">استكشاف المتن</a>
+        <a href={withBase('/ar/legitimacy-museum')} class="btn btn--outline">Legitimacy Museum</a>
       </div>
 
     </div>
@@ -65,7 +66,7 @@ function preview(text: string, max = 200): string {
         بين عامي 2011 و2025؟ وما الدور الذي تؤديه مفاهيم مثل
         الدولة والأمن والمواطنة والدولة المدنية والاعتراف الدولي؟
       </blockquote>
-      <a href="/ar/research-question" class="rq-link">
+      <a href={withBase('/ar/research-question')} class="rq-link">
         الأسئلة الفرعية والإطار النظري ←
       </a>
     </div>
@@ -106,7 +107,7 @@ function preview(text: string, max = 200): string {
           </div>
 
           <div class="phase-card__footer">
-            <a href="/ar/timeline" class="btn btn--ghost btn--sm">
+            <a href={withBase('/ar/timeline')} class="btn btn--ghost btn--sm">
               استعراض المرحلة ←
             </a>
           </div>
@@ -115,7 +116,7 @@ function preview(text: string, max = 200): string {
     </div>
 
     <p class="mt-xl">
-      <a href="/ar/timeline" class="btn btn--outline">
+      <a href={withBase('/ar/timeline')} class="btn btn--outline">
         عرض الخط الزمني الكامل
       </a>
     </p>
@@ -145,7 +146,7 @@ function preview(text: string, max = 200): string {
           <span class="method-tag" dir="ltr">Astro · GitHub Pages · Zenodo</span>
         </div>
         <p class="mt-lg">
-          <a href="/ar/methodology" class="btn btn--ghost btn--sm">
+          <a href={withBase('/ar/methodology')} class="btn btn--ghost btn--sm">
             المنهجية الكاملة ←
           </a>
         </p>

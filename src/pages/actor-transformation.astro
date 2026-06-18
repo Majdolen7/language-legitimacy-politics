@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import timelineData from '../data/timeline.json';
+import { withBase } from '../i18n/utils';
 
 const locale = 'de';
 
 const PHASE_COLORS: Record<number, string> = {
-  1: '#8B5E35',
-  2: '#9A7B4A',
+  1: '#8B5038',
+  2: '#2F4A3C',
   3: '#4A5C38',
   4: '#2A3848',
 };
@@ -142,8 +143,8 @@ const PHASE_COLORS: Record<number, string> = {
       </p>
     </div>
     <p class="mt-xl">
-      <a href="/timeline" class="btn btn--outline">Vollständige Timeline ansehen →</a>
-      <a href="/concepts" class="btn btn--ghost btn--sm" style="margin-left: 1rem;">Zur Concept Gallery →</a>
+      <a href={withBase('/timeline')} class="btn btn--outline">Vollständige Timeline ansehen →</a>
+      <a href={withBase('/concepts')} class="btn btn--ghost btn--sm" style="margin-left: 1rem;">Zur Concept Gallery →</a>
     </p>
   </div>
 </section>

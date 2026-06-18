@@ -55,7 +55,7 @@ h6 { font-size: 1rem; font-weight: 600; font-family: var(--font-sans); }
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-olive);
+  color: var(--clr-red);
   margin-bottom: var(--space-sm);
   display: block;
 }
@@ -131,7 +131,7 @@ h6 { font-size: 1rem; font-weight: 600; font-family: var(--font-sans); }
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--clr-olive);
+  color: var(--clr-red);
   display: block;
   margin-bottom: var(--space-md);
 }
@@ -195,8 +195,8 @@ p:last-child {
 }
 
 .prose a:hover {
-  color: var(--clr-red);
-  border-color: var(--clr-red);
+  color: var(--clr-red-hover);
+  border-color: var(--clr-red-hover);
 }
 
 /* --------------------------------------------------------------------------
@@ -212,7 +212,7 @@ p:last-child {
   border-left: 3px solid var(--clr-red);
   padding: var(--space-lg) var(--space-2xl);
   margin-block: var(--space-2xl);
-  background-color: rgba(122, 31, 31, 0.04);
+  background-color: rgba(167, 96, 58, 0.04);
   max-width: 72ch;
 }
 
@@ -250,7 +250,7 @@ p:last-child {
   display: block;
   font-size: 0.7rem;
   letter-spacing: 0.11em;
-  color: var(--clr-olive);
+  color: var(--clr-red);
   border-bottom: 1px solid var(--clr-olive-pale);
   padding-bottom: var(--space-xs);
   margin-bottom: var(--space-lg);

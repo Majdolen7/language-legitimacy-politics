@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { t } from '../../i18n/translations';
+import { withBase } from '../../i18n/utils';
 
 const locale = 'en';
 ---
@@ -111,9 +112,9 @@ const locale = 'en';
       </div>
       <div class="method-sidebar-card">
         <p class="method-sidebar-card__label">Further reading</p>
-        <a href="/en/research-question" class="method-sidebar-link">Research Question →</a>
-        <a href="/en/corpus" class="method-sidebar-link">Corpus →</a>
-        <a href="/en/about" class="method-sidebar-link">About →</a>
+        <a href={withBase('/en/research-question')} class="method-sidebar-link">Research Question →</a>
+        <a href={withBase('/en/corpus')} class="method-sidebar-link">Corpus →</a>
+        <a href={withBase('/en/about')} class="method-sidebar-link">About →</a>
       </div>
     </aside>
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import timelineData from '../data/timeline.json';
+import { withBase } from '../i18n/utils';
 
 /* ------------------------------------------------------------------
    Display helpers
@@ -229,12 +230,12 @@ function formatAudience(s: string): string {
             <span class="label">Corpus-Einträge dieser Phase</span>
             <div class="phase-corpus-refs__tags">
               {phase.corpus_entry_ids.map((id) => (
-                <a href={`/corpus#${id}`} class="corpus-ref-tag">
+                <a href={withBase(`/corpus#${id}`)} class="corpus-ref-tag">
                   {id}
                 </a>
               ))}
             </div>
-            <a href="/corpus" class="btn btn--ghost btn--sm">
+            <a href={withBase('/corpus')} class="btn btn--ghost btn--sm">
               Alle Quellen im Corpus →
             </a>
           </div>
@@ -337,10 +338,10 @@ function formatAudience(s: string): string {
             Diskursanalyse) und können im Corpus-Material überprüft werden.
           </p>
           <div class="method-note-box__links">
-            <a href="/methodology" class="btn btn--outline btn--sm">
+            <a href={withBase('/methodology')} class="btn btn--outline btn--sm">
               Zur vollständigen Methodologie
             </a>
-            <a href="/corpus" class="btn btn--ghost btn--sm">
+            <a href={withBase('/corpus')} class="btn btn--ghost btn--sm">
               Corpus ansehen →
             </a>
           </div>

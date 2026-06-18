@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import timelineData from '../../data/timeline.json';
 import { t } from '../../i18n/translations';
+import { withBase } from '../../i18n/utils';
 
 const locale = 'en';
 
@@ -45,9 +46,9 @@ function preview(text: string, max = 200): string {
       </p>
 
       <div class="hero__actions">
-        <a href="/en/research-question" class="btn btn--primary">Research Question</a>
-        <a href="/en/corpus" class="btn btn--outline">Explore Corpus</a>
-        <a href="/en/legitimacy-museum" class="btn btn--outline">Legitimacy Museum</a>
+        <a href={withBase('/en/research-question')} class="btn btn--primary">Research Question</a>
+        <a href={withBase('/en/corpus')} class="btn btn--outline">Explore Corpus</a>
+        <a href={withBase('/en/legitimacy-museum')} class="btn btn--outline">Legitimacy Museum</a>
       </div>
 
     </div>
@@ -70,7 +71,7 @@ function preview(text: string, max = 200): string {
         <span lang="ar" dir="rtl">الدولة المدنية</span> (civil state), and
         <span lang="ar" dir="rtl">الاعتراف الدولي</span> (international recognition) play?
       </blockquote>
-      <a href="/en/research-question" class="rq-link">
+      <a href={withBase('/en/research-question')} class="rq-link">
         Sub-questions and theoretical framework →
       </a>
     </div>
@@ -108,14 +109,14 @@ function preview(text: string, max = 200): string {
           </div>
 
           <div class="phase-card__footer">
-            <a href="/en/timeline" class="btn btn--ghost btn--sm">View phase →</a>
+            <a href={withBase('/en/timeline')} class="btn btn--ghost btn--sm">View phase →</a>
           </div>
         </article>
       ))}
     </div>
 
     <p class="mt-xl">
-      <a href="/en/timeline" class="btn btn--outline">View full timeline</a>
+      <a href={withBase('/en/timeline')} class="btn btn--outline">View full timeline</a>
     </p>
   </div>
 </section>
@@ -143,7 +144,7 @@ function preview(text: string, max = 200): string {
           <span class="method-tag">Astro · GitHub Pages · Zenodo</span>
         </div>
         <p class="mt-lg">
-          <a href="/en/methodology" class="btn btn--ghost btn--sm">Full methodology →</a>
+          <a href={withBase('/en/methodology')} class="btn btn--ghost btn--sm">Full methodology →</a>
         </p>
       </div>
     </div>

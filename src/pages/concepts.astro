@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import conceptsData from '../data/concepts.json';
+import { withBase } from '../i18n/utils';
 
 /* ------------------------------------------------------------------
    Build lookup: concept ID → object (for related-concept links)
@@ -288,7 +289,7 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
                 </div>
               )}
 
-              <a href="/corpus" class="btn btn--ghost btn--sm gallery-corpus-link">
+              <a href={withBase('/corpus')} class="btn btn--ghost btn--sm gallery-corpus-link">
                 Im Corpus suchen →
               </a>
 
@@ -380,13 +381,13 @@ function matrixNeighbors(concept: (typeof conceptsData)[number]): string {
             als vorläufig gekennzeichnet.
           </p>
           <div class="cg-note-box__actions">
-            <a href="/methodology" class="btn btn--outline btn--sm">
+            <a href={withBase('/methodology')} class="btn btn--outline btn--sm">
               Zur Methodologie
             </a>
-            <a href="/corpus" class="btn btn--outline btn--sm">
+            <a href={withBase('/corpus')} class="btn btn--outline btn--sm">
               Corpus &amp; Quellen
             </a>
-            <a href="/timeline" class="btn btn--ghost btn--sm">
+            <a href={withBase('/timeline')} class="btn btn--ghost btn--sm">
               Zur Timeline →
             </a>
           </div>

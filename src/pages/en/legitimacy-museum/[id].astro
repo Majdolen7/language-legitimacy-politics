@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { t } from '../../../i18n/translations';
+import { withBase } from '../../../i18n/utils';
 
 const locale = 'en';
 
@@ -49,7 +50,7 @@ function txBadgeClass(tx: string): string {
     <div class="museum-breadcrumb__inner">
       <ol class="museum-breadcrumb__list" role="list">
         <li>
-          <a href="/en/legitimacy-museum" class="museum-breadcrumb__link">
+          <a href={withBase('/en/legitimacy-museum')} class="museum-breadcrumb__link">
             {t(locale, 'museum.record.breadcrumb')}
           </a>
         </li>
@@ -281,7 +282,7 @@ function txBadgeClass(tx: string): string {
         )}
       </div>
 
-      <a href="/en/legitimacy-museum" class="museum-record-nav__back">
+      <a href={withBase('/en/legitimacy-museum')} class="museum-record-nav__back">
         {t(locale, 'museum.nav.back')}
       </a>
 

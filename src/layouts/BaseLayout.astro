@@ -5,7 +5,7 @@ import '../styles/components.css';
 import '../styles/arabic.css';
 import '../styles/rtl.css';
 import { t, type Locale } from '../i18n/translations';
-import { getLocalePath, localeDir } from '../i18n/utils';
+import { getLocalePath, localeDir, withBase, BASE } from '../i18n/utils';
 
 interface Props {
   title: string;
@@ -22,6 +22,9 @@ const {
 const dir = localeDir(locale);
 const lang = locale;
 const currentPath = Astro.url.pathname;
+// Strip the base prefix for internal comparisons (isActive, etc.)
+const currentPathWithoutBase =
+  BASE && currentPath.startsWith(BASE) ? currentPath.slice(BASE.length) || '/' : currentPath;
 
 const defaultDesc = locale === 'de'
   ? 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.'
@@ -86,17 +89,18 @@ const navItems = locale === 'de' ? navItemsDE : locale === 'ar' ? navItemsAR : n
 function isActive(href: string): boolean {
   // Home links: exact match only
   if (href === '/' || href === '/ar/' || href === '/en/') {
-    return currentPath === href || currentPath === href.replace(/\/$/, '');
+    return currentPathWithoutBase === href || currentPathWithoutBase === href.replace(/\/$/, '');
   }
-  return currentPath.startsWith(href);
+  return currentPathWithoutBase.startsWith(href);
 }
 
 // Footer links are locale-aware
 const footerLinks = [
-  { href: `${prefix}/methodology`,       label: t(locale, 'footer.methodology') },
-  { href: `${prefix}/data-sustainability`, label: t(locale, 'footer.data') },
-  { href: `${prefix}/corpus`,            label: t(locale, 'footer.corpus')      },
-  { href: `${prefix}/about`,             label: t(locale, 'footer.about')       },
+  { href: `${prefix}/about`,                label: t(locale, 'footer.about')       },
+  { href: `${prefix}/methodology`,          label: t(locale, 'footer.methodology') },
+  { href: `${prefix}/legitimacy-museum`,    label: t(locale, 'footer.museum')      },
+  { href: `${prefix}/map`,                  label: t(locale, 'footer.map')         },
+  { href: `${prefix}/data-sustainability`,  label: t(locale, 'footer.data')        },
 ];
 ---
 
@@ -114,7 +118,7 @@ const footerLinks = [
 
   <title>{fullTitle}</title>
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
 
   <!-- Canonical and hreflang -->
   <link rel="canonical" href={currentPath} />
@@ -144,11 +148,11 @@ const footerLinks = [
   ================================================================ -->
   <div class="site-masthead" role="banner">
     <div class="container">
-      <a href={locale === 'de' ? '/' : locale === 'ar' ? '/ar/' : '/en/'}
+      <a href={locale === 'de' ? withBase('/') : locale === 'ar' ? withBase('/ar/') : withBase('/en/')}
          class="site-masthead__link"
          aria-label={t(locale, 'site.home-label')}>
         <img
-          src="/assets/logo/lp-logo-final.svg"
+          src={withBase('/assets/logo/lp-logo-web.svg')}
           alt="Language, Legitimacy &amp; Politics logo"
           class="site-masthead__logo"
           width="56"
@@ -180,7 +184,7 @@ const footerLinks = [
           {navItems.map((item) => (
             <li class="site-nav__item">
               <a
-                href={item.href}
+                href={withBase(item.href)}
                 class={`site-nav__link${isActive(item.href) ? ' is-active' : ''}`}
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >
@@ -220,6 +224,7 @@ const footerLinks = [
           hreflang="en"
           aria-current={locale === 'en' ? 'true' : undefined}
         >EN</a>
+
       </nav>
 
       <button
@@ -261,19 +266,14 @@ const footerLinks = [
 
         <nav class="site-footer__links" aria-label={locale === 'de' ? 'Footer-Navigation' : locale === 'ar' ? 'تنقل التذييل' : 'Footer navigation'}>
           {footerLinks.map(link => (
-            <a href={link.href} class="site-footer__link">{link.label}</a>
+            <a href={withBase(link.href)} class="site-footer__link">{link.label}</a>
           ))}
         </nav>
 
       </div>
 
       <div class="site-footer__bottom">
-        <span>
-          {t(locale, 'footer.bottom')} &middot;
-          <span lang="ar" dir="rtl" style="font-family: var(--font-arabic);">
-            مشروع إنسانيات رقمية
-          </span>
-        </span>
+        <span>{t(locale, 'footer.bottom')}</span>
         <span>{t(locale, 'footer.sources-note')}</span>
       </div>
     </div>
@@ -349,18 +349,18 @@ const footerLinks = [
   }
 
   .lang-switcher__link:hover {
-    color: var(--clr-olive);
+    color: var(--clr-red);
   }
 
   .lang-switcher__link:focus-visible {
-    outline: 2px solid var(--clr-olive);
+    outline: 2px solid var(--clr-red);
     outline-offset: 2px;
-    color: var(--clr-olive);
+    color: var(--clr-red);
   }
 
   .lang-switcher__link--active {
-    color: var(--clr-olive);
-    background-color: rgba(154, 123, 74, 0.1);
+    color: var(--clr-red);
+    background-color: var(--clr-olive-pale);
     font-weight: 700;
   }
 

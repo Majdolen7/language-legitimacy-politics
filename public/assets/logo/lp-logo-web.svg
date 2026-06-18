@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="56" height="56"
+  role="img" aria-label="Language, Legitimacy &amp; Politics logo">
+  <title>Language, Legitimacy &amp; Politics</title>
+
+  <!-- Outer square frame — dark brown -->
+  <rect x="3" y="3" width="94" height="94" rx="2"
+    fill="#FCFBF9" stroke="#241C18" stroke-width="2.5"/>
+
+  <!-- LP letters — Crimson Pro serif via SVG text -->
+  <text x="50" y="65"
+    text-anchor="middle"
+    font-family="'Crimson Pro', Georgia, 'Times New Roman', serif"
+    font-size="46"
+    font-weight="400"
+    fill="#241C18"
+    letter-spacing="-1">LP</text>
+
+  <!-- Gold decorative underline -->
+  <line x1="20" y1="73" x2="80" y2="73" stroke="#B28757" stroke-width="1.5"/>
+
+  <!-- Central diamond — echoes the LP logo description -->
+  <polygon points="50,77 54.5,81.5 50,86 45.5,81.5" fill="#B28757"/>
+
+  <!-- Burgundy lam / arrow element — Arabic-inspired curved accent, left side -->
+  <path d="M 20 73 Q 10 73 10 63 Q 10 54 16 50"
+    stroke="#8B2635" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+</svg>

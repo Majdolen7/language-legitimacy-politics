@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../i18n/utils';
 
 const locale = 'de';
 ---
@@ -99,9 +100,9 @@ const locale = 'de';
       </div>
       <div class="about-sidebar-card">
         <p class="about-sidebar-card__label">Weiterführend</p>
-        <a href="/research-question" class="about-sidebar-link">Zur Forschungsfrage →</a>
-        <a href="/methodology" class="about-sidebar-link">Zur Methodologie →</a>
-        <a href="/legitimacy-museum" class="about-sidebar-link">Zum Legitimacy Museum →</a>
+        <a href={withBase('/research-question')} class="about-sidebar-link">Zur Forschungsfrage →</a>
+        <a href={withBase('/methodology')} class="about-sidebar-link">Zur Methodologie →</a>
+        <a href={withBase('/legitimacy-museum')} class="about-sidebar-link">Zum Legitimacy Museum →</a>
       </div>
     </aside>
 

@@ -3,7 +3,7 @@ export type Locale = 'de' | 'ar' | 'en';
 export const ui: Record<Locale, Record<string, string>> = {
   de: {
     'skip.label': 'Zum Inhalt springen',
-    'site.tagline': 'Digital Humanities Research on Political Discourse in Syria',
+    'site.tagline': 'Digitale Diskursforschung zu Syrien nach 2011',
     'site.home-label': 'Language, Legitimacy & Politics — Startseite',
 
     'nav.home': 'Startseite',
@@ -33,7 +33,9 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.data': 'Daten & Nachhaltigkeit',
     'footer.corpus': 'Corpus',
     'footer.about': 'Über das Projekt',
-    'footer.bottom': 'Digital Humanities Projekt',
+    'footer.museum': 'Legitimacy Museum',
+    'footer.map': 'Map',
+    'footer.bottom': 'Digitales Geisteswissenschaften Projekt',
     'footer.sources-note': 'Alle Quellen sind gekennzeichnet. Keine echten Zitate ohne Quellenbeleg.',
 
     'museum.kicker': 'Digitalarchiv',
@@ -200,6 +202,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.data': 'البيانات والاستدامة',
     'footer.corpus': 'المتن',
     'footer.about': 'حول المشروع',
+    'footer.museum': 'Legitimacy Museum',
+    'footer.map': 'الخريطة',
     'footer.bottom': 'مشروع إنسانيات رقمية',
     'footer.sources-note': 'جميع المصادر موثّقة. لا اقتباسات حقيقية دون إسناد.',
 
@@ -366,6 +370,8 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.data': 'Data & Sustainability',
     'footer.corpus': 'Corpus',
     'footer.about': 'About',
+    'footer.museum': 'Legitimacy Museum',
+    'footer.map': 'Map',
     'footer.bottom': 'Digital Humanities Project',
     'footer.sources-note': 'All sources cited. No genuine quotations without attribution.',
 

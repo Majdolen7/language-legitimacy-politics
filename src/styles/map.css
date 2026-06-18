@@ -69,7 +69,7 @@
 }
 
 .map-stat--geo {
-  border-top: 3px solid #4A5C38;
+  border-top: 3px solid var(--clr-phase-2);
 }
 
 .map-stat--warn {
@@ -85,7 +85,7 @@
   line-height: 1;
 }
 
-.map-stat--geo   .map-stat__number { color: #4A5C38; }
+.map-stat--geo   .map-stat__number { color: var(--clr-phase-2); }
 .map-stat--warn  .map-stat__number { color: var(--clr-text-muted); }
 
 .map-stat__label {
@@ -191,9 +191,9 @@
 }
 
 .map-filter:focus {
-  outline: 2px solid var(--clr-olive);
+  outline: 2px solid var(--clr-red);
   outline-offset: 2px;
-  border-color: var(--clr-olive);
+  border-color: var(--clr-red);
 }
 
 .map-count {
@@ -291,7 +291,7 @@
 .map-legend__diamond {
   width: 10px;
   height: 10px;
-  background-color: #7A6555;
+  background-color: var(--clr-text-muted);
   border: 2px solid rgba(255, 255, 255, 0.75);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   transform: rotate(45deg);
@@ -337,14 +337,14 @@
   font-family: var(--font-serif);
   font-size: 1rem;
   font-weight: 400;
-  color: #1a1108;
+  color: #1F2521;
   margin-bottom: 8px;
   line-height: 1.3;
 }
 
 .lm-popup__meta {
   margin-bottom: 6px;
-  color: #3d2618;
+  color: #374139;
 }
 
 .lm-popup__meta p {
@@ -353,7 +353,7 @@
 }
 
 .lm-popup__meta strong {
-  color: #1a1108;
+  color: #1F2521;
   font-weight: 600;
 }
 
@@ -376,9 +376,9 @@
 }
 
 .lm-popup__keyword {
-  background-color: #ede4d2;
-  color: #7a6555;
-  border: 1px solid #d3c4ad;
+  background-color: #ECEAE1;
+  color: #647468;
+  border: 1px solid #D5D0C4;
   border-radius: 3px;
   font-size: 0.68rem;
   padding: 1px 5px;
@@ -386,10 +386,10 @@
 
 .lm-popup__summary {
   margin-top: 8px;
-  color: #3d2618;
+  color: #374139;
   font-size: 0.8rem;
   line-height: 1.5;
-  border-top: 1px solid #e6dbcb;
+  border-top: 1px solid #E0DCD5;
   padding-top: 8px;
 }
 
@@ -402,19 +402,19 @@
 
 .lm-popup__link {
   font-size: 0.72rem;
-  color: #9a7b4a;
+  color: #965628;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .lm-popup__link:hover {
-  color: #7a1f1f;
+  color: #7E431F;
 }
 
 .lm-popup__certainty {
   margin-top: 6px;
   font-size: 0.7rem;
-  color: #9e8b78;
+  color: #8A9288;
   font-style: italic;
 }
 
@@ -659,9 +659,9 @@
   text-transform: uppercase;
   padding: 1px 6px;
   border-radius: var(--radius-sm);
-  background-color: rgba(74, 92, 56, 0.1);
-  color: #4A5C38;
-  border: 1px solid rgba(74, 92, 56, 0.25);
+  background-color: rgba(47, 74, 60, 0.1);
+  color: var(--clr-phase-2);
+  border: 1px solid rgba(47, 74, 60, 0.25);
   white-space: nowrap;
 }
 

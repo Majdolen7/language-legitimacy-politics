@@ -1,22 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import timelineData from '../data/timeline.json';
-import conceptsData from '../data/concepts.json';
-
-// Homepage shows first 5 concepts as preview
-const previewConcepts = conceptsData.slice(0, 5);
-
-// Trim analytical notes to a readable length for the phase preview cards
-function preview(text: string, max = 200): string {
-  if (text.length <= max) return text;
-  const cut = text.lastIndexOf(' ', max);
-  return text.substring(0, cut > 0 ? cut : max) + ' …';
-}
+import { withBase } from '../i18n/utils';
 ---
 
 <BaseLayout
   title="Language, Legitimacy & Politics"
-  description="Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011."
+  description="Ein digitales Forschungsprojekt zu Legitimitätsdiskursen in Syrien nach 2011."
 >
 
   <!-- ============================================================
@@ -26,307 +15,82 @@ function preview(text: string, max = 200): string {
     <div class="container">
       <div class="hero__inner">
 
-        <p class="page-kicker">
-          Von der bewaffneten Gruppierung zur Übergangsautorität
-        </p>
+        <!-- Left: text content -->
+        <div class="hero__text">
+          <p class="hero__overline">DIGITALE DISKURSFORSCHUNG ZU SYRIEN NACH 2011</p>
 
-        <h1 class="hero__title">Sprache und die Transformation politischer Legitimität</h1>
+          <h1 class="hero__title">
+            Language and the Discursive Construction of Political Legitimacy
+            in Contemporary Syria
+          </h1>
 
-        <p class="hero__title-ar" lang="ar" dir="rtl">
-          اللغة وتحول الشرعية السياسية
-        </p>
+          <p class="hero__subtitle">Ahmad al-Shar&#x02BF; as a Case Study</p>
 
-        <div class="hero__divider" aria-hidden="true"></div>
+          <div class="hero__rule" aria-hidden="true"></div>
 
-        <p class="hero__subtitle">
-          Eine digitale Diskursanalyse der Reden und öffentlichen Auftritte Ahmad al-Sharaas, 2013–2026
-        </p>
-        <p class="hero__subtitle-ar" lang="ar" dir="rtl">
-          تحليل رقمي لخطابات أحمد الشرع وظهوره العلني بين عامي 2013 و2026
-        </p>
-
-        <p class="hero__intro">
-          Das Projekt untersucht, wie politische Legitimität im Diskurs von
-          Hayʾat Taḥrīr al-Shām /
-          <span lang="ar" dir="rtl">هيئة تحرير الشام</span>
-          und Ahmad al-Sharaa zwischen 2011 und 2025 sprachlich, symbolisch und
-          institutionell neu konstruiert wird. Im Mittelpunkt steht nicht die
-          Biografie eines Akteurs, sondern die Frage, wie Legitimität im Diskurs
-          produziert wird.
-        </p>
-
-        <div class="hero__actions">
-          <a href="/research-question" class="btn btn--primary">
-            Forschungsfrage ansehen
-          </a>
-          <a href="/corpus" class="btn btn--outline">Corpus erkunden</a>
-          <a href="/concepts" class="btn btn--outline">Konzepte ansehen</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       2. FORSCHUNGSFRAGE PREVIEW
-       ============================================================ -->
-  <section class="section rq-section">
-    <div class="container">
-      <div class="rq-inner">
-
-        <div class="rq-label">
-          <span class="section-overline">Zentrale Forschungsfrage</span>
-        </div>
-
-        <blockquote class="rq-quote">
-          Wie wird politische Legitimität im Diskurs von
-          Hayʾat Taḥrīr al-Shām / Ahmad al-Sharaa zwischen 2011 und 2025
-          neu konstruiert, und welche Rolle spielen dabei Konzepte wie
-          <span lang="ar" dir="rtl">الدولة</span> (Staat),
-          <span lang="ar" dir="rtl">الأمن</span> (Sicherheit),
-          <span lang="ar" dir="rtl">المواطنة</span> (Bürgerschaft),
-          <span lang="ar" dir="rtl">الدولة المدنية</span> (ziviler Staat) und
-          <span lang="ar" dir="rtl">الاعتراف الدولي</span> (internationale Anerkennung)?
-        </blockquote>
-
-        <a href="/research-question" class="rq-link">
-          Zu den Unterfragen und dem theoretischen Rahmen →
-        </a>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       3. DREI FORSCHUNGSPHASEN PREVIEW
-       ============================================================ -->
-  <section class="section section--alt phases-section">
-    <div class="container">
-
-      <span class="section-overline">Drei Forschungsphasen</span>
-      <h2 class="section-title">Phasen des Akteurswandels</h2>
-
-      <div class="grid-3 phases-grid">
-        {timelineData.map((phase) => (
-          <article
-            class="phase-card"
-            style={`--phase-clr: var(--clr-phase-${phase.phase_number})`}
-          >
-            <div class="phase-card__header">
-              <span class="phase-card__years">{phase.year_range}</span>
-              <span class={`phase-badge phase-badge--${phase.phase_number}`}>
-                Phase {phase.phase_number}
-              </span>
-            </div>
-
-            <h3 class="phase-card__title">{phase.phase_title_de}</h3>
-
-            <p class="phase-card__title-ar" lang="ar" dir="rtl">
-              {phase.phase_title_ar}
-            </p>
-
-            <p class="phase-card__note">
-              {preview(phase.analytical_note_de)}
-            </p>
-
-            <div class="phase-card__actors">
-              <span class="label">Benennung des Akteurs</span>
-              <div class="phase-card__actor-list">
-                {phase.actor_naming_de.slice(0, 2).map((name) => (
-                  <span class="phase-card__actor-tag">{name}</span>
-                ))}
-              </div>
-            </div>
-
-            <div class="phase-card__footer">
-              <a href="/timeline" class="btn btn--ghost btn--sm">
-                Phase ansehen →
-              </a>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <p class="mt-xl">
-        <a href="/timeline" class="btn btn--outline">
-          Vollständige Timeline ansehen
-        </a>
-      </p>
-
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       4. CONCEPT PREVIEW
-       ============================================================ -->
-  <section class="section concepts-section">
-    <div class="container">
-
-      <span class="section-overline">Kernkonzepte / المفاهيم الأساسية</span>
-      <h2 class="section-title">Concept Gallery — Auswahl</h2>
-
-      <div class="concepts-preview-grid">
-        {previewConcepts.map((concept) => (
-          <article
-            class="concept-preview-card"
-            style={`--concept-color: ${concept.color_accent}`}
-          >
-            <span class="concept-preview-card__ar" lang="ar" dir="rtl">
-              {concept.arabic}
-            </span>
-            <span class="concept-preview-card__translit">
-              {concept.transliteration}
-            </span>
-            <h3 class="concept-preview-card__de">{concept.german}</h3>
-            <p class="concept-preview-card__question">
-              {concept.analysis_question_de}
-            </p>
-            <div class="concept-preview-card__phases">
-              {Object.entries(concept.phase_relevance).map(([key, val]) => (
-                <div class="concept-preview-card__phase-row">
-                  <span class="concept-preview-card__phase-label">
-                    {key === 'phase_1' ? '2011–16'
-                      : key === 'phase_2' ? '2017–24'
-                      : '2025'}
-                  </span>
-                  <span class="concept-preview-card__phase-text">
-                    {preview(String(val), 90)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-
-      <p class="mt-2xl">
-        <a href="/concepts" class="btn btn--outline">
-          Alle 7 Konzepte in der Concept Gallery ansehen
-        </a>
-      </p>
-
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       5. CORPUS & QUELLEN PREVIEW
-       ============================================================ -->
-  <section class="section section--alt corpus-section">
-    <div class="container">
-
-      <div class="corpus-preview-inner">
-
-        <div class="corpus-preview-text">
-          <span class="section-overline">Corpus &amp; Quellen</span>
-          <h2 class="section-title" style="border-bottom: none; margin-bottom: var(--space-md);">
-            Kuratiertes Quellenkorpus
-          </h2>
-          <p>
-            Das Projekt arbeitet mit einem kleinen, manuell kuratierten Corpus
-            von 10–15 Einträgen für den Kursprototyp und 30–50 für ein
-            weiterführendes Masterprojekt. Jede Quelle ist analytisch kodiert:
-            nach Phase, Konzept, Legitimationsstrategie und Legitimationstyp.
+          <p class="hero__intro">
+            Das Projekt untersucht, wie politische Legitimität in öffentlichen Reden,
+            Interviews und politischen Auftritten sprachlich hergestellt, verschoben
+            und neu gerahmt wird. Im Zentrum steht Ahmad al-Shar&#x02BF; als Fallstudie
+            für den Wandel politischer Sprache in Syrien nach 2011.
           </p>
-          <p>
-            Audiovisuelle Quellen — Reden, Interviews, Pressekonferenzen auf
-            YouTube — werden als vollwertige Primärquellen behandelt. Sie fließen
-            erst nach Transkription und Verifikation in die Analyse ein und sind
-            entsprechend im Corpus gekennzeichnet.
-          </p>
-          <a href="/corpus" class="btn btn--outline mt-lg">
-            Corpus &amp; Quellen ansehen
-          </a>
-        </div>
 
-        <div class="corpus-preview-types">
-          <p class="label label--section">Quellentypen</p>
-
-          <div class="source-type-list">
-            <div class="source-type-item">
-              <span class="source-type-item__icon" aria-hidden="true">I</span>
-              <div>
-                <strong class="source-type-item__title">Schriftliche Quellen</strong>
-                <p class="source-type-item__desc">
-                  Statements, Dokumente, Regierungserklärungen, Programme
-                </p>
-              </div>
-            </div>
-
-            <div class="source-type-item">
-              <span class="source-type-item__icon" aria-hidden="true">II</span>
-              <div>
-                <strong class="source-type-item__title">Audiovisuelle Quellen</strong>
-                <p class="source-type-item__desc">
-                  YouTube, Interviews, Reden, Pressekonferenzen —
-                  als Primärquellen
-                </p>
-              </div>
-            </div>
-
-            <div class="source-type-item">
-              <span class="source-type-item__icon" aria-hidden="true">III</span>
-              <div>
-                <strong class="source-type-item__title">Transkripte</strong>
-                <p class="source-type-item__desc">
-                  Vom Projekt erstellte, geprüfte und als solche
-                  gekennzeichnete Transkripte
-                </p>
-              </div>
-            </div>
-
-            <div class="source-type-item">
-              <span class="source-type-item__icon" aria-hidden="true">IV</span>
-              <div>
-                <strong class="source-type-item__title">Kontextquellen</strong>
-                <p class="source-type-item__desc">
-                  EUAA, Reuters, ICG, Carnegie, wissenschaftliche Publikationen
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       6. METHODOLOGICAL NOTE
-       ============================================================ -->
-  <section class="section method-section">
-    <div class="container">
-      <div class="method-inner">
-
-        <div class="method-statement">
-          <span class="section-overline">Analytische Grundhaltung</span>
-          <p class="method-statement__text">
-            Das Projekt analysiert Legitimitätsdiskurse und Legitimationsstrategien.
-            Es legitimiert oder delegitimiert politische Akteure nicht im Voraus.
-            Alle Quellenangaben sind transparent gekennzeichnet. Fehlende oder
-            unverifizierte Stellen sind deutlich als Platzhalter markiert.
-          </p>
-        </div>
-
-        <div class="method-tags">
-          <p class="label label--section">Theoretischer &amp; methodischer Rahmen</p>
-          <div class="method-tag-list">
-            <span class="method-tag">Max Weber — Legitime Herrschaft</span>
-            <span class="method-tag">Theo van Leeuwen — Legitimation in Discourse</span>
-            <span class="method-tag">Politische Diskursanalyse</span>
-            <span class="method-tag">Begriffsgeschichte / Konzeptanalyse</span>
-            <span class="method-tag">JSON / CSV — kuratiertes Corpus</span>
-            <span class="method-tag">Astro · GitHub Pages · Zenodo</span>
-          </div>
-          <p class="mt-lg">
-            <a href="/methodology" class="btn btn--ghost btn--sm">
-              Zur vollständigen Methodologie →
+          <div class="hero__actions">
+            <a href={withBase('/research-question')} class="btn btn--primary">Projekt erkunden</a>
+            <a href={withBase('/legitimacy-museum')} class="btn btn--outline hero__btn-secondary">
+              Zum Legitimacy Museum
             </a>
-          </p>
+          </div>
+        </div>
+
+        <!-- Right: visual collage -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero__visual-paper"></div>
+          <div class="hero__visual-burgundy"></div>
+          <div class="hero__visual-circle-large"></div>
+          <div class="hero__visual-circle-small"></div>
+
+          <!-- Podium SVG — replace src with actual podium image when available -->
+          <div class="hero__podium-wrap">
+            <svg
+              class="hero__podium-svg"
+              viewBox="0 0 220 310"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Rednerpult mit Mikrofonen"
+            >
+              <!-- Shadow -->
+              <ellipse cx="110" cy="304" rx="88" ry="6" fill="#241C18" opacity="0.12"/>
+              <!-- Podium body -->
+              <path d="M 42 128 L 178 128 L 195 292 L 25 292 Z" fill="#2A1810"/>
+              <!-- Lectern top face -->
+              <rect x="36" y="112" width="148" height="22" rx="2" fill="#3A2218"/>
+              <!-- Lectern top edge highlight -->
+              <rect x="36" y="112" width="148" height="4" rx="2" fill="#4E3025" opacity="0.7"/>
+              <!-- Front panel decorative lines -->
+              <line x1="68" y1="196" x2="152" y2="196" stroke="#B28757" stroke-width="1.5" opacity="0.65"/>
+              <line x1="78" y1="203" x2="142" y2="203" stroke="#B28757" stroke-width="0.8" opacity="0.4"/>
+              <!-- Small LP box on front -->
+              <rect x="101" y="174" width="18" height="14" rx="1" fill="none" stroke="#B28757" stroke-width="1" opacity="0.45"/>
+              <!-- Left mic stand -->
+              <line x1="88" y1="112" x2="82" y2="32" stroke="#1C0E08" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Left mic capsule -->
+              <ellipse cx="79" cy="20" rx="9" ry="14" fill="#1C0E08"/>
+              <ellipse cx="79" cy="17" rx="5" ry="4" fill="#2A1810" opacity="0.5"/>
+              <!-- Right mic stand -->
+              <line x1="132" y1="112" x2="138" y2="32" stroke="#1C0E08" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Right mic capsule -->
+              <ellipse cx="141" cy="20" rx="9" ry="14" fill="#1C0E08"/>
+              <ellipse cx="141" cy="17" rx="5" ry="4" fill="#2A1810" opacity="0.5"/>
+              <!-- Base step -->
+              <rect x="16" y="290" width="188" height="10" rx="2" fill="#1C0E08" opacity="0.85"/>
+              <rect x="26" y="286" width="168" height="6" rx="1" fill="#2A1810"/>
+            </svg>
+          </div>
+
+          <!-- Gold dot grid -->
+          <div class="hero__visual-dots"></div>
         </div>
 
       </div>
@@ -335,47 +99,137 @@ function preview(text: string, max = 200): string {
 
 
   <!-- ============================================================
-       7. FOOTER TEASER
+       2. THREE ENTRY CARDS
        ============================================================ -->
-  <section class="section section--alt teaser-section">
+  <section class="section entry-section">
     <div class="container">
 
-      <h2 class="section-title">Weiter erkunden</h2>
+      <div class="entry-grid">
 
-      <div class="grid-3 teaser-grid">
-
-        <a href="/timeline" class="teaser-card">
-          <span class="teaser-card__label">Forschungsphasen</span>
-          <h3 class="teaser-card__title">Timeline</h3>
-          <p class="teaser-card__desc">
-            Drei Phasen des Akteurswandels von 2011 bis 2025 — mit
-            Schlüsselbegriffen, Legitimationstypen und analytischen Notizen.
+        <article class="entry-card">
+          <span class="entry-card__eyebrow">Digitales Archiv</span>
+          <h2 class="entry-card__title">Legitimacy Museum</h2>
+          <p class="entry-card__sub">Quellen, Korpusmaterialien und Verifikationsstatus</p>
+          <p class="entry-card__body">
+            Ein pseudodynamisches digitales Archiv für Reden, Interviews, Transkripte,
+            Übersetzungen und öffentliche Forschungsnotizen.
           </p>
-          <span class="teaser-card__arrow" aria-hidden="true">→</span>
-        </a>
+          <a href={withBase('/legitimacy-museum')} class="entry-card__link">
+            Zum Legitimacy Museum <span aria-hidden="true">→</span>
+          </a>
+        </article>
 
-        <a href="/methodology" class="teaser-card">
-          <span class="teaser-card__label">Forschungsdesign</span>
-          <h3 class="teaser-card__title">Methodologie</h3>
-          <p class="teaser-card__desc">
-            Corpus-Auswahl, Kodierung, theoretischer Rahmen, Grenzen
-            des Projekts und ethische Reflexion.
+        <article class="entry-card">
+          <span class="entry-card__eyebrow">Interaktive Karte</span>
+          <h2 class="entry-card__title">Map</h2>
+          <p class="entry-card__sub">Räumliche Dimensionen politischer Sprache</p>
+          <p class="entry-card__body">
+            Eine interaktive Karte für geografisch verifizierte Diskursereignisse
+            und eine klare Trennung nicht geolokalisierter Materialien.
           </p>
-          <span class="teaser-card__arrow" aria-hidden="true">→</span>
-        </a>
+          <a href={withBase('/map')} class="entry-card__link">
+            Zur Karte <span aria-hidden="true">→</span>
+          </a>
+        </article>
 
-        <a href="/data-sustainability" class="teaser-card">
-          <span class="teaser-card__label">Offene Daten</span>
-          <h3 class="teaser-card__title">Daten &amp; Nachhaltigkeit</h3>
-          <p class="teaser-card__desc">
-            Warum JSON/CSV ausreicht, wie der statische Astro-Ansatz
-            Reproduzierbarkeit sichert und welche Archivierungsoptionen bestehen.
+        <article class="entry-card">
+          <span class="entry-card__eyebrow">Methode &amp; Quellen</span>
+          <h2 class="entry-card__title">Corpus &amp; Methodologie</h2>
+          <p class="entry-card__sub">Korpusbildung, Quellenkritik und Analyse</p>
+          <p class="entry-card__body">
+            Dokumentation der Materialauswahl, Verifikationslogik, methodischen
+            Grenzen und analytischen Kategorien.
           </p>
-          <span class="teaser-card__arrow" aria-hidden="true">→</span>
-        </a>
+          <a href={withBase('/methodology')} class="entry-card__link">
+            Zur Methodologie <span aria-hidden="true">→</span>
+          </a>
+        </article>
 
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       3. COMPACT HORIZONTAL TIMELINE
+       ============================================================ -->
+  <section class="section section--alt timeline-preview-section">
+    <div class="container">
+
+      <div class="timeline-preview-header">
+        <span class="section-overline">Forschungsphasen</span>
+        <h2 class="timeline-preview-title">
+          Drei Phasen der Transformation politischer Legitimität
+        </h2>
+      </div>
+
+      <div class="timeline-compact" role="list" aria-label="Forschungsphasen im Überblick">
+
+        <div class="timeline-compact__phase" role="listitem">
+          <span class="timeline-compact__year">2011–2016</span>
+          <div class="timeline-compact__marker" aria-hidden="true"></div>
+          <span class="timeline-compact__label">
+            Faktionale und<br/>militärische Phase
+          </span>
+        </div>
+
+        <div class="timeline-compact__phase" role="listitem">
+          <span class="timeline-compact__year">2017–2024</span>
+          <div class="timeline-compact__marker" aria-hidden="true"></div>
+          <span class="timeline-compact__label">
+            Governance-Phase<br/>in Idlib
+          </span>
+        </div>
+
+        <div class="timeline-compact__phase" role="listitem">
+          <span class="timeline-compact__year">2025–2026</span>
+          <div class="timeline-compact__marker" aria-hidden="true"></div>
+          <span class="timeline-compact__label">
+            Institutionalisierungs-<br/>und Übergangsphase
+          </span>
+        </div>
+
+      </div>
+
+      <p class="timeline-preview-more">
+        <a href={withBase('/timeline')} class="btn btn--ghost btn--sm">
+          Zur vollständigen Timeline →
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4. CASE STUDY SECTION
+       ============================================================ -->
+  <section class="section case-study-section">
+    <div class="container">
+      <div class="case-study-inner">
+
+        <div class="case-study-heading">
+          <span class="section-overline">Forschungsfokus</span>
+          <h2 class="section-title case-study-title">
+            Ahmad al-Shar&#x02BF; als Fallstudie
+          </h2>
+        </div>
+
+        <div class="case-study-body">
+          <p class="case-study-text">
+            Die Fallstudie untersucht nicht die Biografie eines Akteurs, sondern
+            die sprachliche und mediale Konstruktion politischer Legitimität über
+            verschiedene Phasen hinweg: von bewaffneter Gruppierung und
+            Governance-Strukturen bis hin zu Formen institutioneller
+            Selbstbeschreibung.
+          </p>
+          <a href={withBase('/actor-transformation')} class="btn btn--outline">
+            Mehr zum Akteurswandel →
+          </a>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -383,82 +237,80 @@ function preview(text: string, max = 200): string {
 
 
 <!-- ================================================================
-     PAGE-SPECIFIC STYLES (scoped to this page by Astro)
-     These complement — not override — the global CSS system.
+     PAGE-SPECIFIC STYLES
      ================================================================ -->
 <style>
 
   /* ------------------------------------------------------------------
-     HERO
+     HERO LAYOUT
      ------------------------------------------------------------------ */
   .hero {
-    background-color: var(--clr-bg-alt);
+    background-color: var(--clr-bg);
     padding-block: var(--space-4xl) var(--space-3xl);
-    border-bottom: 1px solid var(--clr-border);
+    border-bottom: 1px solid var(--clr-border-light);
+    overflow: hidden;
   }
 
   .hero__inner {
-    max-width: 780px;
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+
+  /* ------------------------------------------------------------------
+     HERO TEXT
+     ------------------------------------------------------------------ */
+  .hero__text {
+    max-width: 640px;
+  }
+
+  .hero__overline {
+    font-family: var(--font-sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clr-red);
+    margin-bottom: var(--space-lg);
+    display: block;
   }
 
   .hero__title {
     font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-size: clamp(2rem, 4vw, 3.1rem);
     font-weight: 400;
     color: var(--clr-text);
     letter-spacing: -0.02em;
     line-height: 1.1;
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+    max-width: 20ch;
   }
 
-  .hero__title-ar {
-    font-family: var(--font-arabic);
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text-muted);
+  .hero__subtitle {
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 2.5vw, 1.55rem);
     font-weight: 400;
-    line-height: 1.5;
+    font-style: italic;
+    color: var(--clr-text-mid);
+    line-height: 1.3;
     margin-bottom: var(--space-lg);
-    display: block;
+    max-width: none;
   }
 
-  .hero__divider {
+  .hero__rule {
     width: 3rem;
     height: 2px;
-    background-color: var(--clr-olive);
+    background-color: var(--clr-gold);
     margin-bottom: var(--space-lg);
     border-radius: 1px;
   }
 
-  .hero__subtitle {
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 400;
-    color: var(--clr-text);
-    line-height: 1.5;
-    margin-bottom: var(--space-xs);
-    max-width: none;
-  }
-
-  .hero__subtitle-ar {
-    font-family: var(--font-arabic);
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text-muted);
-    font-weight: 400;
-    line-height: 1.6;
-    margin-bottom: var(--space-xl);
-    max-width: none;
-    display: block;
-  }
-
   .hero__intro {
     font-size: 0.975rem;
-    line-height: 1.72;
+    line-height: 1.75;
     color: var(--clr-text-mid);
-    max-width: 65ch;
+    max-width: 58ch;
     margin-bottom: var(--space-xl);
   }
 
@@ -466,460 +318,329 @@ function preview(text: string, max = 200): string {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
-  }
-
-  /* ------------------------------------------------------------------
-     RESEARCH QUESTION SECTION
-     ------------------------------------------------------------------ */
-  .rq-section {
-    background-color: var(--clr-card);
-    border-bottom: 1px solid var(--clr-border);
-  }
-
-  .rq-inner {
-    max-width: 800px;
-  }
-
-  .rq-quote {
-    font-family: var(--font-serif);
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--clr-text);
-    line-height: 1.6;
-    border-left: 4px solid var(--clr-red);
-    padding: var(--space-md) var(--space-lg);
-    margin-block: var(--space-lg) var(--space-md);
-    background-color: rgba(139, 35, 35, 0.03);
-    max-width: none;
-  }
-
-  .rq-link {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    color: var(--clr-olive);
-    font-weight: 600;
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .rq-link:hover {
-    color: var(--clr-red);
-  }
-
-  /* ------------------------------------------------------------------
-     PHASE CARDS
-     ------------------------------------------------------------------ */
-  .phases-section {
-    border-bottom: 1px solid var(--clr-border);
-  }
-
-  .phases-grid {
-    align-items: stretch;
-  }
-
-  .phase-card {
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    border-top: 4px solid var(--phase-clr, var(--clr-olive));
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    transition: box-shadow var(--transition-mid);
-  }
-
-  .phase-card:hover {
-    box-shadow: var(--shadow-card-hover);
-  }
-
-  .phase-card__header {
-    display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
   }
 
-  .phase-card__years {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    color: var(--phase-clr, var(--clr-olive));
-  }
-
-  .phase-card__title {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: var(--clr-text);
-    line-height: 1.3;
-  }
-
-  .phase-card__title-ar {
-    font-family: var(--font-arabic);
-    font-size: 1rem;
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text-muted);
-    font-weight: 400;
-    line-height: 1.5;
-    margin: 0;
-    max-width: none;
-  }
-
-  .phase-card__note {
-    font-size: 0.875rem;
-    color: var(--clr-text-mid);
-    line-height: 1.65;
-    flex: 1;
-    max-width: none;
-    margin: 0;
-  }
-
-  .phase-card__actors {
-    border-top: 1px solid var(--clr-border-light);
-    padding-top: var(--space-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-  }
-
-  .phase-card__actor-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-top: var(--space-xs);
-  }
-
-  .phase-card__actor-tag {
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    background-color: var(--clr-bg-alt);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    padding: 2px var(--space-sm);
-    color: var(--clr-text-muted);
-    white-space: nowrap;
-  }
-
-  .phase-card__footer {
-    margin-top: auto;
-    padding-top: var(--space-sm);
+  .hero__btn-secondary {
+    font-size: 0.78rem;
+    padding: var(--space-sm) var(--space-md);
   }
 
   /* ------------------------------------------------------------------
-     CONCEPT PREVIEW
+     HERO VISUAL — CSS COLLAGE
      ------------------------------------------------------------------ */
-  .concepts-section {
-    border-bottom: 1px solid var(--clr-border);
-  }
-
-  .concepts-preview-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-lg);
-  }
-
-  .concept-preview-card {
-    background-color: var(--clr-card);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-    box-shadow: var(--shadow-card);
+  .hero__visual {
     position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    transition: box-shadow var(--transition-mid), transform var(--transition-mid);
-  }
-
-  .concept-preview-card:hover {
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
-  }
-
-  /* Left accent stripe using concept color */
-  .concept-preview-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: var(--concept-color, var(--clr-olive));
-    border-radius: var(--radius-md) 0 0 var(--radius-md);
-  }
-
-  .concept-preview-card__ar {
-    font-family: var(--font-arabic);
-    font-size: 1.6rem;
-    direction: rtl;
-    text-align: right;
-    color: var(--clr-text);
-    line-height: 1.3;
-    display: block;
-  }
-
-  .concept-preview-card__translit {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-style: italic;
-    color: var(--clr-text-muted);
-    text-align: right;
-    display: block;
-  }
-
-  .concept-preview-card__de {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    font-weight: 400;
-    color: var(--clr-text);
-    border-top: 1px solid var(--clr-border-light);
-    padding-top: var(--space-sm);
-    margin-top: var(--space-xs);
-  }
-
-  .concept-preview-card__question {
-    font-size: 0.8rem;
-    color: var(--clr-text-mid);
-    font-style: italic;
-    line-height: 1.55;
-    flex: 1;
-    max-width: none;
-    margin: 0;
-  }
-
-  .concept-preview-card__phases {
-    border-top: 1px solid var(--clr-border-light);
-    padding-top: var(--space-sm);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    margin-top: auto;
-  }
-
-  .concept-preview-card__phase-row {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: var(--space-xs);
-    align-items: baseline;
-  }
-
-  .concept-preview-card__phase-label {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: var(--clr-olive);
-    white-space: nowrap;
-  }
-
-  .concept-preview-card__phase-text {
-    font-size: 0.72rem;
-    color: var(--clr-text-muted);
-    line-height: 1.4;
-  }
-
-  /* ------------------------------------------------------------------
-     CORPUS PREVIEW
-     ------------------------------------------------------------------ */
-  .corpus-preview-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
-    align-items: start;
-  }
-
-  .corpus-preview-text p {
-    font-size: 0.95rem;
-    line-height: 1.72;
-    color: var(--clr-text-mid);
-    max-width: none;
-  }
-
-  .corpus-preview-text p + p {
-    margin-top: var(--space-md);
-  }
-
-  .source-type-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .source-type-item {
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    gap: var(--space-md);
-    align-items: start;
-  }
-
-  .source-type-item__icon {
-    font-family: var(--font-serif);
-    font-size: 0.75rem;
-    font-style: italic;
-    color: var(--clr-text-subtle);
-    background-color: var(--clr-bg-alt);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-sm);
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 480px;
     flex-shrink: 0;
-    font-style: normal;
-    letter-spacing: 0;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    font-family: var(--font-sans);
   }
 
-  .source-type-item__title {
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--clr-text);
+  /* Warm paper background */
+  .hero__visual-paper {
+    position: absolute;
+    inset: 0;
+    background-color: #F2EAE0;
+    border-radius: 2px;
+  }
+
+  /* Burgundy block — top-right corner */
+  .hero__visual-burgundy {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48%;
+    height: 44%;
+    background-color: #8B2635;
+    opacity: 0.88;
+  }
+
+  /* Large circle — paper/stamp element */
+  .hero__visual-circle-large {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-42%, -52%);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: #E8DDD4;
+    opacity: 0.75;
+  }
+
+  /* Smaller overlapping circle */
+  .hero__visual-circle-small {
+    position: absolute;
+    top: 38%;
+    right: 8%;
+    transform: translateY(-40%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #D9CFC7;
+    opacity: 0.55;
+  }
+
+  /* Podium container — centered bottom */
+  .hero__podium-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    z-index: 2;
+  }
+
+  .hero__podium-svg {
+    width: 100%;
+    height: auto;
     display: block;
-    margin-bottom: 2px;
+    filter: drop-shadow(0 4px 12px rgba(36,28,24,0.18));
   }
 
-  .source-type-item__desc {
-    font-size: 0.8rem;
-    color: var(--clr-text-muted);
-    line-height: 1.5;
-    margin: 0;
-    max-width: none;
+  /* Gold dot grid — bottom-right corner */
+  .hero__visual-dots {
+    position: absolute;
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    width: 88px;
+    height: 88px;
+    background-image: radial-gradient(#B28757 1.2px, transparent 1.2px);
+    background-size: 11px 11px;
+    opacity: 0.55;
+    z-index: 1;
   }
 
   /* ------------------------------------------------------------------
-     METHODOLOGICAL NOTE
+     THREE ENTRY CARDS
      ------------------------------------------------------------------ */
-  .method-inner {
+  .entry-section {
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .entry-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-3xl);
-    align-items: start;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
   }
 
-  .method-statement__text {
-    font-size: 0.975rem;
-    line-height: 1.72;
-    color: var(--clr-text-mid);
-    border-left: 3px solid var(--clr-olive);
-    padding-left: var(--space-lg);
-    max-width: none;
-    margin-top: var(--space-md);
-  }
-
-  .method-tag-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-top: var(--space-sm);
-  }
-
-  .method-tag {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    color: var(--clr-text-mid);
-    background-color: var(--clr-bg-alt);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    padding: 3px var(--space-sm);
-    line-height: 1.5;
-  }
-
-  /* ------------------------------------------------------------------
-     FOOTER TEASER CARDS
-     ------------------------------------------------------------------ */
-  .teaser-section {
-    border-top: 1px solid var(--clr-border);
-  }
-
-  .teaser-grid {
-    align-items: stretch;
-  }
-
-  .teaser-card {
-    display: flex;
-    flex-direction: column;
+  .entry-card {
     background-color: var(--clr-card);
     border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
+    border-top: 3px solid var(--clr-gold);
     padding: var(--space-xl);
-    text-decoration: none;
-    color: inherit;
-    box-shadow: var(--shadow-card);
-    transition: box-shadow var(--transition-mid), transform var(--transition-mid), border-color var(--transition-mid);
+    display: flex;
+    flex-direction: column;
     gap: var(--space-sm);
+    transition: border-color var(--transition-mid), box-shadow var(--transition-mid);
   }
 
-  .teaser-card:hover {
+  .entry-card:hover {
+    border-top-color: var(--clr-red);
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
-    border-color: var(--clr-olive);
   }
 
-  .teaser-card__label {
+  .entry-card__eyebrow {
     font-family: var(--font-sans);
-    font-size: 0.7rem;
+    font-size: 0.66rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--clr-olive);
+    color: var(--clr-red);
+    display: block;
   }
 
-  .teaser-card__title {
+  .entry-card__title {
     font-family: var(--font-serif);
-    font-size: 1.35rem;
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
     font-weight: 400;
     color: var(--clr-text);
-    line-height: 1.25;
-  }
-
-  .teaser-card__desc {
-    font-size: 0.875rem;
-    color: var(--clr-text-mid);
-    line-height: 1.6;
-    flex: 1;
-    max-width: none;
+    line-height: 1.2;
     margin: 0;
   }
 
-  .teaser-card__arrow {
-    font-size: 1.2rem;
-    color: var(--clr-olive);
-    margin-top: var(--space-sm);
-    transition: transform var(--transition-fast), color var(--transition-fast);
+  .entry-card__sub {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--clr-text-muted);
+    margin: 0;
+    max-width: none;
+  }
+
+  .entry-card__body {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--clr-text-mid);
+    flex: 1;
+    margin: 0;
+    max-width: none;
+  }
+
+  .entry-card__link {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--clr-red);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    margin-top: var(--space-xs);
+    transition: color var(--transition-fast);
     align-self: flex-start;
   }
 
-  .teaser-card:hover .teaser-card__arrow {
-    transform: translateX(4px);
-    color: var(--clr-red);
+  .entry-card__link:hover {
+    color: var(--clr-red-hover);
+  }
+
+  /* ------------------------------------------------------------------
+     COMPACT HORIZONTAL TIMELINE
+     ------------------------------------------------------------------ */
+  .timeline-preview-section {
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .timeline-preview-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .timeline-preview-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    line-height: 1.2;
+    max-width: 52ch;
+    margin: 0;
+    letter-spacing: -0.015em;
+  }
+
+  /* Horizontal timeline track */
+  .timeline-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+    padding-block: var(--space-sm);
+    list-style: none;
+  }
+
+  /* The connecting gold line */
+  .timeline-compact::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--space-sm) + 1.4rem + var(--space-sm) + 6px);
+    left: calc(100% / 6);
+    right: calc(100% / 6);
+    height: 1px;
+    background-color: var(--clr-gold);
+    z-index: 0;
+  }
+
+  .timeline-compact__phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    position: relative;
+    z-index: 1;
+    padding-inline: var(--space-sm);
+  }
+
+  .timeline-compact__year {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--clr-text-mid);
+    text-transform: uppercase;
+    white-space: nowrap;
+    display: block;
+    text-align: center;
+  }
+
+  /* Diamond marker — inspired by LP logo underline diamond */
+  .timeline-compact__marker {
+    width: 12px;
+    height: 12px;
+    background-color: var(--clr-gold);
+    transform: rotate(45deg);
+    border: 2px solid var(--clr-bg-alt);
+    box-shadow: 0 0 0 1.5px var(--clr-gold);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline-compact__label {
+    font-family: var(--font-serif);
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    font-weight: 400;
+    color: var(--clr-text);
+    text-align: center;
+    line-height: 1.35;
+    max-width: 18ch;
+    display: block;
+  }
+
+  .timeline-preview-more {
+    margin-top: var(--space-2xl);
+    text-align: center;
+    margin-bottom: 0;
+    max-width: none;
+  }
+
+  /* ------------------------------------------------------------------
+     CASE STUDY SECTION
+     ------------------------------------------------------------------ */
+  .case-study-section {
+    border-bottom: 1px solid var(--clr-border-light);
+  }
+
+  .case-study-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+
+  .case-study-title {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .case-study-text {
+    font-size: 1rem;
+    line-height: 1.78;
+    color: var(--clr-text-mid);
+    margin-bottom: var(--space-xl);
+    max-width: 64ch;
   }
 
   /* ------------------------------------------------------------------
      RESPONSIVE
      ------------------------------------------------------------------ */
   @media (max-width: 1100px) {
-    .concepts-preview-grid {
-      grid-template-columns: repeat(3, 1fr);
+    .hero__inner {
+      grid-template-columns: 1fr 360px;
+      gap: var(--space-2xl);
     }
   }
 
-  @media (max-width: 860px) {
-    .corpus-preview-inner,
-    .method-inner {
+  @media (max-width: 900px) {
+    .hero__inner {
       grid-template-columns: 1fr;
-      gap: var(--space-2xl);
+    }
+
+    .hero__visual {
+      display: none;
+    }
+
+    .entry-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .case-study-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
     }
   }
 
@@ -928,8 +649,8 @@ function preview(text: string, max = 200): string {
       padding-block: var(--space-2xl) var(--space-xl);
     }
 
-    .concepts-preview-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .hero__title {
+      max-width: none;
     }
 
     .hero__actions {
@@ -941,11 +662,36 @@ function preview(text: string, max = 200): string {
       width: 100%;
       justify-content: center;
     }
-  }
 
-  @media (max-width: 480px) {
-    .concepts-preview-grid {
+    .timeline-compact {
       grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .timeline-compact::before {
+      display: none;
+    }
+
+    .timeline-compact__phase {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding-inline: 0;
+    }
+
+    .timeline-compact__year {
+      min-width: 5rem;
+      text-align: left;
+      padding-top: 1px;
+    }
+
+    .timeline-compact__marker {
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .timeline-compact__label {
+      text-align: left;
     }
   }
 
