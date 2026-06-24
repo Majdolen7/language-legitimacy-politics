@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import timelineData from '../../data/timeline.json';
-import { t } from '../../i18n/translations';
-
 const locale = 'en';
 
 const PHASE_COLORS: Record<number, string> = {
@@ -41,16 +39,15 @@ const PHASE_COLORS: Record<number, string> = {
             </span>
             <span class="tl-phase__num" dir="ltr">Phase {phase.phase_number}</span>
           </div>
-          <h2 class="tl-phase__title">{phase.phase_title_de}</h2>
-          <p class="tl-phase__subtitle" style="font-style: italic; color: var(--clr-text-muted);">{phase.phase_subtitle_de}</p>
+          <h2 class="tl-phase__title">{phase.phase_title_en}</h2>
+          <p class="tl-phase__subtitle" style="font-style: italic; color: var(--clr-text-muted);">{phase.phase_subtitle_en}</p>
           <p class="tl-phase__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
         </div>
 
         <div class="tl-phase__body">
 
           <div class="tl-phase__note">
-            <span class="content-original-label">{t(locale, 'content.original-label')}</span>
-            <p lang="de" dir="ltr">{phase.analytical_note_de}</p>
+            <p>{phase.analytical_note_en}</p>
           </div>
 
           <div class="tl-phase__meta-grid">
@@ -75,7 +72,7 @@ const PHASE_COLORS: Record<number, string> = {
             <div class="tl-meta-block">
               <p class="tl-meta-block__label">Actor naming</p>
               <div class="tl-names">
-                {phase.actor_naming_de.map((name, i) => (
+                {phase.actor_naming_en.map((name, i) => (
                   <div class="tl-name-item">
                     <span dir="ltr">{name}</span>
                     {phase.actor_naming_ar[i] && (
@@ -93,7 +90,7 @@ const PHASE_COLORS: Record<number, string> = {
                   {phase.key_events.map(ev => (
                     <li class="tl-event">
                       <span class="tl-event__year" dir="ltr">{ev.year}</span>
-                      <span dir="ltr">{ev.event_de}</span>
+                      <span dir="ltr">{ev.event_en}</span>
                     </li>
                   ))}
                 </ul>

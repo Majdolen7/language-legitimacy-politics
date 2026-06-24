@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import timelineData from '../../data/timeline.json';
-import { t } from '../../i18n/translations';
 import { withBase } from '../../i18n/utils';
 
 const locale = 'en';
@@ -93,16 +92,16 @@ function preview(text: string, max = 200): string {
             </span>
           </div>
 
-          <h3 class="phase-card__title">{phase.phase_title_de}</h3>
+          <h3 class="phase-card__title">{phase.phase_title_en}</h3>
 
           <p class="phase-card__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
 
-          <p class="phase-card__note">{preview(phase.analytical_note_de)}</p>
+          <p class="phase-card__note">{preview(phase.analytical_note_en)}</p>
 
           <div class="phase-card__actors">
             <span class="label">Actor naming</span>
             <div class="phase-card__actor-list">
-              {phase.actor_naming_de.slice(0, 2).map((name) => (
+              {phase.actor_naming_en.slice(0, 2).map((name) => (
                 <span class="phase-card__actor-tag">{name}</span>
               ))}
             </div>

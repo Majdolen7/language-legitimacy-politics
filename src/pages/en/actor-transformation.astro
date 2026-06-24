@@ -1,8 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import timelineData from '../../data/timeline.json';
-import { t } from '../../i18n/translations';
-
 const locale = 'en';
 
 const PHASE_COLORS: Record<number, string> = {
@@ -43,10 +41,10 @@ const PHASE_COLORS: Record<number, string> = {
           <div class="at-name-card__phase" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
             Phase {phase.phase_number} · {phase.year_range}
           </div>
-          <h3 class="at-name-card__title" dir="ltr">{phase.phase_title_de}</h3>
+          <h3 class="at-name-card__title" dir="ltr">{phase.phase_title_en}</h3>
           <p class="at-name-card__title-ar" lang="ar" dir="rtl">{phase.phase_title_ar}</p>
           <div class="at-name-card__names">
-            {phase.actor_naming_de.map((name, i) => (
+            {phase.actor_naming_en.map((name, i) => (
               <div class="at-name-item" dir="ltr">
                 <span>{name}</span>
                 {phase.actor_naming_ar[i] && (
@@ -76,15 +74,14 @@ const PHASE_COLORS: Record<number, string> = {
             <span class="at-phase-block__years" style={`color: ${PHASE_COLORS[phase.phase_number]};`} dir="ltr">
               {phase.year_range}
             </span>
-            <h3 class="at-phase-block__title" dir="ltr">{phase.phase_title_de}</h3>
-            <p class="at-phase-block__subtitle" dir="ltr">{phase.phase_subtitle_de}</p>
+            <h3 class="at-phase-block__title" dir="ltr">{phase.phase_title_en}</h3>
+            <p class="at-phase-block__subtitle" dir="ltr">{phase.phase_subtitle_en}</p>
           </div>
         </div>
 
         <div class="at-phase-block__body">
           <div class="at-phase-block__note">
-            <p dir="ltr" lang="de">{phase.analytical_note_de}</p>
-            <span class="content-original-label">{t(locale, 'content.original-label')}</span>
+            <p dir="ltr">{phase.analytical_note_en}</p>
           </div>
 
           <div class="at-phase-block__meta">
@@ -112,7 +109,7 @@ const PHASE_COLORS: Record<number, string> = {
                   {phase.key_events.map(ev => (
                     <li class="at-event-item" dir="ltr">
                       <span class="at-event-item__year">{ev.year}</span>
-                      <span>{ev.event_de}</span>
+                      <span>{ev.event_en}</span>
                     </li>
                   ))}
                 </ul>
