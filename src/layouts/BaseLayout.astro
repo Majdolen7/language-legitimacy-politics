@@ -26,11 +26,9 @@ const currentPath = Astro.url.pathname;
 const currentPathWithoutBase =
   BASE && currentPath.startsWith(BASE) ? currentPath.slice(BASE.length) || '/' : currentPath;
 
-const defaultDesc = locale === 'de'
-  ? 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.'
-  : locale === 'ar'
+const defaultDesc = locale === 'ar'
   ? 'مشروع بحثي رقمي حول خطابات الشرعية في سوريا بعد عام 2011.'
-  : 'A digital research project on legitimacy discourses in Syria after 2011.';
+  : 'Ein digitales Forschungsprojekt zu Legitimitäts- und Staatsdiskursen in Syrien nach 2011.';
 
 const resolvedDescription = description ?? defaultDesc;
 
@@ -40,7 +38,6 @@ const fullTitle  = title === siteTitle ? title : `${title} | ${siteTitle}`;
 // Equivalent paths for hreflang and switcher
 const dePath = getLocalePath(currentPath, 'de');
 const arPath = getLocalePath(currentPath, 'ar');
-const enPath = getLocalePath(currentPath, 'en');
 
 // Locale-prefixed nav
 const prefix = locale === 'de' ? '' : `/${locale}`;
@@ -66,20 +63,11 @@ const navItemsAR = [
   { href: '/data-sustainability',     label: 'البيانات'     },
 ];
 
-const navItemsEN = [
-  { href: '/en/research-question',    label: 'Project'          },
-  { href: '/en/methodology',          label: 'Methodology'      },
-  { href: '/en/timeline',             label: 'Timeline'         },
-  { href: '/en/map',                  label: 'Map'              },
-  { href: '/en/legitimacy-museum',    label: 'Legitimacy Museum'},
-  { href: '/data-sustainability',     label: 'Data'             },
-];
-
-const navItems = locale === 'de' ? navItemsDE : locale === 'ar' ? navItemsAR : navItemsEN;
+const navItems = locale === 'ar' ? navItemsAR : navItemsDE;
 
 function isActive(href: string): boolean {
   // Home links: exact match only
-  if (href === '/' || href === '/ar/' || href === '/en/') {
+  if (href === '/' || href === '/ar/') {
     return currentPathWithoutBase === href || currentPathWithoutBase === href.replace(/\/$/, '');
   }
   return currentPathWithoutBase.startsWith(href);
@@ -115,7 +103,6 @@ const footerLinks = [
   <link rel="canonical" href={currentPath} />
   <link rel="alternate" hreflang="de" href={dePath} />
   <link rel="alternate" hreflang="ar" href={arPath} />
-  <link rel="alternate" hreflang="en" href={enPath} />
   <link rel="alternate" hreflang="x-default" href={dePath} />
 
   <!--
@@ -139,7 +126,7 @@ const footerLinks = [
   ================================================================ -->
   <div class="site-masthead" role="banner">
     <div class="container">
-      <a href={locale === 'de' ? withBase('/') : locale === 'ar' ? withBase('/ar/') : withBase('/en/')}
+      <a href={locale === 'ar' ? withBase('/ar/') : withBase('/')}
          class="site-masthead__link"
          aria-label={t(locale, 'site.home-label')}>
         <img
@@ -207,14 +194,6 @@ const footerLinks = [
           hreflang="ar"
           aria-current={locale === 'ar' ? 'true' : undefined}
         >AR</a>
-        <span class="lang-switcher__sep" aria-hidden="true">|</span>
-        <a
-          href={enPath}
-          class={`lang-switcher__link${locale === 'en' ? ' lang-switcher__link--active' : ''}`}
-          lang="en"
-          hreflang="en"
-          aria-current={locale === 'en' ? 'true' : undefined}
-        >EN</a>
 
       </nav>
 
@@ -255,7 +234,7 @@ const footerLinks = [
           <p>{t(locale, 'footer.description')}</p>
         </div>
 
-        <nav class="site-footer__links" aria-label={locale === 'de' ? 'Footer-Navigation' : locale === 'ar' ? 'تنقل التذييل' : 'Footer navigation'}>
+        <nav class="site-footer__links" aria-label={locale === 'ar' ? 'تنقل التذييل' : 'Footer-Navigation'}>
           {footerLinks.map(link => (
             <a href={withBase(link.href)} class="site-footer__link">{link.label}</a>
           ))}

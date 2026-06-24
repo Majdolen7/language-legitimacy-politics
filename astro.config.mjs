@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/language-legitimacy-politics',
   i18n: {
     defaultLocale: 'de',
-    locales: ['de', 'ar', 'en'],
+    locales: ['de', 'ar'],
     routing: {
       prefixDefaultLocale: false,
     },

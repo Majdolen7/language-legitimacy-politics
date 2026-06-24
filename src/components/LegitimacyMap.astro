@@ -116,7 +116,6 @@ function displayDate(dateStr: string): string {
 // Locale-aware event title
 function eventTitle(event: MapEvent): string {
   if (locale === 'ar') return event.title_ar || event.title_de;
-  if (locale === 'en') return event.title_en || event.title_de;
   return event.title_de;
 }
 

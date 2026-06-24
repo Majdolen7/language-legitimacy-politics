@@ -1,6 +1,6 @@
-export type Locale = 'de' | 'ar' | 'en';
+export type Locale = 'de' | 'ar';
 
-export const LOCALES: Locale[] = ['de', 'ar', 'en'];
+export const LOCALES: Locale[] = ['de', 'ar'];
 export const DEFAULT_LOCALE: Locale = 'de';
 
 // BASE is '' in dev, '/language-legitimacy-politics' in production.
@@ -14,12 +14,11 @@ export function withBase(path: string): string {
 export function getLocaleFromURL(pathname: string): Locale {
   const first = pathname.split('/').filter(Boolean)[0];
   if (first === 'ar') return 'ar';
-  if (first === 'en') return 'en';
   return 'de';
 }
 
 export function stripLocalePrefix(pathname: string): string {
-  const stripped = pathname.replace(/^\/(ar|en)(\/|$)/, '/');
+  const stripped = pathname.replace(/^\/(ar)(\/|$)/, '/');
   return stripped || '/';
 }
 
