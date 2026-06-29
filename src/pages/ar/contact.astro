@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../i18n/utils';
+
+const locale = 'ar';
+---
+
+<BaseLayout
+  title="التواصل"
+  description="التواصل وسياق المشروع البحثي الرقمي Language, Legitimacy & Politics."
+  locale={locale}
+>
+
+<section class="section contact-hero">
+  <div class="container">
+    <span class="page-kicker">سياق المشروع</span>
+    <h1 class="page-title">التواصل وسياق المشروع</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-body">
+
+    <div class="contact-main">
+
+      <div class="contact-block">
+        <p>
+          أُنجز هذا المشروع الرقمي في إطار مقرر «Digital Humanities and Data Sustainability»
+          مع Christian Casey.
+        </p>
+        <p>
+          يدرس المشروع كيف تُبنى الشرعية السياسية في السياق السوري بعد عام 2011
+          لغويًا وخطابيًا وإعلاميًا. ويجمع بين تحليل الخطاب، نقد المصادر،
+          والأدوات الرقمية مثل الخط الزمني، الخريطة، ومتحف الشرعية.
+        </p>
+      </div>
+
+      <div class="contact-cv">
+        <a
+          href="https://majdolen7.github.io/academic-cv/"
+          class="btn btn--outline contact-cv__btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ↗ فتح السيرة الذاتية الرقمية
+        </a>
+      </div>
+
+    </div>
+
+    <aside class="contact-sidebar">
+      <div class="contact-sidebar-card">
+        <span class="contact-sidebar-card__label">المقرر</span>
+        <p class="contact-sidebar-card__val" dir="ltr">Digital Humanities and Data Sustainability</p>
+      </div>
+      <div class="contact-sidebar-card">
+        <span class="contact-sidebar-card__label">المحاضر</span>
+        <p class="contact-sidebar-card__val" dir="ltr">Christian Casey</p>
+      </div>
+      <div class="contact-sidebar-card">
+        <span class="contact-sidebar-card__label">صفحات المشروع</span>
+        <a href={withBase('/ar/research-question')} class="contact-sidebar-link">سؤال البحث ←</a>
+        <a href={withBase('/ar/methodology')} class="contact-sidebar-link">المنهجية ←</a>
+        <a href={withBase('/ar/legitimacy-museum')} class="contact-sidebar-link">Legitimacy Museum ←</a>
+      </div>
+    </aside>
+
+  </div>
+</section>
+
+</BaseLayout>
+
+<style>
+.contact-hero {
+  background: var(--clr-bg-alt);
+  border-bottom: 1px solid var(--clr-border);
+  padding-bottom: var(--space-2xl);
+}
+.contact-body {
+  display: grid;
+  grid-template-columns: 16rem 1fr;
+  gap: var(--space-3xl);
+  align-items: start;
+}
+.contact-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+.contact-block p {
+  font-family: var(--font-arabic);
+  font-size: 0.95rem;
+  color: var(--clr-text-mid);
+  line-height: 1.85;
+  margin-bottom: var(--space-md);
+}
+.contact-block p:last-child { margin-bottom: 0; }
+.contact-cv { padding-top: var(--space-md); }
+.contact-cv__btn { font-size: 0.8rem; }
+.contact-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  position: sticky;
+  top: calc(3.5rem + var(--space-xl));
+  order: -1;
+}
+.contact-sidebar-card {
+  background: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border-light);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+.contact-sidebar-card__label {
+  font-family: var(--font-arabic);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--clr-text-muted);
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+.contact-sidebar-card__val {
+  font-family: var(--font-arabic);
+  font-size: 0.82rem;
+  color: var(--clr-text-mid);
+  line-height: 1.5;
+  margin: 0;
+}
+.contact-sidebar-link {
+  display: block;
+  font-family: var(--font-arabic);
+  font-size: 0.88rem;
+  color: var(--clr-olive);
+  text-decoration: none;
+  margin-top: var(--space-sm);
+  text-align: right;
+}
+.contact-sidebar-link:hover { color: var(--clr-red); }
+@media (max-width: 900px) {
+  .contact-body { grid-template-columns: 1fr; }
+  .contact-sidebar { position: static; order: 0; }
+}
+</style>

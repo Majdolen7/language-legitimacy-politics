@@ -17,6 +17,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'nav.legitimacy-museum': 'Legitimacy Museum',
     'nav.methodology': 'Methodologie',
     'nav.data-sustainability': 'Daten',
+    'nav.contact': 'Kontakt',
 
     'lang.de': 'DE',
     'lang.ar': 'AR',
@@ -34,6 +35,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.about': 'Über das Projekt',
     'footer.museum': 'Legitimacy Museum',
     'footer.map': 'Map',
+    'footer.contact': 'Kontakt',
     'footer.bottom': 'Digitales Geisteswissenschaften Projekt',
     'footer.sources-note': 'Alle Quellen sind gekennzeichnet. Keine echten Zitate ohne Quellenbeleg.',
 
@@ -237,6 +239,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'nav.legitimacy-museum': 'Legitimacy Museum',
     'nav.methodology': 'المنهجية',
     'nav.data-sustainability': 'البيانات',
+    'nav.contact': 'التواصل',
 
     'lang.de': 'DE',
     'lang.ar': 'AR',
@@ -254,6 +257,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.about': 'حول المشروع',
     'footer.museum': 'Legitimacy Museum',
     'footer.map': 'الخريطة',
+    'footer.contact': 'التواصل',
     'footer.bottom': 'مشروع إنسانيات رقمية',
     'footer.sources-note': 'جميع المصادر موثّقة. لا اقتباسات حقيقية دون إسناد.',
 

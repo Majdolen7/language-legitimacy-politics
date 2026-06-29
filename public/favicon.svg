@@ -1,22 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <style>
-    .fg { fill: #2B2B2B; }
-    .ar { stroke: #8B2323; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
     @media (prefers-color-scheme: dark) {
-      .fg { fill: #F4EFE6; }
-      .ar { stroke: #c94444; }
+      .frame-bg { fill: #1C1612; }
+      .frame-stroke { stroke: #F4EFE6; }
+      .letters { fill: #F4EFE6; }
+      .gold { stroke: #C9A06A; fill: #C9A06A; }
     }
   </style>
-  <!-- J: light weight -->
-  <text x="1" y="22" class="fg"
-        font-family="ui-sans-serif,system-ui,sans-serif"
-        font-size="15"
-        font-weight="300">J</text>
-  <!-- → arrow -->
-  <path d="M9,14 L19,14 M15.5,11 L19.5,14 L15.5,17" class="ar"/>
-  <!-- S: bold weight -->
-  <text x="21" y="22" class="fg"
-        font-family="ui-sans-serif,system-ui,sans-serif"
-        font-size="15"
-        font-weight="700">S</text>
+  <!-- Outer square frame -->
+  <rect class="frame-bg" x="1.5" y="1.5" width="29" height="29" rx="2.5"
+        fill="#FCFBF9" stroke="#241C18" stroke-width="1.5"/>
+  <!-- LP letters — serif fallback ensures correct rendering at all sizes -->
+  <text class="letters" x="16" y="21.5"
+        text-anchor="middle"
+        font-family="'Crimson Pro',Georgia,'Times New Roman',serif"
+        font-size="15" font-weight="400"
+        fill="#241C18"
+        letter-spacing="-0.5">LP</text>
+  <!-- Gold underline -->
+  <line class="gold" x1="9" y1="25" x2="23" y2="25" stroke="#B28757" stroke-width="1.2"/>
+  <!-- Burgundy diamond accent -->
+  <polygon class="gold" points="16,27.5 18,29.5 16,31.5 14,29.5" fill="#8B2635"/>
 </svg>
