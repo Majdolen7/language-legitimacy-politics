@@ -33,7 +33,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'footer.data': 'Daten & Nachhaltigkeit',
     'footer.corpus': 'Corpus',
     'footer.about': 'Über das Projekt',
-    'footer.museum': 'Legitimacy Museum',
+    'footer.museum': 'Legitimitätsmuseum',
     'footer.map': 'Map',
     'footer.contact': 'Kontakt',
     'footer.bottom': 'Digitales Geisteswissenschaften Projekt',
